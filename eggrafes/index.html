@@ -1,0 +1,374 @@
+<!doctype html><html lang="el"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Εγγραφές Φίλων του Λαού</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=GFS+Didot&display=swap">
+<style>
+/* Layout: navy hero band with the seal, then light sections; one sign-up form and a share panel side by side on desktop, stacked on phones. Navy + bronze as in the Reform Study. */
+:root{
+  --bg:#F2F3F6; --surface:#FFFFFF; --sunk:#E8EAF0; --ink:#17233A; --muted:#55607A; --line:#D6DAE3;
+  --navy:#1B2E4F; --navy-ink:#F4EFE6; --bronze:#9C6B2F; --bronze-soft:#F3E9DA; --bronze-lite:#D6AE76;
+  --accent:#1F3F73; --accent-soft:#E1E8F4; --on-accent:#FFFFFF; --ok:#2E7D4F; --ok-soft:#E3F2E8; --warn:#9A3B1E;
+  --t1:#1C6DAE; --t2:#AD4136; --t3:#2B7A71; --t4:#6A4AA3; --t5:#9C6B2F; --t6:#3F6F2B;
+  --display:"GFS Didot","Didot","Bodoni 72",Georgia,serif;
+  --body:"Commissioner","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1524; --surface:#161F31; --sunk:#1E293F; --ink:#E9ECF2; --muted:#9BA6BC; --line:#2C3852;
+  --navy:#0A1222; --navy-ink:#F1E9DC; --bronze:#D6AE76; --bronze-soft:#33281A; --bronze-lite:#D6AE76;
+  --accent:#9DB7E5; --accent-soft:#1F2D48; --on-accent:#0E1520; --ok:#7CCB99; --ok-soft:#173326; --warn:#F09A7A;
+  --t1:#7DB6E8; --t2:#EB8F84; --t3:#6FCABE; --t4:#B39BE6; --t5:#D6AE76; --t6:#9BCB7E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1524; --surface:#161F31; --sunk:#1E293F; --ink:#E9ECF2; --muted:#9BA6BC; --line:#2C3852;
+  --navy:#0A1222; --navy-ink:#F1E9DC; --bronze:#D6AE76; --bronze-soft:#33281A; --bronze-lite:#D6AE76;
+  --accent:#9DB7E5; --accent-soft:#1F2D48; --on-accent:#0E1520; --ok:#7CCB99; --ok-soft:#173326; --warn:#F09A7A;
+  --t1:#7DB6E8; --t2:#EB8F84; --t3:#6FCABE; --t4:#B39BE6; --t5:#D6AE76; --t6:#9BCB7E; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.6vw,38px);line-height:1.1;margin:0 0 10px;text-wrap:balance}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--bronze)}
+.lead{color:var(--muted);max-width:62ch;margin:0}
+section{padding-block:44px}
+
+/* hero */
+.hero{background:var(--navy);color:var(--navy-ink);border-bottom:4px solid var(--bronze-lite)}
+.hero .wrap{padding-block:40px 44px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:36px;align-items:center}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr;gap:24px}}
+.brand{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+.brand img{width:70px;height:auto}
+.brand span{font-size:13px;letter-spacing:.07em;text-transform:uppercase;color:var(--bronze-lite);font-weight:600;line-height:1.4}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(36px,5.4vw,60px);line-height:1.04;margin:0 0 14px;text-wrap:balance}
+.hero p{margin:0 0 22px;max-width:52ch;color:color-mix(in srgb,var(--navy-ink) 82%,transparent);font-size:17px}
+.ctas{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9px;padding:11px 18px;font-weight:600;text-decoration:none;cursor:pointer;border:1px solid transparent;font-size:15px}
+.btn.gold{background:var(--bronze-lite);color:#1B2E4F}
+.btn.ghost{border-color:color-mix(in srgb,var(--navy-ink) 40%,transparent);color:var(--navy-ink);background:transparent}
+.btn.primary{background:var(--accent);color:var(--on-accent)}
+.btn.line{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.btn.line:hover{border-color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn svg{width:17px;height:17px;flex:none}
+.nextbox{background:color-mix(in srgb,var(--navy-ink) 7%,transparent);border:1px solid color-mix(in srgb,var(--navy-ink) 18%,transparent);border-radius:14px;padding:16px;display:grid;gap:10px}
+.nextbox h3{margin:0;font-size:13px;letter-spacing:.07em;text-transform:uppercase;color:var(--bronze-lite);font-weight:600}
+.nx{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;align-items:center}
+.nx .day{background:var(--bronze-lite);color:#1B2E4F;border-radius:8px;text-align:center;padding:4px 0;line-height:1.1}
+.nx .day b{display:block;font-size:20px}
+.nx .day small{font-size:11px;text-transform:uppercase;font-weight:600}
+.nx .tt{font-weight:600;line-height:1.3}
+.nx .tt small{display:block;font-weight:400;font-size:13px;color:color-mix(in srgb,var(--navy-ink) 70%,transparent)}
+.freenote{font-size:13px;color:var(--bronze-lite)}
+
+/* offer tiles */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+@media (max-width:860px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:540px){.tiles{grid-template-columns:1fr}}
+.tile{background:color-mix(in srgb,var(--tc) 7%,var(--surface));border:1px solid color-mix(in srgb,var(--tc) 26%,var(--line));border-top:5px solid var(--tc);border-radius:12px;padding:18px;display:grid;gap:6px;align-content:start}
+.tile h3{margin:0;font-size:18px;line-height:1.25}
+.tile p{margin:0;font-size:14.5px;color:var(--muted)}
+.tile .fig{font-family:var(--display);font-size:30px;line-height:1;color:var(--tc)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:20px;counter-reset:s}
+@media (max-width:760px){.steps{grid-template-columns:1fr}}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:6px;align-content:start}
+.step::before{counter-increment:s;content:counter(s);font-family:var(--display);font-size:34px;line-height:1;color:var(--bronze)}
+.step h3{margin:0;font-size:17px}
+.step p{margin:0;font-size:14.5px;color:var(--muted)}
+
+/* form + share */
+.sign{background:var(--surface);border-block:1px solid var(--line)}
+.signgrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:26px;align-items:start;margin-top:20px}
+@media (max-width:900px){.signgrid{grid-template-columns:1fr}}
+form{display:grid;gap:16px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:20px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.row{grid-template-columns:1fr}}
+label,.lab{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.req{color:var(--warn)}
+input[type=text],input[type=email],input[type=tel],select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+textarea{min-height:92px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1px solid color-mix(in srgb,var(--cc,var(--muted)) 40%,var(--line));background:color-mix(in srgb,var(--cc,var(--muted)) 7%,var(--surface));border-radius:999px;padding:6px 12px;font-size:14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--cc,var(--ink));color:var(--surface);border-color:var(--cc,var(--ink))}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;cursor:pointer}
+.check input{margin-top:4px;flex:none;width:17px;height:17px}
+.hint{font-size:13px;color:var(--muted);margin-top:4px}
+.status{border-radius:10px;padding:12px 14px;font-size:14.5px}
+.status.ok{background:var(--ok-soft);color:var(--ink);border:1px solid color-mix(in srgb,var(--ok) 40%,transparent)}
+.status.info{background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent)}
+.status.err{background:color-mix(in srgb,var(--warn) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--warn) 40%,transparent)}
+.status b{display:block;margin-bottom:2px}
+.copyarea{width:100%;font-size:13.5px;min-height:150px;margin-top:8px}
+.share{display:grid;gap:14px;background:color-mix(in srgb,var(--bronze) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--bronze) 30%,var(--line));border-radius:14px;padding:20px}
+.share h3{margin:0;font-family:var(--display);font-weight:400;font-size:25px}
+.share p{margin:0;font-size:14.5px;color:var(--muted)}
+.sharebtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sharebtns a,.sharebtns button{justify-content:flex-start}
+.linkbox{display:flex;gap:6px}
+.linkbox input{flex:1;min-width:0;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);font-size:13.5px}
+
+/* admin */
+.admin{background:var(--bg)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-top:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--sunk)}
+.bars{display:grid;gap:6px;margin-top:12px}
+.bar{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr) 34px;gap:10px;align-items:center;font-size:13.5px}
+.bar i{display:block;height:10px;border-radius:5px;background:var(--bronze)}
+
+footer{background:var(--navy);color:var(--navy-ink);font-size:14px}
+footer .wrap{padding-block:26px 32px;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:760px){footer .wrap{grid-template-columns:1fr}}
+footer img{width:52px}
+footer b{color:var(--bronze-lite);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+footer a{color:var(--navy-ink)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:14px;z-index:30;max-width:calc(100% - 32px)}
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="brand"><img src="logo-bronze.png" alt="Σφραγίδα της Εταιρείας των Φίλων του Λαού, 1865" width="70" height="86"><span>Εταιρεία των Φίλων του Λαού<br>Λαϊκό Πανεπιστήμιο · από το 1865</span></div>
+      <h1>Μάθηση για όλους, δωρεάν, από το 1865</h1>
+      <p>Διαλέξεις από καθηγητές πανεπιστημίου, μουσικά και θεατρικά εργαστήρια, Βιβλιοθήκη και Ιστορικό Αρχείο, στο κέντρο της Αθήνας. Εγγραφείτε όποτε θέλετε και θα σας ενημερώνουμε για κάθε νέο κύκλο.</p>
+      <div class="ctas"><a class="btn gold" href="#eggrafi">Εγγραφή</a><a class="btn ghost" id="progLink" href="#" target="_blank" rel="noopener">Δείτε το πρόγραμμα</a><a class="btn ghost" href="#moirasou">Στείλτε σε φίλους</a></div>
+    </div>
+    <aside class="nextbox" aria-label="Επόμενες διαλέξεις"><h3>Επόμενες διαλέξεις</h3><div id="nextList"></div><div class="freenote">Ευριπίδου 12, Αθήνα · ελεύθερη παρακολούθηση με εγγραφή</div></aside>
+  </div>
+</header>
+
+<main>
+<section><div class="wrap">
+  <span class="eyebrow">Τι προσφέρει η Εταιρεία</span>
+  <h2>Ένας θεσμός παιδείας για όλες τις ηλικίες</h2>
+  <p class="lead">Η Εταιρεία των Φίλων του Λαού ιδρύθηκε το 1865 για να φέρει τη γνώση σε όλους. Σήμερα πάνω από 120 ακαδημαϊκοί και επιστήμονες διδάσκουν εθελοντικά σε περίπου 1.300–1.500 σπουδαστές τον χρόνο.</p>
+  <div class="tiles" id="tiles"></div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <span class="eyebrow">Πώς γίνεται η εγγραφή</span>
+  <h2>Τρία βήματα</h2>
+  <div class="steps">
+    <div class="step"><h3>Συμπληρώνετε τη φόρμα</h3><p>Οποιαδήποτε στιγμή του χρόνου. Διαλέγετε τα θέματα που σας ενδιαφέρουν, χωρίς δέσμευση.</p></div>
+    <div class="step"><h3>Επικοινωνεί η Γραμματεία</h3><p>Σας ενημερώνουμε για τους κύκλους που επιλέξατε. Η εγγραφή ολοκληρώνεται στην Ευριπίδου 12, 4ος όροφος, με συμβολική δωρεά 10€ για όλο το έτος.</p></div>
+    <div class="step"><h3>Παρακολουθείτε</h3><p>Όσα μαθήματα θέλετε, δωρεάν. Όσοι παρακολουθούν ανελλιπώς λαμβάνουν βεβαίωση στο τέλος του ακαδημαϊκού έτους.</p></div>
+  </div>
+</div></section>
+
+<section class="sign" id="eggrafi"><div class="wrap">
+  <span class="eyebrow">Εγγραφή ενδιαφέροντος</span>
+  <h2>Γίνετε κι εσείς Φίλος του Λαού</h2>
+  <p class="lead">Η εγγραφή είναι ανοιχτή όλο τον χρόνο, για το Λαϊκό Πανεπιστήμιο και για όλες τις δράσεις της Εταιρείας.</p>
+  <div class="signgrid">
+    <form id="regForm" novalidate>
+      <div class="row">
+        <div><label for="fName">Ονοματεπώνυμο <span class="req">*</span></label><input type="text" id="fName" autocomplete="name" required></div>
+        <div><label for="fEmail">Email <span class="req">*</span></label><input type="email" id="fEmail" autocomplete="email" required></div>
+      </div>
+      <div class="row">
+        <div><label for="fPhone">Τηλέφωνο</label><input type="tel" id="fPhone" autocomplete="tel"></div>
+        <div><label for="fAge">Ηλικιακή ομάδα</label><select id="fAge"><option value="">Προτιμώ να μην πω</option><option>18–29</option><option>30–44</option><option>45–64</option><option>65 και άνω</option></select></div>
+      </div>
+      <div><span class="lab">Τι σας ενδιαφέρει;</span><div class="chips" id="fFields"></div><div class="hint">Διαλέξτε όσα θέλετε. Θα σας στέλνουμε τα σχετικά μαθήματα κάθε εξαμήνου.</div></div>
+      <div><label for="fCourses">Συγκεκριμένα μαθήματα του τρέχοντος εξαμήνου (προαιρετικό)</label><select id="fCourses" multiple size="6"></select><div class="hint">Κρατήστε πατημένο Ctrl ή Cmd για πολλαπλή επιλογή.</div></div>
+      <div style="display:grid;gap:8px">
+        <label class="check"><input type="checkbox" id="fNews" checked> Θέλω να λαμβάνω το μηνιαίο ενημερωτικό δελτίο</label>
+        <label class="check"><input type="checkbox" id="fVol"> Ενδιαφέρομαι να βοηθήσω εθελοντικά (εκδηλώσεις, Βιβλιοθήκη, Αρχείο)</label>
+        <label class="check"><input type="checkbox" id="fConsent" required> <span>Συμφωνώ να χρησιμοποιηθούν τα στοιχεία μου από τη Γραμματεία μόνο για την ενημέρωσή μου σχετικά με τα προγράμματα της Εταιρείας. <span class="req">*</span></span></label>
+      </div>
+      <div><label for="fNote">Μήνυμα προς τη Γραμματεία</label><textarea id="fNote" placeholder="Π.χ. ενδιαφέρομαι για το τμήμα αρχαρίων της βυζαντινής μουσικής"></textarea></div>
+      <button class="btn primary" type="submit" id="fSubmit">Ολοκλήρωση εγγραφής</button>
+      <div id="fStatus" aria-live="polite"></div>
+    </form>
+
+    <aside class="share" id="moirasou">
+      <span class="eyebrow">Στείλτε σε φίλους</span>
+      <h3>Γνωρίζετε κάποιον που θα το χαρεί;</h3>
+      <p>Μοιραστείτε τη σελίδα. Η παρακολούθηση είναι δωρεάν και η εγγραφή γίνεται όποτε θέλει.</p>
+      <div><label for="shareMsg">Το μήνυμα</label><textarea id="shareMsg"></textarea></div>
+      <div class="linkbox"><input type="text" id="shareUrl" readonly aria-label="Σύνδεσμος σελίδας"><button class="btn line" type="button" id="copyLink">Αντιγραφή</button></div>
+      <div class="sharebtns" id="shareBtns"></div>
+      <button class="btn line" type="button" id="copyMsg">Αντιγραφή μηνύματος για Viber, SMS ή email</button>
+    </aside>
+  </div>
+</div></section>
+
+<section class="admin" id="admin" hidden><div class="wrap">
+  <span class="eyebrow">Μόνο για τη Γραμματεία</span>
+  <h2>Μητρώο εγγραφών</h2>
+  <p class="lead" id="adminSum"></p>
+  <div class="bars" id="adminBars"></div>
+  <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" id="csvBtn" hidden>Λήψη σε Excel (CSV)</button></div>
+  <div class="tablewrap"><table><thead><tr><th>Ημερομηνία</th><th>Ονοματεπώνυμο</th><th>Email</th><th>Τηλέφωνο</th><th>Ενδιαφέροντα</th><th>Δελτίο</th><th>Εθελοντής</th><th>Μήνυμα</th></tr></thead><tbody id="adminRows"></tbody></table></div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <img src="logo-bronze.png" alt="" width="52" height="64">
+  <div><b>Γραμματεία Λαϊκού Πανεπιστημίου</b>Ευριπίδου 12, 105 59 Αθήνα, 4ος όροφος<br>Τηλ. 210 3216626<br>Καθημερινές 17:00–20:00</div>
+  <div><b>Εταιρεία των Φίλων του Λαού</b>Κότσικα 5, 104 34 Αθήνα · τηλ. 210 8847388<br>Λαϊκό Πανεπιστήμιο · Βιβλιοθήκη · Ιστορικό Αρχείο · Πινακοθήκη · Κέντρο Έρευνας Βυζαντίου · Μουσείο Ορθόδοξης Χριστιανικής Λατρείας<br>www.etftl.gr</div>
+</div></footer>
+<div id="toastRoot"></div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+"use strict";
+const PROGRAM_URL = "../";
+const SHARE_URL = "https://programma.politisk.gr/eggrafes/";
+const LP = window.LP;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const MONS = ["Ιαν","Φεβ","Μαρ","Απρ","Μαΐ","Ιουν","Ιουλ","Αυγ","Σεπ","Οκτ","Νοε","Δεκ"];
+const DOW = ["Κυριακή","Δευτέρα","Τρίτη","Τετάρτη","Πέμπτη","Παρασκευή","Σάββατο"];
+const FCOL = {theo:"var(--t4)",phil:"var(--t1)",philo:"var(--t5)",hist:"var(--t2)",soc:"var(--t3)",sci:"var(--t6)",health:"var(--t2)",prac:"var(--muted)"};
+const ICON = {
+  wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></svg>',
+  fb:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.5 1.6-1.5h1.7V4.4a22 22 0 0 0-2.5-.1c-2.4 0-4.1 1.5-4.1 4.2v2.3H7.5V14h2.7v8z"/></svg>',
+  tg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.7 19.5c-.2 1-.9 1.3-1.7.8l-4.8-3.6-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.5 13.2 1.8 11.7c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2z"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.2-8.3L1.8 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/></svg>',
+  li:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.1a4.2 4.2 0 0 1 3.8-2c4 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.2 0-2.9-1.8-2.9s-2 1.4-2 2.8V21h-4z"/></svg>'
+};
+let toastT; function toast(m){ $("#toastRoot").innerHTML = `<div class="toast" role="status">${esc(m)}</div>`; clearTimeout(toastT); toastT = setTimeout(()=>$("#toastRoot").innerHTML="",2600); }
+
+/* time in Athens */
+function athensNow(){ try{ const p = Object.fromEntries(new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Athens",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date()).map(x=>[x.type,x.value])); return new Date(+p.year,+p.month-1,+p.day,+p.hour%24,+p.minute); }catch(e){ return new Date(); } }
+const NOW = athensNow();
+const pdate = s => { const [d,m] = s.split("/").map(Number); return new Date(m>=9?2026:2027, m-1, d); };
+
+/* sessions from the programme data */
+const SESS = [];
+LP.courses.forEach(c => (c.dates||[]).forEach(x => { const ds = Array.isArray(x)?x[0]:x; const d = pdate(ds); const [a,b] = (c.time||"00:00-00:00").split("-"); const end = new Date(d); end.setHours(+b.split(":")[0], +b.split(":")[1]); SESS.push({c, d, end, topic: Array.isArray(x)?x[1]:"", time:a}); }));
+SESS.sort((a,b)=>a.d-b.d);
+const nxt = SESS.filter(s=>s.end>=NOW).slice(0,3);
+$("#nextList").innerHTML = nxt.length ? nxt.map(s=>`<div class="nx"><div class="day"><b>${s.d.getDate()}</b><small>${MONS[s.d.getMonth()]}</small></div><div class="tt">${esc(s.topic||s.c.title)}<small>${DOW[s.d.getDay()]} ${s.time} · ${esc(LP.rooms[s.c.room].short)}</small></div></div>`).join("") : `<div class="tt">Το νέο εξάμηνο ανακοινώνεται σύντομα. Εγγραφείτε για να ενημερωθείτε πρώτοι.</div>`;
+$("#progLink").href = PROGRAM_URL;
+
+/* offer tiles */
+const nCourses = LP.courses.length, nCycles = Object.keys(LP.cycles).length, nFac = Object.keys(LP.faculty).length;
+const TILES = [
+  {c:"var(--t1)", fig:nCourses, h:"Λαϊκό Πανεπιστήμιο", p:`${nCourses} μαθήματα σε ${nCycles} κύκλους σπουδών αυτό το εξάμηνο: θεολογία, φιλολογία, ιστορία, φιλοσοφία, επιστήμες, υγεία, διεθνή.`},
+  {c:"var(--t5)", fig:"Μ΄", h:"Ψαλτική τέχνη και μουσική παράδοση", p:"Διαλέξεις, μουσικά εργαστήρια για αρχάριους και προχωρημένους και δωρεάν παραστάσεις για το κοινό."},
+  {c:"var(--t2)", fig:"Ν΄", h:"Θεατρικό εργαστήριο", p:"Εβδομαδιαίο εργαστήριο με πρακτική άσκηση, κάθε Παρασκευή απόγευμα."},
+  {c:"var(--t3)", fig:nFac, h:"Εθελοντές διδάσκοντες", p:"Ομότιμοι και εν ενεργεία καθηγητές, ερευνητές και επιστήμονες που διδάσκουν χωρίς αμοιβή."},
+  {c:"var(--t4)", fig:"1865", h:"Βιβλιοθήκη και Ιστορικό Αρχείο", p:"Ιστορικές συλλογές, ειδικά αρχεία, πινακοθήκη και εργαστήριο συντήρησης χαρτιού."},
+  {c:"var(--t6)", fig:"∞", h:"Κέντρο Έρευνας Βυζαντίου", p:"Εκδόσεις, έρευνα και το Μουσείο Ορθόδοξης Χριστιανικής Λατρείας."}
+];
+$("#tiles").innerHTML = TILES.map(t=>`<div class="tile" style="--tc:${t.c}"><span class="fig">${esc(t.fig)}</span><h3>${esc(t.h)}</h3><p>${esc(t.p)}</p></div>`).join("");
+
+/* form */
+const FIELDS = Object.entries(LP.fields).filter(([k])=>k!=="prac").concat([["music",{name:"Βυζαντινή & παραδοσιακή μουσική"}],["theatre",{name:"Θέατρο"}],["prac",LP.fields.prac]]);
+const fcol = k => FCOL[k] || (k==="music"?"var(--t5)":"var(--t2)");
+let picked = new Set();
+$("#fFields").innerHTML = FIELDS.map(([k,f])=>`<button type="button" class="chip" style="--cc:${fcol(k)}" data-f="${k}" aria-pressed="false">${esc(f.name)}</button>`).join("");
+$("#fFields").addEventListener("click", e => { const b = e.target.closest("[data-f]"); if(!b) return; const k = b.dataset.f; picked.has(k)?picked.delete(k):picked.add(k); b.setAttribute("aria-pressed", picked.has(k)); });
+$("#fCourses").innerHTML = LP.courses.map(c=>`<option value="${c.id}">${esc(c.code)} · ${esc(c.title)}</option>`).join("");
+
+let DB = null, ME = null, CAN_EDIT = false, DL = null;
+function readForm(){
+  return {
+    name: $("#fName").value.trim(), email: $("#fEmail").value.trim(), phone: $("#fPhone").value.trim(), age: $("#fAge").value,
+    interests: [...picked], courses: [...$("#fCourses").selectedOptions].map(o=>o.value),
+    newsletter: $("#fNews").checked, volunteer: $("#fVol").checked, consent: $("#fConsent").checked, note: $("#fNote").value.trim()
+  };
+}
+function fillForm(d){
+  $("#fName").value = d.name||""; $("#fEmail").value = d.email||""; $("#fPhone").value = d.phone||""; $("#fAge").value = d.age||"";
+  picked = new Set(d.interests||[]); document.querySelectorAll("#fFields [data-f]").forEach(b=>b.setAttribute("aria-pressed", picked.has(b.dataset.f)));
+  [...$("#fCourses").options].forEach(o => o.selected = (d.courses||[]).includes(o.value));
+  $("#fNews").checked = !!d.newsletter; $("#fVol").checked = !!d.volunteer; $("#fConsent").checked = !!d.consent; $("#fNote").value = d.note||"";
+}
+function summaryText(d){
+  const names = d.interests.map(k => (FIELDS.find(f=>f[0]===k)||[,{name:k}])[1].name);
+  const cs = d.courses.map(id => { const c = LP.courses.find(x=>x.id===id); return c ? c.code+" "+c.title : id; });
+  return `Εγγραφή ενδιαφέροντος – Λαϊκό Πανεπιστήμιο\nΟνοματεπώνυμο: ${d.name}\nEmail: ${d.email}\nΤηλέφωνο: ${d.phone||"-"}\nΗλικιακή ομάδα: ${d.age||"-"}\nΕνδιαφέροντα: ${names.join(", ")||"-"}\nΜαθήματα: ${cs.join("; ")||"-"}\nΕνημερωτικό δελτίο: ${d.newsletter?"Ναι":"Όχι"}\nΕθελοντική συμμετοχή: ${d.volunteer?"Ναι":"Όχι"}\nΜήνυμα: ${d.note||"-"}`;
+}
+$("#regForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const d = readForm(), st = $("#fStatus");
+  if(!d.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)){ st.innerHTML = `<div class="status err"><b>Λείπουν στοιχεία</b>Συμπληρώστε ονοματεπώνυμο και ένα έγκυρο email.</div>`; return; }
+  if(!d.consent){ st.innerHTML = `<div class="status err"><b>Χρειάζεται η συγκατάθεσή σας</b>Τσεκάρετε το πλαίσιο για τη χρήση των στοιχείων σας από τη Γραμματεία.</div>`; return; }
+  if(DB && ME){
+    $("#fSubmit").disabled = true;
+    try{
+      await DB.doc("registrations/"+ME).set({...d, updated: new Date().toISOString(), created: ($("#regForm").dataset.created || new Date().toISOString())});
+      $("#regForm").dataset.created ||= new Date().toISOString();
+      st.innerHTML = `<div class="status ok"><b>Η εγγραφή σας καταχωρήθηκε</b>Η Γραμματεία θα επικοινωνήσει μαζί σας στο ${esc(d.email)}. Μπορείτε να αλλάξετε τις επιλογές σας οποτεδήποτε από αυτή τη σελίδα.</div>`;
+      $("#fSubmit").textContent = "Ενημέρωση εγγραφής";
+    }catch(err){ st.innerHTML = `<div class="status err"><b>Η εγγραφή δεν αποθηκεύτηκε</b>Δοκιμάστε ξανά σε λίγο ή τηλεφωνήστε στη Γραμματεία, 210 3216626.</div>`; }
+    $("#fSubmit").disabled = false;
+  } else {
+    const txt = summaryText(d);
+    st.innerHTML = `<div class="status info"><b>Στείλτε την εγγραφή στη Γραμματεία</b>Από αυτή την προβολή η φόρμα δεν μπορεί να αποθηκευτεί αυτόματα. Αντιγράψτε το παρακάτω κείμενο και στείλτε το στη Γραμματεία, ή τηλεφωνήστε στο 210 3216626 (καθημερινές 17:00–20:00).<textarea class="copyarea" id="regCopy" readonly>${esc(txt)}</textarea><button class="btn line" type="button" id="regCopyBtn" style="margin-top:8px">Αντιγραφή κειμένου</button></div>`;
+    $("#regCopyBtn").onclick = () => copy(txt, $("#regCopy"));
+  }
+});
+
+/* share */
+function copy(text, el){
+  const done = () => toast("Αντιγράφηκε");
+  try{ navigator.clipboard.writeText(text).then(done, () => { if(el){ el.focus(); el.select(); } toast("Επιλέχθηκε. Πατήστε Ctrl+C ή Cmd+C"); }); }
+  catch(e){ if(el){ el.focus(); el.select(); } toast("Επιλέχθηκε. Πατήστε Ctrl+C ή Cmd+C"); }
+}
+const shareUrl = SHARE_URL || "https://www.etftl.gr";
+$("#shareUrl").value = shareUrl;
+const firstNext = nxt[0];
+$("#shareMsg").value = `Σου στέλνω το Λαϊκό Πανεπιστήμιο της Εταιρείας των Φίλων του Λαού: διαλέξεις από καθηγητές πανεπιστημίου, μουσικά και θεατρικά εργαστήρια, δωρεάν από το 1865, στην Ευριπίδου 12.${firstNext?` Επόμενη διάλεξη: «${firstNext.topic||firstNext.c.title}», ${DOW[firstNext.d.getDay()]} ${firstNext.d.getDate()}/${firstNext.d.getMonth()+1} στις ${firstNext.time}.`:""} Εγγραφή εδώ:`;
+function renderShare(){
+  const msg = $("#shareMsg").value.trim(), u = encodeURIComponent(shareUrl), t = encodeURIComponent(msg), both = encodeURIComponent(msg+" "+shareUrl);
+  const L = [
+    ["WhatsApp", ICON.wa, `https://wa.me/?text=${both}`],
+    ["Facebook", ICON.fb, `https://www.facebook.com/sharer/sharer.php?u=${u}`],
+    ["Telegram", ICON.tg, `https://t.me/share/url?url=${u}&text=${t}`],
+    ["X", ICON.x, `https://x.com/intent/post?text=${t}&url=${u}`],
+    ["LinkedIn", ICON.li, `https://www.linkedin.com/sharing/share-offsite/?url=${u}`]
+  ];
+  $("#shareBtns").innerHTML = L.map(([n,i,h])=>`<a class="btn line" href="${h}" target="_blank" rel="noopener">${i}${n}</a>`).join("");
+}
+renderShare();
+$("#shareMsg").addEventListener("input", renderShare);
+$("#copyLink").onclick = () => copy(shareUrl, $("#shareUrl"));
+$("#copyMsg").onclick = () => copy($("#shareMsg").value.trim()+" "+shareUrl, $("#shareMsg"));
+
+/* secretariat: register of sign-ups */
+function renderAdmin(rows){
+  $("#admin").hidden = false;
+  const news = rows.filter(r=>r.newsletter).length, vol = rows.filter(r=>r.volunteer).length;
+  $("#adminSum").textContent = rows.length ? `${rows.length} εγγραφές · ${news} για το ενημερωτικό δελτίο · ${vol} ενδιαφέρονται για εθελοντισμό.` : "Δεν υπάρχουν ακόμη εγγραφές. Μόλις κάποιος συμπληρώσει τη φόρμα, θα εμφανιστεί εδώ.";
+  const cnt = {}; rows.forEach(r => (r.interests||[]).forEach(k => cnt[k]=(cnt[k]||0)+1));
+  const max = Math.max(1, ...Object.values(cnt));
+  $("#adminBars").innerHTML = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="bar"><span>${esc((FIELDS.find(f=>f[0]===k)||[,{name:k}])[1].name)}</span><i style="width:${v/max*100}%"></i><span>${v}</span></div>`).join("");
+  $("#adminRows").innerHTML = rows.map(r=>`<tr><td>${esc((r.updated||"").slice(0,10))}</td><td>${esc(r.name)}</td><td>${esc(r.email)}</td><td>${esc(r.phone)}</td><td>${esc((r.interests||[]).map(k=>(FIELDS.find(f=>f[0]===k)||[,{name:k}])[1].name).join(", "))}</td><td>${r.newsletter?"Ναι":""}</td><td>${r.volunteer?"Ναι":""}</td><td>${esc(r.note)}</td></tr>`).join("");
+  $("#csvBtn").hidden = !DL || !rows.length;
+  $("#csvBtn").onclick = async () => {
+    const q = v => `"${String(v??"").replace(/"/g,'""')}"`;
+    const csv = "﻿" + ["Ημερομηνία","Ονοματεπώνυμο","Email","Τηλέφωνο","Ηλικία","Ενδιαφέροντα","Μαθήματα","Δελτίο","Εθελοντής","Μήνυμα"].map(q).join(";") + "\n" +
+      rows.map(r=>[ (r.updated||"").slice(0,10), r.name, r.email, r.phone, r.age, (r.interests||[]).join(", "), (r.courses||[]).join(", "), r.newsletter?"Ναι":"Όχι", r.volunteer?"Ναι":"Όχι", r.note ].map(q).join(";")).join("\n");
+    try{ await DL.save({filename:"mitroo-eggrafon.csv", data: csv}); }catch(e){}
+  };
+}
+
+if(window.claude?.use){
+  window.claude.use("downloads").then(d => { DL = d; }).catch(()=>{});
+  Promise.all([window.claude.use("db"), window.claude.use("user")]).then(async ([db, user]) => {
+    if(!db || !user) return;
+    DB = db;
+    try{ ME = await user.id(); }catch(e){ ME = null; }
+    try{ CAN_EDIT = await user.canEdit(); }catch(e){ CAN_EDIT = false; }
+    if(ME){
+      try{ const snap = await db.doc("registrations/"+ME).get(); if(snap.exists){ const d = snap.data(); fillForm(d); $("#regForm").dataset.created = d.created||""; $("#fSubmit").textContent = "Ενημέρωση εγγραφής"; $("#fStatus").innerHTML = `<div class="status ok"><b>Είστε ήδη εγγεγραμμένοι</b>Μπορείτε να αλλάξετε τις επιλογές σας και να πατήσετε «Ενημέρωση εγγραφής».</div>`; } }catch(e){}
+    }
+    if(CAN_EDIT){
+      db.collection("registrations").onSnapshot(snap => { const rows = snap.docs.filter(d=>d.exists).map(d=>d.data()).sort((a,b)=>String(b.updated).localeCompare(String(a.updated))); renderAdmin(rows); }, () => {});
+    }
+  }).catch(()=>{});
+}
+})();
+</script>
+
+</body></html>
