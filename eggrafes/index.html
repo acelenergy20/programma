@@ -192,6 +192,7 @@ footer a{color:var(--navy-ink)}
         <label class="check"><input type="checkbox" id="fConsent" required> <span>Συμφωνώ να χρησιμοποιηθούν τα στοιχεία μου από τη Γραμματεία μόνο για την ενημέρωσή μου σχετικά με τα προγράμματα της Εταιρείας. <span class="req">*</span></span></label>
       </div>
       <div><label for="fNote">Μήνυμα προς τη Γραμματεία</label><textarea id="fNote" placeholder="Π.χ. ενδιαφέρομαι για το τμήμα αρχαρίων της βυζαντινής μουσικής"></textarea></div>
+      <input type="text" id="fHoney" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <button class="btn primary" type="submit" id="fSubmit">Ολοκλήρωση εγγραφής</button>
       <div id="fStatus" aria-live="polite"></div>
     </form>
@@ -280,6 +281,8 @@ $("#fFields").addEventListener("click", e => { const b = e.target.closest("[data
 $("#fCourses").innerHTML = LP.courses.map(c=>`<option value="${c.id}">${esc(c.code)} · ${esc(c.title)}</option>`).join("");
 
 let DB = null, ME = null, CAN_EDIT = false, DL = null;
+/* Οι εγγραφές στέλνονται με email στη Γραμματεία (FormSubmit) */
+const FORM_ENDPOINT = "https://formsubmit.co/ajax/euterpe.summercamp2026@gmail.com";
 function readForm(){
   return {
     name: $("#fName").value.trim(), email: $("#fEmail").value.trim(), phone: $("#fPhone").value.trim(), age: $("#fAge").value,
@@ -314,8 +317,31 @@ $("#regForm").addEventListener("submit", async e => {
     $("#fSubmit").disabled = false;
   } else {
     const txt = summaryText(d);
-    st.innerHTML = `<div class="status info"><b>Στείλτε την εγγραφή στη Γραμματεία</b>Από αυτή την προβολή η φόρμα δεν μπορεί να αποθηκευτεί αυτόματα. Αντιγράψτε το παρακάτω κείμενο και στείλτε το στη Γραμματεία, ή τηλεφωνήστε στο 210 3216626 (καθημερινές 17:00–20:00).<textarea class="copyarea" id="regCopy" readonly>${esc(txt)}</textarea><button class="btn line" type="button" id="regCopyBtn" style="margin-top:8px">Αντιγραφή κειμένου</button></div>`;
-    $("#regCopyBtn").onclick = () => copy(txt, $("#regCopy"));
+    const showFallback = (why) => {
+      st.innerHTML = `<div class="status info"><b>${why}</b>Αντιγράψτε το παρακάτω κείμενο και στείλτε το στη Γραμματεία, ή τηλεφωνήστε στο 210 3216626 (καθημερινές 17:00–20:00).<textarea class="copyarea" id="regCopy" readonly>${esc(txt)}</textarea><button class="btn line" type="button" id="regCopyBtn" style="margin-top:8px">Αντιγραφή κειμένου</button></div>`;
+      $("#regCopyBtn").onclick = () => copy(txt, $("#regCopy"));
+    };
+    if($("#fHoney") && $("#fHoney").value){ st.innerHTML = `<div class="status ok"><b>Η εγγραφή σας στάλθηκε</b></div>`; return; }
+    $("#fSubmit").disabled = true; $("#fSubmit").textContent = "Αποστολή…";
+    const names = d.interests.map(k => (FIELDS.find(f=>f[0]===k)||[,{name:k}])[1].name);
+    const cs = d.courses.map(id => { const c = LP.courses.find(x=>x.id===id); return c ? c.code+" "+c.title : id; });
+    const payload = {
+      "_subject": "Νέα εγγραφή Λαϊκού Πανεπιστημίου: " + d.name,
+      "_template": "table", "_captcha": "false",
+      "Ονοματεπώνυμο": d.name, "email": d.email, "Τηλέφωνο": d.phone || "-", "Ηλικιακή ομάδα": d.age || "-",
+      "Ενδιαφέροντα": names.join(", ") || "-", "Μαθήματα": cs.join("; ") || "-",
+      "Ενημερωτικό δελτίο": d.newsletter ? "Ναι" : "Όχι", "Εθελοντική συμμετοχή": d.volunteer ? "Ναι" : "Όχι",
+      "Μήνυμα": d.note || "-", "Συγκατάθεση": "Ναι", "Σελίδα": location.href
+    };
+    try{
+      const r = await fetch(FORM_ENDPOINT, { method:"POST", headers:{ "Content-Type":"application/json", "Accept":"application/json" }, body: JSON.stringify(payload) });
+      const j = await r.json().catch(()=>({}));
+      if(r.ok && String(j.success) !== "false"){
+        st.innerHTML = `<div class="status ok"><b>Η εγγραφή σας στάλθηκε</b>Ευχαριστούμε! Η Γραμματεία θα επικοινωνήσει μαζί σας στο ${esc(d.email)}.</div>`;
+        $("#regForm").reset(); picked = new Set(); document.querySelectorAll("#fFields [data-f]").forEach(b=>b.setAttribute("aria-pressed", false));
+      } else showFallback("Η αυτόματη αποστολή δεν ολοκληρώθηκε");
+    }catch(err){ showFallback("Η αυτόματη αποστολή δεν ολοκληρώθηκε"); }
+    $("#fSubmit").disabled = false; $("#fSubmit").textContent = "Ολοκλήρωση εγγραφής";
   }
 });
 
