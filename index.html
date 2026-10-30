@@ -1,0 +1,839 @@
+<title>Λαϊκό Πανεπιστήμιο 2026–27</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=GFS+Didot&display=swap">
+<style>
+/* Layout: navy masthead with the Society's seal, sticky tabs; program views share a filter rail (stacks on phones). Navy + bronze follow the Reform Study (July 2026); each field keeps its own hue on tinted cards. */
+:root{
+  --bg:#F2F3F6; --surface:#FFFFFF; --sunk:#E8EAF0; --ink:#17233A; --muted:#55607A; --line:#D6DAE3;
+  --navy:#1B2E4F; --navy-ink:#F4EFE6; --bronze:#9C6B2F; --bronze-soft:#F3E9DA; --bronze-lite:#D6AE76;
+  --accent:#1F3F73; --accent-soft:#E1E8F4; --on-accent:#FFFFFF; --today:#9C6B2F; --today-soft:#F3E9DA;
+  --f-theo:#6A4AA3; --f-phil:#1C6DAE; --f-philo:#8B5A2A; --f-hist:#AD4136; --f-soc:#2B7A71; --f-sci:#3F6F2B; --f-health:#B8376A; --f-prac:#5F6874;
+  --warn:#9A3B1E;
+  --display:"GFS Didot","Didot","Bodoni 72",Georgia,serif;
+  --body:"Commissioner","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1524; --surface:#161F31; --sunk:#1E293F; --ink:#E9ECF2; --muted:#9BA6BC; --line:#2C3852;
+  --navy:#0A1222; --navy-ink:#F1E9DC; --bronze:#D6AE76; --bronze-soft:#33281A; --bronze-lite:#D6AE76;
+  --accent:#9DB7E5; --accent-soft:#1F2D48; --on-accent:#0E1520; --today:#D6AE76; --today-soft:#33281A;
+  --f-theo:#B39BE6; --f-phil:#7DB6E8; --f-philo:#D9A774; --f-hist:#EB8F84; --f-soc:#6FCABE; --f-sci:#9BCB7E; --f-health:#EE8DB2; --f-prac:#A8B1BC;
+  --warn:#F09A7A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1524; --surface:#161F31; --sunk:#1E293F; --ink:#E9ECF2; --muted:#9BA6BC; --line:#2C3852;
+  --navy:#0A1222; --navy-ink:#F1E9DC; --bronze:#D6AE76; --bronze-soft:#33281A; --bronze-lite:#D6AE76;
+  --accent:#9DB7E5; --accent-soft:#1F2D48; --on-accent:#0E1520; --today:#D6AE76; --today-soft:#33281A;
+  --f-theo:#B39BE6; --f-phil:#7DB6E8; --f-philo:#D9A774; --f-hist:#EB8F84; --f-soc:#6FCABE; --f-sci:#9BCB7E; --f-health:#EE8DB2; --f-prac:#A8B1BC;
+  --warn:#F09A7A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;font-variant-numeric:tabular-nums}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+a{color:var(--accent)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* header */
+.masthead{background:var(--navy);color:var(--navy-ink);border-bottom:3px solid var(--bronze-lite)}
+.masthead .wrap{padding-block:22px 20px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:22px;align-items:center}
+.seal{width:76px;height:auto;display:block}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.masthead .eyebrow{color:var(--bronze-lite)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,4.6vw,46px);line-height:1.05;margin:6px 0 6px;text-wrap:balance}
+.sub{color:var(--muted);margin:0}
+.masthead .sub{color:color-mix(in srgb,var(--navy-ink) 78%,transparent)}
+.term{min-width:240px;display:grid;gap:6px;font-size:13px}
+.term .bar{height:6px;background:color-mix(in srgb,var(--navy-ink) 18%,transparent);border-radius:3px;overflow:hidden}
+.term .bar i{display:block;height:100%;background:var(--bronze-lite)}
+.term b{font-weight:600}
+.reg-cta{display:inline-flex;align-items:center;gap:8px;background:var(--bronze-lite);color:#1B2E4F;font-weight:700;text-decoration:none;padding:9px 16px;border-radius:8px;justify-self:start}
+.reg-cta:hover{filter:brightness(1.06)}
+@media (max-width:820px){.masthead .wrap{grid-template-columns:auto minmax(0,1fr)}.term{grid-column:1/-1;min-width:0}.seal{width:58px}}
+.freeband{background:var(--bronze-soft);border-bottom:1px solid color-mix(in srgb,var(--bronze) 30%,transparent);font-size:13.5px}
+.freeband .wrap{padding-block:8px;display:flex;gap:6px 14px;flex-wrap:wrap;align-items:center}
+.freeband b{color:var(--bronze)}
+.freeband a{color:var(--ink);font-weight:600}
+
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.tabs .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabs a{flex:none;padding:12px 14px;text-decoration:none;color:var(--muted);font-weight:500;border-bottom:2px solid transparent;white-space:nowrap}
+.tabs a[aria-current="page"]{color:var(--ink);border-color:var(--accent)}
+.tabs a .n{font-size:12px;color:var(--muted);margin-left:4px}
+
+/* next-up strip */
+.upnext{padding-block:18px 4px}
+.upnext h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:600}
+.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.slot{all:unset;cursor:pointer;display:grid;gap:4px;background:color-mix(in srgb,var(--c,var(--accent)) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--c,var(--accent)) 28%,var(--line));border-top:4px solid var(--c,var(--accent));border-radius:10px;padding:10px 12px;min-width:0}
+.slot:hover{border-color:var(--c,var(--accent))}
+.slot:focus-visible{outline:2px solid var(--accent)}
+.slot .when{font-size:12.5px;color:var(--muted);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.slot .t{font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.slot.today{border-color:var(--today);background:var(--today-soft)}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.pill.today{background:var(--today);color:var(--surface)}
+
+/* main grid */
+main .wrap{padding-block:18px 48px}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);display:grid;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;max-height:calc(100vh - 80px);overflow:auto}
+@media (max-width:900px){.rail{position:static;max-height:none}}
+.rail label,.rail .lab{display:block;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px}
+.rail input[type=search],.rail select,.field{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:var(--bg)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dot{width:9px;height:9px;border-radius:50%;flex:none;background:var(--c,var(--muted))}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.check{display:flex;gap:8px;align-items:center;font-size:14px;cursor:pointer}
+.reset{all:unset;cursor:pointer;color:var(--accent);font-size:13px;font-weight:500}
+.reset:focus-visible{outline:2px solid var(--accent)}
+.rail-toggle{display:none}
+@media (max-width:900px){.rail-toggle{display:inline-flex}.rail.collapsed .rail-body{display:none}}
+.rail-body{display:grid;gap:16px}
+.rail-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rail-head h2{margin:0;font-size:15px}
+
+.resbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.resbar .count{color:var(--muted)}
+.resbar select{padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--surface)}
+
+/* course cards */
+.cards{display:grid;gap:12px}
+.card{background:color-mix(in srgb,var(--c) 5%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 26%,var(--line));border-radius:12px;padding:0 18px 16px;display:grid;gap:8px;min-width:0;overflow:hidden}
+.card .top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:0 -18px 4px;padding:8px 18px;background:color-mix(in srgb,var(--c) 13%,var(--surface));border-bottom:1px solid color-mix(in srgb,var(--c) 22%,transparent)}
+.card .top .letter{font-family:var(--display);font-size:20px;line-height:1;color:var(--c);flex:none}
+.badge{font-size:12px;font-weight:600;color:var(--c);letter-spacing:.02em}
+.card .d{background:color-mix(in srgb,var(--c) 12%,var(--surface))}
+.card .d.next{background:var(--c);color:var(--surface)}
+.card .d.today{background:var(--today);color:var(--surface)}
+.card .d.past{background:transparent}
+.card h3{margin:0;font-size:18px;line-height:1.3;text-wrap:balance;font-weight:600}
+.card .subt{color:var(--muted);margin:0;font-size:14px}
+.who{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:14px}
+.who button{all:unset;cursor:pointer;color:var(--accent);font-weight:500}
+.who button:focus-visible{outline:2px solid var(--accent)}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13.5px;color:var(--muted)}
+.meta span{display:inline-flex;gap:5px;align-items:center}
+.meta svg{width:14px;height:14px;flex:none}
+.dates{display:flex;flex-wrap:wrap;gap:5px}
+.d{font-size:12.5px;padding:2px 8px;border-radius:5px;background:var(--sunk);color:var(--ink)}
+.d.past{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line);background:transparent;border:1px dashed var(--line)}
+.d.next{background:var(--accent);color:var(--on-accent);font-weight:600}
+.d.today{background:var(--today);color:var(--surface);font-weight:600}
+.tba{font-size:13px;color:var(--warn);font-weight:500}
+.actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:7px;padding:6px 11px;font-size:13.5px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;font-weight:500}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.btn[aria-pressed="true"]{background:var(--today-soft);border-color:var(--today);color:var(--ink)}
+.btn svg{width:15px;height:15px}
+.empty{padding:28px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:10px}
+
+/* calendar */
+.calhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.calhead h2{font-family:var(--display);font-weight:400;font-size:28px;margin:0}
+.calnav{display:flex;gap:6px}
+.calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line);background:var(--surface);border-radius:8px;overflow:hidden}
+.calgrid .dow{font-size:12px;font-weight:600;color:var(--muted);padding:6px 8px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--sunk)}
+.cell{min-height:118px;padding:6px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;align-content:start;gap:3px;min-width:0}
+.cell.out{background:var(--bg)}
+.cell.out .num{opacity:.4}
+.cell .num{font-size:12.5px;font-weight:600;color:var(--muted)}
+.cell.istoday{background:var(--today-soft)}
+.cell.istoday .num{color:var(--today)}
+.ev{all:unset;cursor:pointer;font-size:11.5px;line-height:1.25;padding:2px 4px 2px 6px;border-left:3px solid var(--c);background:color-mix(in srgb,var(--c) 13%,var(--surface));border-radius:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.ev:hover{background:var(--accent-soft)}
+.ev:focus-visible{outline:2px solid var(--accent)}
+.ev.past{opacity:.55}
+.ev b{font-weight:600}
+.agenda{display:none}
+@media (max-width:760px){.calgrid{display:none}.agenda{display:grid}}
+.agenda{gap:14px}
+.aday h4{margin:0 0 6px;font-size:14px;color:var(--muted);font-weight:600}
+.aday.istoday h4{color:var(--today)}
+.alist{display:grid;gap:6px}
+.arow{all:unset;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:color-mix(in srgb,var(--c) 7%,var(--surface));border:1px solid var(--line);border-left:4px solid var(--c);border-radius:7px;padding:8px 10px}
+.arow:focus-visible{outline:2px solid var(--accent)}
+.arow .tm{font-weight:600;font-size:13px}
+.arow .tt{font-size:14px;line-height:1.3}
+.arow .tt small{display:block;color:var(--muted);font-size:12.5px}
+.arow.past{opacity:.6}
+
+/* archive */
+.month{margin-bottom:22px}
+.month h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0 0 8px}
+.arch{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.arow2{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;padding:12px 16px;border-top:1px solid var(--line)}
+.arow2:first-child{border-top:0}
+.arow2 .dt{font-size:13px;color:var(--muted)}
+.arow2 .dt b{display:block;color:var(--ink);font-size:15px}
+.arow2 .ttl{font-weight:600;line-height:1.3}
+.arow2 .ttl button{all:unset;cursor:pointer}
+.arow2 .ttl button:hover{color:var(--accent)}
+.arow2 .ttl button:focus-visible{outline:2px solid var(--accent)}
+.arow2 .ctx{font-size:13px;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.lnk{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:3px 9px;border-radius:6px;background:var(--accent-soft);color:var(--accent);text-decoration:none;font-weight:500;max-width:100%}
+.lnk span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lnk .k{font-size:11px;text-transform:uppercase;letter-spacing:.05em;opacity:.8}
+.del{all:unset;cursor:pointer;font-size:12px;color:var(--warn);padding:0 4px}
+.nolinks{font-size:13px;color:var(--muted);margin-top:4px}
+.addlink{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.3fr) auto auto;gap:6px;margin-top:8px}
+.addlink input,.addlink select{padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);min-width:0}
+@media (max-width:640px){.addlink{grid-template-columns:1fr 1fr}.arow2{grid-template-columns:1fr;gap:4px}}
+.note{font-size:13.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:14px}
+
+/* teachers / knowledge tree */
+.tree{display:grid;gap:14px}
+.fieldnode{background:var(--surface);border:1px solid color-mix(in srgb,var(--c) 28%,var(--line));border-radius:12px;overflow:hidden}
+.fieldnode>summary{list-style:none;cursor:pointer;padding:14px 18px;background:color-mix(in srgb,var(--c) 10%,var(--surface));display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center}
+.fieldnode>summary::-webkit-details-marker{display:none}
+.fieldnode>summary .dot{width:12px;height:12px}
+.fieldnode>summary h3{margin:0;font-family:var(--display);font-weight:400;font-size:23px;line-height:1.15}
+.fieldnode>summary .stats{font-size:13px;color:var(--muted);text-align:right}
+.fieldbody{padding:14px 18px 16px 24px;display:grid;gap:14px}
+.person{background:color-mix(in srgb,var(--c) 5%,var(--surface))!important}
+.subnode{border-left:2px solid var(--c);padding-left:16px;display:grid;gap:8px}
+.subnode h4{margin:0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c);font-weight:700}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+.person{position:relative;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:4px;min-width:0}
+.person::before{content:"";position:absolute;left:-18px;top:20px;width:16px;border-top:1px solid var(--c)}
+.person .pn{font-weight:600}
+.person .pd{font-size:13px;color:var(--muted);line-height:1.35}
+.person .pc{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.person .pc button{all:unset;cursor:pointer;font-size:12px;padding:1px 7px;border-radius:5px;background:var(--surface);border:1px solid var(--line)}
+.person .pc button:hover{border-color:var(--accent)}
+.person .pc button:focus-visible{outline:2px solid var(--accent)}
+.person .bio{font-size:13.5px;line-height:1.45;margin-top:4px}
+.person .src{font-size:12px;color:var(--muted)}
+.person .src a{color:var(--muted)}
+.person.hl{outline:2px solid var(--accent);outline-offset:1px}
+.coordtag{font-size:11px;font-weight:600;color:var(--today);text-transform:uppercase;letter-spacing:.05em}
+.treetools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.treetools input{flex:1 1 240px;padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:var(--surface)}
+
+/* community */
+.prompts{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.prompt{background:color-mix(in srgb,var(--pc,var(--accent)) 7%,var(--surface));border:1px solid color-mix(in srgb,var(--pc,var(--accent)) 26%,var(--line));border-top:4px solid var(--pc,var(--accent));border-radius:12px;padding:16px 18px;display:grid;gap:8px;align-content:start}
+
+/* reform view */
+.reform-intro{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:22px;align-items:start;margin-bottom:18px}
+@media (max-width:760px){.reform-intro{grid-template-columns:1fr}}
+.reform-intro .studycard{background:var(--navy);color:var(--navy-ink);border-radius:12px;padding:16px;display:grid;gap:6px;justify-items:start}
+.studycard img{width:64px}
+.studycard small{color:var(--bronze-lite);text-transform:uppercase;letter-spacing:.06em;font-size:11px;font-weight:600}
+.studycard b{font-family:var(--display);font-weight:400;font-size:19px;line-height:1.2}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:6px 0 22px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:2px;border-top:3px solid var(--bronze)}
+.kpi b{font-size:26px;font-weight:600;line-height:1.1}
+.kpi span{font-size:12.5px;color:var(--muted)}
+.temple{margin-bottom:24px}
+.pediment{background:var(--navy);color:var(--navy-ink);clip-path:polygon(0 100%,50% 0,100% 100%);text-align:center;padding:34px 16px 10px;font-family:var(--display);font-size:22px}
+.architrave{height:8px;background:var(--bronze)}
+.pillars{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:10px 0;border-bottom:8px solid var(--navy)}
+@media (max-width:960px){.pillars{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}.pediment{clip-path:none;border-radius:10px 10px 0 0;padding:14px}}
+.pillar{background:color-mix(in srgb,var(--pc) 7%,var(--surface));border:1px solid color-mix(in srgb,var(--pc) 28%,var(--line));border-top:6px solid var(--pc);border-radius:4px;padding:14px;display:grid;gap:8px;align-content:start;min-width:0}
+.pillar h3{margin:0;font-size:16px;line-height:1.25}
+.pillar .n{font-family:var(--display);font-size:28px;color:var(--pc);line-height:1}
+.pillar p{margin:0;font-size:13.5px;color:var(--muted)}
+.pillar ul{margin:0;padding-left:0;list-style:none;display:grid;gap:5px;font-size:13.5px}
+.pillar li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px;align-items:start}
+.st{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 6px;border-radius:4px;white-space:nowrap}
+.st.live{background:#2E7D4F;color:#fff}
+.st.next{background:var(--accent-soft);color:var(--accent)}
+.st.board{background:var(--bronze-soft);color:var(--bronze)}
+.phases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}
+@media (max-width:820px){.phases{grid-template-columns:1fr}}
+.phase{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:grid;align-content:start}
+.phase header{padding:12px 16px;background:color-mix(in srgb,var(--pc) 14%,var(--surface));border-bottom:1px solid color-mix(in srgb,var(--pc) 25%,transparent)}
+.phase header b{display:block;font-family:var(--display);font-weight:400;font-size:21px}
+.phase header span{font-size:12.5px;color:var(--muted)}
+.phase ul{margin:0;padding:12px 16px 16px;list-style:none;display:grid;gap:7px;font-size:14px}
+.phase li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:start}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:12px;align-items:center}
+.coremodel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:10px}
+@media (max-width:700px){.coremodel{grid-template-columns:1fr}}
+.core{border-radius:12px;padding:16px 18px;display:grid;gap:6px}
+.core.a{background:var(--bronze-soft);border:1px solid color-mix(in srgb,var(--bronze) 35%,transparent)}
+.core.b{background:var(--accent-soft);border:1px dashed color-mix(in srgb,var(--accent) 45%,transparent)}
+.core h3{margin:0;font-family:var(--display);font-weight:400;font-size:22px}
+.core p{margin:0;font-size:14px}
+.prompt h3{margin:0;font-family:var(--display);font-weight:400;font-size:22px;line-height:1.2;text-wrap:balance}
+.prompt p{margin:0;color:var(--muted);font-size:14px}
+.prose{max-width:68ch}
+.prose h2{font-family:var(--display);font-weight:400;font-size:30px;margin:0 0 8px}
+
+/* detail drawer */
+.scrim{position:fixed;inset:0;background:color-mix(in srgb,var(--ink) 45%,transparent);z-index:20}
+.drawer{position:fixed;z-index:21;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--surface);border-left:1px solid var(--line);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 18px) max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 24px) 22px;display:grid;gap:12px;align-content:start}
+.drawer h2{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.15;margin:0;text-wrap:balance}
+.close{justify-self:end}
+.slist{display:grid;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.srow{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px;padding:9px 12px;border-top:1px solid var(--line);font-size:14px}
+.srow:first-child{border-top:0}
+.srow .sd{font-weight:600}
+.srow .sd small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.srow.past .sd{color:var(--muted)}
+.srow.next{background:var(--accent-soft)}
+.srow.today{background:var(--today-soft)}
+.srow .st{min-width:0}
+.srow .st small{color:var(--muted);display:block}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-size:14px;z-index:30;max-width:calc(100% - 32px)}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+footer .wrap{padding-block:18px 28px;display:flex;flex-wrap:wrap;gap:6px 22px}
+@media (prefers-reduced-motion:no-preference){.drawer{animation:slide .18s ease-out}@keyframes slide{from{transform:translateX(24px);opacity:.6}}}
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <img class="seal" src="logo-bronze.png" alt="Σφραγίδα της Εταιρείας των Φίλων του Λαού, 1865" width="76" height="94">
+    <div>
+      <div class="eyebrow">Εταιρεία των Φίλων του Λαού · Λαϊκό Πανεπιστήμιο · από το 1865</div>
+      <h1>Πρόγραμμα Α΄ εξαμήνου 2026–27</h1>
+      <p class="sub">162ο ακαδημαϊκό έτος · Ευριπίδου 12, Αθήνα</p>
+    </div>
+    <div class="term" id="term"></div>
+  </div>
+</header>
+<div class="freeband"><div class="wrap"><span><b>Δωρεάν, όπως από το 1865.</b> Όλα τα μαθήματα του Λαϊκού Πανεπιστημίου παρακολουθούνται χωρίς δίδακτρα, με εγγραφή και συμβολική δωρεά 10€ για όλο το έτος.</span><a href="#anamorfosi">Το πρόγραμμα και η Μελέτη Αναμόρφωσης</a></div></div>
+<nav class="tabs" aria-label="Ενότητες">
+  <div class="wrap" id="tabs">
+    <a href="#programma" data-v="programma">Πρόγραμμα</a>
+    <a href="#imerologio" data-v="imerologio">Ημερολόγιο</a>
+    <a href="#archeio" data-v="archeio">Αρχείο διαλέξεων</a>
+    <a href="#didaskontes" data-v="didaskontes">Διδάσκοντες</a>
+    <a href="#epiloges" data-v="epiloges">Οι επιλογές μου <span class="n" id="favN"></span></a>
+    <a href="#koinotita" data-v="koinotita">Κοινότητα</a>
+    <a href="#anamorfosi" data-v="anamorfosi">Αναμόρφωση 2026</a>
+  </div>
+</nav>
+
+<section class="wrap upnext" id="upnext" aria-label="Επόμενες διαλέξεις"></section>
+
+<main><div class="wrap"><div id="view"></div></div></main>
+
+<footer><div class="wrap">
+  <span>Γραμματεία: Ευριπίδου 12, 4ος όροφος · τηλ. 210 3216626</span>
+  <span>Κότσικα 5, 104 34 Αθήνα · τηλ. 210 8847388</span>
+  <span>Εγγραφές έως 30 Οκτωβρίου 2026, 17:00–18:00</span>
+  <span>Ώρα Ελλάδας · πηγή: επίσημο πρόγραμμα Α΄ εξαμήνου</span>
+</div></footer>
+
+<div id="drawerRoot"></div>
+<div id="toastRoot"></div>
+
+<script src="data.js"></script>
+<script src="bios.js"></script>
+<script>
+(function(){
+"use strict";
+const LP = window.LP, BIO = window.LP_BIO || {};
+const REG_URL = "https://claude.ai/artifact/6noUjdZGKFpYWpJnHjQjZq";
+const DOW = ["Κυριακή","Δευτέρα","Τρίτη","Τετάρτη","Πέμπτη","Παρασκευή","Σάββατο"];
+const DOWS = ["Κυρ","Δευ","Τρι","Τετ","Πεμ","Παρ","Σαβ"];
+const MON = ["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"];
+const MONG = ["Ιανουαρίου","Φεβρουαρίου","Μαρτίου","Απριλίου","Μαΐου","Ιουνίου","Ιουλίου","Αυγούστου","Σεπτεμβρίου","Οκτωβρίου","Νοεμβρίου","Δεκεμβρίου"];
+const KINDS = {video:"Βίντεο",audio:"Ήχος",slides:"Διαφάνειες",notes:"Σημειώσεις",photos:"Φωτογραφίες",other:"Σύνδεσμος"};
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = s => String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/ς/g,"σ");
+const pad = n => String(n).padStart(2,"0");
+const ICON = {
+  clock:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.6V8l2.3 1.6"/></svg>',
+  room:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 14V3.5L10 2v12M10 4h3v10M1.5 14h13"/><circle cx="8" cy="8.5" r=".7" fill="currentColor"/></svg>',
+  rep:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg>',
+  star:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M8 1.8l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.6l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>',
+  starOn:'<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.8l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.6l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>',
+  chat:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M2.5 3h11v7.5H7l-3 2.5v-2.5H2.5z"/></svg>',
+  cal:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3M8 8.5v3.5M6.2 10.2h3.6"/></svg>'
+};
+
+/* ---------- time: wall clock in Athens ---------- */
+function athensNow(){
+  try{
+    const p = Object.fromEntries(new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Athens",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+    return new Date(+p.year, +p.month-1, +p.day, +p.hour % 24, +p.minute);
+  }catch(e){ return new Date(); }
+}
+let NOW = athensNow();
+const dayKey = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const sameDay = (a,b) => dayKey(a)===dayKey(b);
+const pdate = s => { const [d,m] = s.split("/").map(Number); return new Date(m>=9?2026:2027, m-1, d); };
+const fmtDate = d => DOW[d.getDay()]+" "+d.getDate()+" "+MONG[d.getMonth()];
+const fmtShort = d => d.getDate()+"/"+(d.getMonth()+1);
+
+/* ---------- build sessions ---------- */
+const FAC = LP.faculty;
+const COURSES = LP.courses.map(c => ({...c, cyc: LP.cycles[c.c], field: LP.cycles[c.c].field}));
+const SESS = [];
+for(const c of COURSES){
+  let list = (c.dates||[]).map(x => Array.isArray(x) ? {ds:x[0], topic:x[1]||"", who:x[2]||""} : {ds:x, topic:"", who:""});
+  if(c.weekly){
+    const from = pdate(c.weekly.from), to = pdate(c.weekly.to), skip = new Set(c.weekly.skip.map(s=>dayKey(pdate(s))));
+    for(let d = new Date(from); d <= to; d.setDate(d.getDate()+7)) if(!skip.has(dayKey(d))) list.push({ds: d.getDate()+"/"+(d.getMonth()+1), topic:"", who:""});
+  }
+  c.sessions = list.map(x => {
+    const d = pdate(x.ds); const [a,b] = (c.time||"00:00-00:00").split("-");
+    const start = new Date(d); start.setHours(+a.split(":")[0], +a.split(":")[1]);
+    const end = new Date(d); end.setHours(+b.split(":")[0], +b.split(":")[1]);
+    let speakers = [];
+    if(x.who){ speakers = FAC[x.who] ? [{key:x.who, n:FAC[x.who].n}] : [{key:"", n:x.who}]; }
+    const s = {course:c, key: c.id+"_"+dayKey(d).replace(/-/g,""), date:d, start, end, topic:x.topic, guests:speakers};
+    SESS.push(s); return s;
+  }).sort((p,q)=>p.start-q.start);
+  c.speakerKeys = new Set(c.sp);
+  c.sessions.forEach(s => s.guests.forEach(g => g.key && c.speakerKeys.add(g.key)));
+  c.hay = norm([c.code, c.title, c.sub, c.cyc.name, LP.fields[c.field].name, (c.tags||[]).join(" "), [...c.speakerKeys].map(k=>FAC[k]?.n).join(" "),
+    c.sessions.map(s=>s.topic+" "+s.guests.map(g=>g.n).join(" ")).join(" "), LP.rooms[c.room]?.short, LP.rooms[c.room]?.honor].join(" "));
+  c.dow = c.sessions.length ? [...new Set(c.sessions.map(s=>s.date.getDay()))] : [];
+}
+SESS.sort((a,b)=>a.start-b.start);
+const COURSE = Object.fromEntries(COURSES.map(c=>[c.id,c]));
+const fieldColor = f => `var(--f-${LP.fields[f].hue==="lett"?"phil":LP.fields[f].hue})`;
+const status = s => s.end < NOW ? "past" : (sameDay(s.date, NOW) ? "today" : "future");
+const nextOf = c => c.sessions.find(s => s.end >= NOW);
+
+/* ---------- per-viewer storage ---------- */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("lp:"+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("lp:"+k, JSON.stringify(v)); }catch(e){} }
+};
+let FAV = new Set(store.get("fav", []));
+function toggleFav(id){ FAV.has(id) ? FAV.delete(id) : FAV.add(id); store.set("fav",[...FAV]); updateFavN(); render(); toast(FAV.has(id) ? "Προστέθηκε στις επιλογές σας" : "Αφαιρέθηκε από τις επιλογές σας"); }
+function updateFavN(){ $("#favN").textContent = FAV.size ? FAV.size : ""; }
+
+/* ---------- filters ---------- */
+const F = Object.assign({q:"", fields:[], cycle:"", dow:"", slot:"", room:"", speaker:"", state:"all", favOnly:false, sort:"next"}, store.get("filters", {}));
+F.q = "";
+function saveF(){ const {q, ...rest} = F; store.set("filters", rest); }
+function matchCourse(c){
+  if(F.fields.length && !F.fields.includes(c.field)) return false;
+  if(F.cycle && c.c !== F.cycle) return false;
+  if(F.room && c.room !== F.room) return false;
+  if(F.speaker && !c.speakerKeys.has(F.speaker)) return false;
+  if(F.favOnly && !FAV.has(c.id)) return false;
+  if(F.dow !== "" && !c.dow.includes(+F.dow)) return false;
+  if(F.slot){ const h = +(c.time||"0").slice(0,2); if(F.slot==="early" && h>=18) return false; if(F.slot==="late" && h<18) return false; if(!c.time) return false; }
+  if(F.state==="upcoming" && !nextOf(c) && !c.tba) return false;
+  if(F.state==="done" && (nextOf(c) || c.tba)) return false;
+  if(F.q){ const terms = norm(F.q).split(/\s+/).filter(Boolean); if(!terms.every(t => c.hay.includes(t))) return false; }
+  return true;
+}
+const filtered = () => COURSES.filter(matchCourse);
+const anyFilter = () => F.q || F.fields.length || F.cycle || F.dow!=="" || F.slot || F.room || F.speaker || F.state!=="all" || F.favOnly;
+
+function railHTML(){
+  const speakers = Object.entries(FAC).filter(([k]) => COURSES.some(c=>c.speakerKeys.has(k))).sort((a,b)=>a[1].n.split(" ").slice(-1)[0].localeCompare(b[1].n.split(" ").slice(-1)[0],"el"));
+  const collapsed = window.matchMedia("(max-width:900px)").matches && !anyFilter() ? " collapsed" : "";
+  return `<aside class="rail${collapsed}" id="rail" aria-label="Φίλτρα">
+   <div class="rail-head"><h2>Αναζήτηση</h2><button class="btn rail-toggle" id="railToggle" type="button">${collapsed?"Φίλτρα":"Απόκρυψη"}</button></div>
+   <div><input type="search" id="fq" placeholder="Λέξη, θέμα, ομιλητής…" value="${esc(F.q)}" aria-label="Αναζήτηση"></div>
+   <div class="rail-body">
+    <div><span class="lab">Επιστημονικό πεδίο</span><div class="chips" id="ffields">${Object.entries(LP.fields).map(([k,f])=>`<button type="button" class="chip" data-f="${k}" aria-pressed="${F.fields.includes(k)}"><span class="dot" style="--c:${fieldColor(k)}"></span>${esc(f.name)}</button>`).join("")}</div></div>
+    <div><label for="fcycle">Κύκλος σπουδών</label><select id="fcycle"><option value="">Όλοι οι κύκλοι</option>${Object.entries(LP.cycles).map(([k,c])=>`<option value="${k}" ${F.cycle===k?"selected":""}>${LP.cycleLetter[k]} ${esc(c.name)}</option>`).join("")}</select></div>
+    <div><label for="fspeaker">Διδάσκων / ομιλητής</label><select id="fspeaker"><option value="">Όλοι</option>${speakers.map(([k,p])=>`<option value="${k}" ${F.speaker===k?"selected":""}>${esc(p.n)}</option>`).join("")}</select></div>
+    <div class="row2">
+      <div><label for="fdow">Ημέρα</label><select id="fdow"><option value="">Όλες</option>${[1,2,3,4,5].map(i=>`<option value="${i}" ${F.dow===String(i)?"selected":""}>${DOW[i]}</option>`).join("")}</select></div>
+      <div><label for="fslot">Ώρα</label><select id="fslot"><option value="">Όλες</option><option value="early" ${F.slot==="early"?"selected":""}>Απόγευμα (16:30–18:30)</option><option value="late" ${F.slot==="late"?"selected":""}>Βράδυ (19:00–20:30)</option></select></div>
+    </div>
+    <div><label for="froom">Αίθουσα</label><select id="froom"><option value="">Όλες</option>${Object.entries(LP.rooms).map(([k,r])=>`<option value="${k}" ${F.room===k?"selected":""}>${esc(r.short)}${r.honor?" ("+esc(r.honor)+")":""}</option>`).join("")}</select></div>
+    <div><label for="fstate">Κατάσταση</label><select id="fstate"><option value="all">Όλα τα μαθήματα</option><option value="upcoming" ${F.state==="upcoming"?"selected":""}>Με επόμενες συναντήσεις</option><option value="done" ${F.state==="done"?"selected":""}>Ολοκληρωμένα</option></select></div>
+    <label class="check"><input type="checkbox" id="ffav" ${F.favOnly?"checked":""}> Μόνο οι επιλογές μου</label>
+    <button type="button" class="reset" id="freset">Καθαρισμός φίλτρων</button>
+   </div>
+  </aside>`;
+}
+function bindRail(){
+  const r = $("#rail"); if(!r) return;
+  let t; $("#fq").addEventListener("input", e => { F.q = e.target.value; clearTimeout(t); t = setTimeout(renderResults, 120); });
+  r.querySelectorAll("[data-f]").forEach(b => b.addEventListener("click", () => { const k=b.dataset.f; F.fields = F.fields.includes(k) ? F.fields.filter(x=>x!==k) : [...F.fields,k]; b.setAttribute("aria-pressed", F.fields.includes(k)); saveF(); renderResults(); }));
+  [["fcycle","cycle"],["fspeaker","speaker"],["fdow","dow"],["fslot","slot"],["froom","room"],["fstate","state"]].forEach(([id,k]) => $("#"+id).addEventListener("change", e => { F[k] = e.target.value; saveF(); renderResults(); }));
+  $("#ffav").addEventListener("change", e => { F.favOnly = e.target.checked; saveF(); renderResults(); });
+  $("#freset").addEventListener("click", () => { Object.assign(F,{q:"",fields:[],cycle:"",dow:"",slot:"",room:"",speaker:"",state:"all",favOnly:false}); saveF(); render(); });
+  $("#railToggle").addEventListener("click", () => { r.classList.toggle("collapsed"); $("#railToggle").textContent = r.classList.contains("collapsed") ? "Φίλτρα" : "Απόκρυψη"; });
+}
+
+/* ---------- pieces ---------- */
+function speakerButtons(keys){ return [...keys].map(k => FAC[k] ? `<button type="button" data-person="${k}">${esc(FAC[k].n)}</button>` : "").join(""); }
+function metaLine(c){
+  const parts = [];
+  if(c.dow.length && c.time) parts.push(`<span>${ICON.clock}${c.dow.map(d=>DOW[d]).join(", ")} ${c.time.replace("-","–")}</span>`);
+  if(c.room) parts.push(`<span>${ICON.room}${esc(LP.rooms[c.room].short)}${LP.rooms[c.room].honor?` <small>(${esc(LP.rooms[c.room].honor)})</small>`:""}</span>`);
+  if(c.freq) parts.push(`<span>${ICON.rep}${esc(c.freq)}</span>`);
+  return parts.join("");
+}
+function dateChips(c){
+  if(c.tba) return `<div class="tba">Ημερομηνίες και ώρα θα ανακοινωθούν</div>`;
+  const nx = nextOf(c);
+  return `<div class="dates">${c.sessions.map(s => { const st = status(s); const cls = st==="past"?"past":(st==="today"?"today":(s===nx?"next":"")); return `<span class="d ${cls}" title="${esc(fmtDate(s.date)+(s.topic?" · "+s.topic:""))}">${fmtShort(s.date)}${st==="today"?" · σήμερα":(s===nx?" · επόμενη":"")}</span>`; }).join("")}</div>`;
+}
+function cardHTML(c){
+  const fav = FAV.has(c.id);
+  return `<article class="card" style="--c:${fieldColor(c.field)}" data-comment-target data-card="${c.id}" id="card-${c.id}">
+    <div class="top"><div class="badge">${LP.cycleLetter[c.c]} κύκλος · ${esc(c.code)} · ${esc(LP.fields[c.field].name)}</div><span class="letter" aria-hidden="true">${LP.cycleLetter[c.c]}</span></div>
+    <h3>${esc(c.title)}</h3>
+    ${c.sub?`<p class="subt">${esc(c.sub)}</p>`:""}
+    <div class="who">${speakerButtons(c.speakerKeys)}</div>
+    <div class="meta">${metaLine(c)}</div>
+    ${dateChips(c)}
+    <div class="actions">
+      <button type="button" class="btn primary" data-open="${c.id}">Λεπτομέρειες</button>
+      <button type="button" class="btn" data-fav="${c.id}" aria-pressed="${fav}">${fav?ICON.starOn:ICON.star}${fav?"Στις επιλογές μου":"Αποθήκευση"}</button>
+      ${c.sessions.length?`<button type="button" class="btn needs-dl" data-ics="${c.id}" hidden>${ICON.cal}Στο ημερολόγιό μου</button>`:""}
+      <button type="button" class="btn needs-cm" data-comment="${c.id}" hidden>${ICON.chat}Σχόλιο</button>
+    </div>
+  </article>`;
+}
+
+/* ---------- views ---------- */
+let VIEW = "programma";
+let calMonth = (() => { const n = NOW; const s = pdate("12/10"), e = pdate("22/1"); const d = n < s ? s : (n > e ? e : n); return new Date(d.getFullYear(), d.getMonth(), 1); })();
+
+function viewProgramma(){
+  return `<div class="layout">${railHTML()}<section id="results" aria-live="polite"></section></div>`;
+}
+function renderResults(){
+  const el = $("#results"); if(!el) return;
+  if(VIEW==="programma") return renderProgramList(el);
+  if(VIEW==="imerologio") return renderCalendar(el);
+  if(VIEW==="archeio") return renderArchive(el);
+}
+function renderProgramList(el){
+  let list = filtered();
+  const nx = c => (nextOf(c)?.start?.getTime() ?? (c.tba ? 9e15 : 9.5e15));
+  if(F.sort==="next") list.sort((a,b)=>nx(a)-nx(b));
+  else if(F.sort==="title") list.sort((a,b)=>a.title.localeCompare(b.title,"el"));
+  else list.sort((a,b)=>COURSES.indexOf(a)-COURSES.indexOf(b));
+  el.innerHTML = `<div class="resbar"><span class="count">${list.length} από ${COURSES.length} μαθήματα</span>
+    <label>Ταξινόμηση <select id="fsort"><option value="next" ${F.sort==="next"?"selected":""}>Επόμενη συνάντηση</option><option value="cycle" ${F.sort==="cycle"?"selected":""}>Κύκλος σπουδών</option><option value="title" ${F.sort==="title"?"selected":""}>Τίτλος (Α–Ω)</option></select></label></div>
+    <div class="cards">${list.length ? list.map(cardHTML).join("") : `<div class="empty">Κανένα μάθημα δεν ταιριάζει με την αναζήτηση. Δοκιμάστε λιγότερα φίλτρα.</div>`}</div>`;
+  $("#fsort").addEventListener("change", e => { F.sort = e.target.value; saveF(); renderResults(); });
+  lightCaps();
+}
+
+function viewCalendar(){ return `<div class="layout">${railHTML()}<section id="results"></section></div>`; }
+function renderCalendar(el){
+  const ids = new Set(filtered().map(c=>c.id));
+  const y = calMonth.getFullYear(), m = calMonth.getMonth();
+  const first = new Date(y, m, 1), offset = (first.getDay()+6)%7, startGrid = new Date(y, m, 1-offset);
+  const byDay = {}; SESS.filter(s=>ids.has(s.course.id)).forEach(s => (byDay[dayKey(s.date)] ||= []).push(s));
+  const minM = new Date(2026,9,1), maxM = new Date(2027,0,1);
+  let cells = "";
+  for(let i=0;i<42;i++){
+    const d = new Date(startGrid); d.setDate(startGrid.getDate()+i);
+    if(i>=35 && d.getMonth()!==m) break;
+    const list = byDay[dayKey(d)] || [];
+    cells += `<div class="cell ${d.getMonth()!==m?"out":""} ${sameDay(d,NOW)?"istoday":""}"><span class="num">${d.getDate()}</span>${list.map(s=>`<button type="button" class="ev ${status(s)==="past"?"past":""}" style="--c:${fieldColor(s.course.field)}" data-open="${s.course.id}" title="${esc(s.course.code+" "+s.course.title+(s.topic?" · "+s.topic:""))}"><b>${s.start.getHours()}:${pad(s.start.getMinutes())}</b> ${esc(s.course.code)} ${esc(s.topic||s.course.title)}</button>`).join("")}</div>`;
+  }
+  const monthDays = Object.keys(byDay).filter(k => k.startsWith(y+"-"+pad(m+1))).sort();
+  const agenda = monthDays.length ? monthDays.map(k => { const d = byDay[k][0].date; return `<div class="aday ${sameDay(d,NOW)?"istoday":""}"><h4>${fmtDate(d)}${sameDay(d,NOW)?" · σήμερα":""}</h4><div class="alist">${byDay[k].map(s=>`<button type="button" class="arow ${status(s)==="past"?"past":""}" style="--c:${fieldColor(s.course.field)}" data-open="${s.course.id}"><span class="tm">${s.course.time.replace("-","–")}</span><span class="tt">${esc(s.topic||s.course.title)}<small>${esc(s.course.code)} · ${esc(LP.rooms[s.course.room].short)}${s.guests.length?" · "+esc(s.guests.map(g=>g.n).join(", ")):" · "+esc([...s.course.sp].map(k=>FAC[k]?.n).join(", "))}</small></span></button>`).join("")}</div></div>`; }).join("") : `<div class="empty">Δεν υπάρχουν διαλέξεις αυτόν τον μήνα με τα τρέχοντα φίλτρα.</div>`;
+  el.innerHTML = `<div class="calhead"><h2>${MON[m]} ${y}</h2><div class="calnav">
+     <button class="btn" id="calPrev" type="button" ${calMonth<=minM?"disabled":""}>‹ Προηγούμενος</button>
+     <button class="btn" id="calToday" type="button">Σήμερα</button>
+     <button class="btn" id="calNext" type="button" ${calMonth>=maxM?"disabled":""}>Επόμενος ›</button></div></div>
+   ${anyFilter()?`<p class="note">Εμφανίζονται μόνο οι διαλέξεις που ταιριάζουν με τα φίλτρα.</p>`:""}
+   <div class="calgrid">${["Δευ","Τρι","Τετ","Πεμ","Παρ","Σαβ","Κυρ"].map(d=>`<div class="dow">${d}</div>`).join("")}${cells}</div>
+   <div class="agenda">${agenda}</div>`;
+  $("#calPrev").onclick = () => { calMonth = new Date(y, m-1, 1); renderResults(); };
+  $("#calNext").onclick = () => { calMonth = new Date(y, m+1, 1); renderResults(); };
+  $("#calToday").onclick = () => { calMonth = new Date(NOW.getFullYear(), NOW.getMonth(), 1); renderResults(); };
+}
+
+/* archive: past sessions, with shared links from the database */
+let LINKS = {}; let CAN_EDIT = false; let DB = null;
+function viewArchive(){ return `<div class="layout">${railHTML()}<section id="results"></section></div>`; }
+function linksHTML(s){
+  const items = (LINKS[s.key]?.items) || [];
+  const list = items.map((l,i)=>`<a class="lnk" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="k">${esc(KINDS[l.kind]||"Σύνδεσμος")}</span><span>${esc(l.label||l.url)}</span></a>${CAN_EDIT?`<button class="del" type="button" data-del="${s.key}" data-i="${i}" title="Αφαίρεση">Αφαίρεση</button>`:""}`).join("");
+  const form = CAN_EDIT ? `<form class="addlink" data-add="${s.key}"><input type="url" required placeholder="https://… (βίντεο, ήχος, σημειώσεις)" aria-label="Διεύθυνση συνδέσμου" id="url-${s.key}"><input type="text" placeholder="Περιγραφή" aria-label="Περιγραφή" id="lab-${s.key}"><select aria-label="Είδος" id="kind-${s.key}">${Object.entries(KINDS).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select><button class="btn" type="submit">Προσθήκη</button></form>` : "";
+  return `${items.length?`<div class="links">${list}</div>`:`<div class="nolinks">Δεν έχει αναρτηθεί υλικό για αυτή τη διάλεξη.</div>`}${form}`;
+}
+function renderArchive(el){
+  const ids = new Set(filtered().map(c=>c.id));
+  const qn = norm(F.q);
+  const past = SESS.filter(s => ids.has(s.course.id) && status(s)==="past" || (F.q && status(s)==="past" && (LINKS[s.key]?.items||[]).some(l=>norm(l.label).includes(qn)))).reverse();
+  const groups = {}; past.forEach(s => (groups[s.date.getFullYear()+"-"+pad(s.date.getMonth()+1)] ||= []).push(s));
+  const withLinks = past.filter(s => (LINKS[s.key]?.items||[]).length).length;
+  el.innerHTML = `<p class="note">Κάθε διάλεξη που ολοκληρώνεται περνά αυτόματα εδώ. ${CAN_EDIT?"Ως διαχειριστής μπορείτε να προσθέσετε συνδέσμους (βίντεο, ήχο, σημειώσεις) σε κάθε διάλεξη· εμφανίζονται αμέσως σε όλους.":"Η Γραμματεία αναρτά εδώ βίντεο, ηχογραφήσεις και σημειώσεις των διαλέξεων."} ${past.length?`${past.length} διαλέξεις, ${withLinks} με υλικό.`:""}</p>
+   ${past.length ? Object.keys(groups).map(k => { const [yy,mm]=k.split("-").map(Number); return `<div class="month"><h3>${MON[mm-1]} ${yy}</h3><div class="arch">${groups[k].map(s=>`<div class="arow2" style="--c:${fieldColor(s.course.field)}"><div class="dt"><b>${s.date.getDate()} ${MONG[s.date.getMonth()].slice(0,3)}.</b>${DOWS[s.date.getDay()]} ${s.course.time.split("-")[0]}</div><div><div class="ttl"><button type="button" data-open="${s.course.id}">${esc(s.topic||s.course.title)}</button></div><div class="ctx">${esc(s.course.code)}${s.topic?" · "+esc(s.course.title):""} · ${esc((s.guests.length?s.guests.map(g=>g.n):[...s.course.sp].map(k=>FAC[k]?.n)).join(", "))}</div>${linksHTML(s)}</div></div>`).join("")}</div></div>`; }).join("") : `<div class="empty">Δεν υπάρχουν ακόμη ολοκληρωμένες διαλέξεις με τα τρέχοντα φίλτρα.</div>`}`;
+}
+async function addLink(key, form){
+  const url = form.querySelector("[type=url]").value.trim(), label = form.querySelector("[type=text]").value.trim(), kind = form.querySelector("select").value;
+  if(!/^https?:\/\//i.test(url)){ toast("Η διεύθυνση πρέπει να ξεκινά με https://"); return; }
+  const items = [...((LINKS[key]?.items)||[]).map(x=>({...x})), {url, label, kind, ts: Date.now()}];
+  try{ await DB.collection("links").doc(key).set({items}); toast("Ο σύνδεσμος αναρτήθηκε"); }
+  catch(e){ toast("Δεν αποθηκεύτηκε: "+(e?.code==="permission_denied"?"χρειάζεται δικαίωμα επεξεργασίας":"δοκιμάστε ξανά")); }
+}
+async function delLink(key, i){
+  const items = ((LINKS[key]?.items)||[]).map(x=>({...x})); items.splice(i,1);
+  try{ await DB.collection("links").doc(key).set({items}); toast("Ο σύνδεσμος αφαιρέθηκε"); } catch(e){ toast("Δεν αφαιρέθηκε, δοκιμάστε ξανά"); }
+}
+
+/* teachers: knowledge tree */
+function viewTeachers(){
+  const coords = new Set(Object.values(LP.cycles).map(c=>c.coord));
+  const tree = {};
+  for(const [k,p] of Object.entries(FAC)){ ((tree[p.f] ||= {})[p.s] ||= []).push(k); }
+  const coursesOf = k => COURSES.filter(c => c.speakerKeys.has(k));
+  const fieldsOrder = Object.keys(LP.fields).filter(f=>tree[f]);
+  const body = fieldsOrder.map(f => {
+    const subs = tree[f]; const people = Object.values(subs).flat(); const cs = new Set(people.flatMap(k=>coursesOf(k).map(c=>c.id)));
+    return `<details class="fieldnode" open style="--c:${fieldColor(f)}" data-field="${f}"><summary><span class="dot" style="--c:${fieldColor(f)}"></span><h3>${esc(LP.fields[f].name)}</h3><span class="stats">${people.length} διδάσκοντες<br>${cs.size} μαθήματα</span></summary>
+      <div class="fieldbody">${Object.entries(subs).sort((a,b)=>b[1].length-a[1].length).map(([s,ks])=>`<div class="subnode"><h4>${esc(s)}</h4><div class="people">${ks.sort((a,b)=>FAC[a].n.split(" ").slice(-1)[0].localeCompare(FAC[b].n.split(" ").slice(-1)[0],"el")).map(k=>{ const p=FAC[k], b=BIO[k], cl=coursesOf(k);
+        return `<div class="person" id="p-${k}" data-pkey="${k}" data-hay="${esc(norm(p.n+" "+p.d+" "+s+" "+(b?.bio||"")+" "+cl.map(c=>c.title).join(" ")))}">
+          ${coords.has(p.n.replace(/^π\. /,""))||[...coords].some(x=>p.n.includes(x)||x.includes(p.n))?`<span class="coordtag">Συντονισμός κύκλου</span>`:""}
+          <span class="pn">${esc(p.n)}</span><span class="pd">${esc(p.d)}</span>
+          ${b?.bio?`<div class="bio">${esc(b.bio)}</div>${b.src?.length?`<div class="src">Πηγές: ${b.src.map(x=>`<a href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])}</a>`).join(" · ")}</div>`:""}`:""}
+          ${cl.length?`<div class="pc">${cl.map(c=>`<button type="button" data-open="${c.id}">${esc(c.code)} ${esc(c.title.length>42?c.title.slice(0,40)+"…":c.title)}</button>`).join("")}</div>`:`<div class="pd">Χωρίς μάθημα αυτό το εξάμηνο</div>`}
+        </div>`; }).join("")}</div></div>`).join("")}</div></details>`;
+  }).join("");
+  const nBio = Object.keys(BIO).length;
+  return `<div class="prose" style="margin-bottom:14px"><h2>Δέντρο γνώσης</h2><p class="sub">${Object.keys(FAC).length} διδάσκοντες του ακαδημαϊκού έτους 2026–27, οργανωμένοι ανά επιστημονικό πεδίο και ειδικότητα, με τα μαθήματα που διδάσκουν αυτό το εξάμηνο.${nBio?` Για ${nBio} από αυτούς υπάρχει σύντομο βιογραφικό με πηγές.`:""}</p></div>
+    <div class="treetools"><input type="search" id="tq" placeholder="Αναζήτηση διδάσκοντα, ειδικότητας ή θέματος" aria-label="Αναζήτηση διδάσκοντα"><button class="btn" type="button" id="tcollapse">Σύμπτυξη όλων</button><button class="btn" type="button" id="texpand">Ανάπτυξη όλων</button></div>
+    <div class="tree">${body}</div>`;
+}
+function bindTeachers(){
+  $("#tq").addEventListener("input", e => { const q = norm(e.target.value).split(/\s+/).filter(Boolean);
+    document.querySelectorAll(".person").forEach(p => p.hidden = q.length && !q.every(t => p.dataset.hay.includes(t)));
+    document.querySelectorAll(".subnode").forEach(s => s.hidden = ![...s.querySelectorAll(".person")].some(p=>!p.hidden));
+    document.querySelectorAll(".fieldnode").forEach(f => { const any=[...f.querySelectorAll(".person")].some(p=>!p.hidden); f.hidden=!any; if(q.length&&any) f.open=true; }); });
+  $("#tcollapse").onclick = () => document.querySelectorAll(".fieldnode").forEach(d=>d.open=false);
+  $("#texpand").onclick = () => document.querySelectorAll(".fieldnode").forEach(d=>d.open=true);
+}
+
+/* my selections */
+function viewMine(){
+  const mine = COURSES.filter(c=>FAV.has(c.id));
+  if(!mine.length) return `<div class="prose"><h2>Οι επιλογές μου</h2><p class="sub">Πατήστε «Αποθήκευση» σε όποιο μάθημα σας ενδιαφέρει. Εδώ θα βλέπετε το προσωπικό σας πρόγραμμα, με τις επόμενες συναντήσεις στη σειρά, και θα μπορείτε να το περάσετε στο ημερολόγιο του κινητού σας. Οι επιλογές αποθηκεύονται μόνο σε αυτή τη συσκευή.</p><p><a href="#programma">Μετάβαση στο πρόγραμμα</a></p></div>`;
+  const upcoming = SESS.filter(s=>FAV.has(s.course.id) && status(s)!=="past");
+  return `<div class="prose" style="margin-bottom:14px"><h2>Οι επιλογές μου</h2><p class="sub">${mine.length} μαθήματα, ${upcoming.length} επόμενες συναντήσεις. Αποθηκεύονται μόνο σε αυτή τη συσκευή.</p>
+     <div class="actions" style="margin-top:10px"><button class="btn primary needs-dl" type="button" data-ics="FAV" hidden>${ICON.cal}Όλες στο ημερολόγιό μου (.ics)</button></div></div>
+    <div class="layout" style="grid-template-columns:minmax(0,1fr)"><div class="agenda" style="display:grid">${upcoming.length?groupAgenda(upcoming):`<div class="empty">Οι επιλεγμένες διαλέξεις έχουν ολοκληρωθεί. Θα τις βρείτε στο Αρχείο.</div>`}</div>
+    <div class="cards">${mine.map(cardHTML).join("")}</div></div>`;
+}
+function groupAgenda(list){
+  const by = {}; list.forEach(s => (by[dayKey(s.date)] ||= []).push(s));
+  return Object.keys(by).sort().map(k => { const d = by[k][0].date; return `<div class="aday ${sameDay(d,NOW)?"istoday":""}"><h4>${fmtDate(d)}${sameDay(d,NOW)?" · σήμερα":""}</h4><div class="alist">${by[k].map(s=>`<button type="button" class="arow" style="--c:${fieldColor(s.course.field)}" data-open="${s.course.id}"><span class="tm">${s.course.time.replace("-","–")}</span><span class="tt">${esc(s.topic||s.course.title)}<small>${esc(s.course.code)} · ${esc(LP.rooms[s.course.room].short)}</small></span></button>`).join("")}</div></div>`; }).join("");
+}
+
+/* community */
+const PROMPTS = [
+  {id:"q-themata", h:"Ποια θέματα θέλετε στο Β΄ εξάμηνο;", p:"Προτείνετε κύκλους, ομιλητές ή ερωτήματα που θα θέλατε να ακούσετε. Οι προτάσεις διαβάζονται από την Εφορεία."},
+  {id:"q-epikoinonia", h:"Πώς να φτάνει το έργο της Εταιρείας σε περισσότερους;", p:"Κοινωνικά δίκτυα, συνεργασίες με δήμους και σχολεία, ενημερωτικό δελτίο: τι θα σας έφερνε πιο κοντά;"},
+  {id:"q-parakolouthisi", h:"Δια ζώσης, διαδικτυακά ή και τα δύο;", p:"Θα παρακολουθούσατε ζωντανή μετάδοση ή βιντεοσκοπημένες διαλέξεις; Ποιες ώρες σας εξυπηρετούν;"},
+  {id:"q-ethelontes", h:"Θέλετε να συμμετέχετε ενεργά;", p:"Εθελοντική βοήθεια στις εκδηλώσεις, στο Ιστορικό Αρχείο, στη Βιβλιοθήκη ή στις μουσικές παραστάσεις."}
+];
+function viewCommunity(){
+  return `<div class="prose" style="margin-bottom:16px"><h2>Κοινότητα του Λαϊκού Πανεπιστημίου</h2>
+    <p>Κάθε μάθημα και κάθε θέμα της σελίδας δέχεται σχόλια. Πατήστε «Σχόλιο» σε ένα μάθημα για να γράψετε την εμπειρία σας, μια ερώτηση προς τον διδάσκοντα ή μια πρόταση. Τα σχόλια εμφανίζονται σε όλους τους συνδεδεμένους χρήστες.</p>
+    <p class="sub" id="cmNote" hidden>Ο σχολιασμός είναι διαθέσιμος σε όσους έχουν συνδεθεί και έχουν πρόσβαση σε αυτή τη σελίδα.</p></div>
+    <div class="prompts">${PROMPTS.map((p,i)=>`<div class="prompt" style="--pc:${["var(--f-phil)","var(--bronze)","var(--f-soc)","var(--f-hist)"][i%4]}" data-comment-target id="${p.id}"><h3>${esc(p.h)}</h3><p>${esc(p.p)}</p><div class="actions"><button type="button" class="btn primary needs-cm" data-comment-el="${p.id}" hidden>${ICON.chat}Γράψτε τη γνώμη σας</button></div></div>`).join("")}</div>`;
+}
+
+/* reform: the programme as the first applied step of the Reform Study (July 2026) */
+const ST = {live:"Σε λειτουργία", next:"Επόμενο βήμα", board:"Απόφαση ΔΣ"};
+const PILLARS = [
+  {n:"1", h:"Θεσμική αναβάθμιση", c:"var(--accent)", p:"Εκσυγχρονισμός διακυβέρνησης και καταστατικού, ετήσιος απολογισμός με δείκτες.", items:[
+    ["live","Δείκτες εξαμήνου υπολογίζονται αυτόματα: μαθήματα, διαλέξεις, ώρες διδασκαλίας"],
+    ["board","Αναθεώρηση Καταστατικού (e-συνελεύσεις, επιτροπές)"],
+    ["board","Επιτροπή Στρατηγικού Σχεδιασμού με τριετή ορίζοντα"]]},
+  {n:"2", h:"Ψηφιακός μετασχηματισμός", c:"var(--f-phil)", p:"Ιστοσελίδα με ηλεκτρονικές εγγραφές, ημερολόγιο, τράπεζα διαλέξεων, εργαλεία ΤΝ.", items:[
+    ["live","Ημερολόγιο μαθημάτων και αναζήτηση με λέξεις-κλειδιά"],
+    ["live","Αρχείο διαλέξεων με βίντεο, ήχο και σημειώσεις"],
+    ["live","Ηλεκτρονικές εγγραφές και ψηφιακό μητρώο σπουδαστών"],
+    ["next","Ψηφιακός βοηθός για ερωτήσεις σχετικά με το πρόγραμμα"],
+    ["next","Αυτόματος υποτιτλισμός και μετάφραση διαλέξεων"]]},
+  {n:"3", h:"Εξωστρέφεια", c:"var(--f-soc)", p:"Δημόσια προβολή, δικτύωση, newsletter και κοινότητα.", items:[
+    ["live","Δέντρο γνώσης των διδασκόντων με βιογραφικά και πηγές"],
+    ["live","Σχόλια ανά μάθημα και ανοιχτά ερωτήματα στρατηγικής"],
+    ["live","Κοινοποίηση σε φίλους και εγγραφή στο ενημερωτικό δελτίο"],
+    ["next","Τακτική παρουσία στα κοινωνικά δίκτυα με υλικό διαλέξεων"]]},
+  {n:"4", h:"Οικονομική βιωσιμότητα", c:"var(--bronze)", p:"Διαφοροποίηση πόρων χωρίς αλλοίωση του δωρεάν πυρήνα.", items:[
+    ["live","Λειτουργικό πρότυπο της νέας ιστοσελίδας της Φάσης Α΄"],
+    ["board","Εγγραφή στο EU Funding & Tenders Portal (PIC), χωρίς κόστος"],
+    ["board","Ταμείο Δωρεάν Παιδείας με διακριτό λογαριασμό"]]},
+  {n:"5", h:"Πιστοποίηση (ΚΔΒΜ)", c:"var(--f-hist)", p:"Ένταξη στο επίσημο σύστημα Διά Βίου Μάθησης, σε διακριτό σκέλος.", items:[
+    ["live","Δομημένα δεδομένα για κάθε μάθημα: κύκλος, πεδίο, ώρες, λέξεις-κλειδιά"],
+    ["next","Μαθησιακά αποτελέσματα για 3–5 πιλοτικά μαθήματα"],
+    ["board","Κτιριολογικός φάκελος και επιλογή Επιπέδου Ένα ή Δύο"]]}
+];
+const PHASES = [
+  {h:"Φάση Α΄ · Θεμελίωση", t:"0–12 μήνες · ≈ 14.000–29.000 €", c:"var(--f-soc)", items:[
+    ["live","Ιστοσελίδα με ηλεκτρονικές εγγραφές (πρότυπο)"],["live","Ψηφιακό μητρώο μελών-σπουδαστών (πρότυπο)"],["live","Ημερολόγιο μαθημάτων και εκδηλώσεων"],["next","Λογαριασμοί κοινωνικών δικτύων"],["next","Έναρξη ψηφιοποίησης Ιστορικού Αρχείου"],["board","Αναθεώρηση Καταστατικού"],["board","Βασική εγγραφή PIC"]]},
+  {h:"Φάση Β΄ · Ανάπτυξη & Πιστοποίηση", t:"1–2 έτη · ≈ 19.000–51.000 €", c:"var(--f-phil)", items:[
+    ["live","Υποδομή για τράπεζα βιντεοσκοπημένων διαλέξεων"],["next","Πιλοτικά υβριδικά μαθήματα (δια ζώσης και online)"],["next","Μαθησιακά αποτελέσματα στα πιλοτικά μαθήματα"],["board","Αδειοδότηση ως Κέντρο Διά Βίου Μάθησης"],["board","Πιστοποίηση 5–10 εισηγητών"]]},
+  {h:"Φάση Γ΄ · Εδραίωση & Διεθνοποίηση", t:"2–4 έτη · ≈ 43.500–91.500 €", c:"var(--f-theo)", items:[
+    ["next","Πλήρης πλατφόρμα μάθησης με ασύγχρονα μαθήματα"],["board","Συμμετοχή ως εταίρος σε Erasmus+, CERV, Creative Europe"],["board","Ένταξη σε ευρωπαϊκό δίκτυο εκπαίδευσης ενηλίκων (EAEA)"]]}
+];
+function viewReform(){
+  const hours = SESS.reduce((a,s)=>a+(s.end-s.start)/36e5,0);
+  const held = SESS.filter(s=>status(s)==="past");
+  const heldH = held.reduce((a,s)=>a+(s.end-s.start)/36e5,0);
+  const mats = Object.values(LINKS).reduce((a,d)=>a+((d.items||[]).length),0);
+  const fmt = n => n.toLocaleString("el-GR",{maximumFractionDigits:0});
+  const li = ([s,t]) => `<li><span class="st ${s}">${ST[s]}</span><span>${esc(t)}</span></li>`;
+  return `<div class="reform-intro"><div class="prose"><h2>Από τη μελέτη στην πράξη</h2>
+      <p>Η <b>Μελέτη Αναμόρφωσης και Εκσυγχρονισμού</b> (Ιούλιος 2026) προτείνει πέντε άξονες και τρεις φάσεις για την Εταιρεία. Το ψηφιακό πρόγραμμα του Λαϊκού Πανεπιστημίου είναι το πρώτο απτό βήμα της Φάσης Α΄: η ιστοσελίδα με ηλεκτρονικές εγγραφές, το ημερολόγιο μαθημάτων και η τράπεζα διαλέξεων που ζητά η μελέτη λειτουργούν ήδη εδώ, ως πρότυπο για το Διοικητικό Συμβούλιο.</p>
+      <p class="sub">Η σελίδα δείχνει τι λειτουργεί σήμερα, τι ακολουθεί και τι περιμένει απόφαση του ΔΣ. Σχολιάστε κάθε άξονα από την ενότητα «Κοινότητα».</p></div>
+    <div class="studycard"><img src="logo-bronze.png" alt="" width="64" height="79"><small>Εσωτερικό έγγραφο εργασίας</small><b>Μελέτη Αναμόρφωσης και Εκσυγχρονισμού</b><span style="font-size:13px">Συντάκτης: Κωνσταντίνος Πολίτης · Ιούλιος 2026</span></div></div>
+    <div class="coremodel">
+      <div class="core a"><span class="eyebrow" style="color:var(--bronze)">Πυρήνας · αμετάβλητος</span><h3>Το Λαϊκό Πανεπιστήμιο μένει δωρεάν</h3><p>Όλα τα μαθήματα, σεμινάρια και διαλέξεις του προγράμματος παραμένουν δωρεάν, χωρίς εξαίρεση και χωρίς χρονικό όριο. Δεν αδειοδοτούνται και δεν εντάσσονται σε χρηματοδοτούμενες δράσεις.</p></div>
+      <div class="core b"><span class="eyebrow" style="color:var(--accent)">Δορυφόρος · προαιρετικός</span><h3>Πιστοποιημένα προγράμματα κατάρτισης</h3><p>Ένα μικρό, ξεχωριστό σκέλος για πιστοποιημένα ή συγχρηματοδοτούμενα προγράμματα, με δική του λογιστική και επικοινωνία. Κανένας εισηγητής του πυρήνα δεν υποχρεώνεται σε πιστοποίηση.</p></div>
+    </div>
+    <h3 class="eyebrow" style="margin:22px 0 8px">Δείκτες Α΄ εξαμήνου · βάση για τον ετήσιο απολογισμό</h3>
+    <div class="kpis">
+      <div class="kpi"><b>${COURSES.length}</b><span>μαθήματα σε ${Object.keys(LP.cycles).length} κύκλους</span></div>
+      <div class="kpi"><b>${SESS.length}</b><span>προγραμματισμένες διαλέξεις</span></div>
+      <div class="kpi"><b>${fmt(hours)}</b><span>ώρες διδασκαλίας στο εξάμηνο</span></div>
+      <div class="kpi"><b>${held.length}</b><span>διαλέξεις έγιναν (${fmt(heldH)} ώρες)</span></div>
+      <div class="kpi"><b>${Object.keys(FAC).length}</b><span>εθελοντές διδάσκοντες φέτος</span></div>
+      <div class="kpi"><b>${mats}</b><span>αρχεία υλικού στο Αρχείο</span></div>
+    </div>
+    <div class="legend"><span><span class="st live">${ST.live}</span> σε αυτή τη σελίδα</span><span><span class="st next">${ST.next}</span> τεχνικά έτοιμο να ξεκινήσει</span><span><span class="st board">${ST.board}</span> χρειάζεται απόφαση</span></div>
+    <div class="temple"><div class="pediment">Οι πέντε άξονες της αναμόρφωσης</div><div class="architrave"></div>
+      <div class="pillars">${PILLARS.map(p=>`<div class="pillar" style="--pc:${p.c}" data-comment-target id="axon-${p.n}"><span class="n">${p.n}</span><h3>${esc(p.h)}</h3><p>${esc(p.p)}</p><ul>${p.items.map(li).join("")}</ul><button type="button" class="btn needs-cm" data-comment-el="axon-${p.n}" hidden>${ICON.chat}Σχόλιο</button></div>`).join("")}</div></div>
+    <h3 class="eyebrow" style="margin:0 0 8px">Οι τρεις φάσεις υλοποίησης</h3>
+    <div class="phases">${PHASES.map(p=>`<section class="phase" style="--pc:${p.c}"><header><b>${esc(p.h)}</b><span>${esc(p.t)}</span></header><ul>${p.items.map(li).join("")}</ul></section>`).join("")}</div>
+    ${REG_URL?`<p><a class="reg-cta" href="${REG_URL}" target="_blank" rel="noopener">Εγγραφή στα προγράμματα της Εταιρείας</a></p>`:""}`;
+}
+
+/* ---------- detail drawer ---------- */
+let lastFocus = null;
+function openCourse(id){
+  const c = COURSE[id]; if(!c) return;
+  lastFocus = document.activeElement;
+  const nx = nextOf(c), fav = FAV.has(c.id);
+  $("#drawerRoot").innerHTML = `<div class="scrim" data-close></div><aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle" style="--c:${fieldColor(c.field)}">
+    <button class="btn close" type="button" data-close>Κλείσιμο</button>
+    <div class="badge">${LP.cycleLetter[c.c]} κύκλος · ${esc(c.cyc.name)} · ${esc(c.code)}</div>
+    <h2 id="dTitle">${esc(c.title)}</h2>
+    ${c.sub?`<p class="subt" style="margin:0">${esc(c.sub)}</p>`:""}
+    <div class="who">${speakerButtons(c.speakerKeys)}</div>
+    <div class="meta">${metaLine(c)}</div>
+    <div class="sub" style="font-size:13px">Συντονισμός κύκλου: ${esc(c.cyc.coord)}</div>
+    ${nx?`<div class="pill ${status(nx)==="today"?"today":""}">${status(nx)==="today"?"Σήμερα":"Επόμενη"}: ${fmtDate(nx.date)}, ${c.time.split("-")[0]}</div>`:(c.tba?`<div class="tba">Ημερομηνίες και ώρα θα ανακοινωθούν</div>`:`<div class="pill">Ολοκληρώθηκε</div>`)}
+    <div class="actions">
+      <button type="button" class="btn" data-fav="${c.id}" aria-pressed="${fav}">${fav?ICON.starOn:ICON.star}${fav?"Στις επιλογές μου":"Αποθήκευση"}</button>
+      ${c.sessions.length?`<button type="button" class="btn needs-dl" data-ics="${c.id}" hidden>${ICON.cal}Στο ημερολόγιό μου</button>`:""}
+      <button type="button" class="btn needs-cm" data-comment-jump="${c.id}" hidden>${ICON.chat}Σχόλιο</button>
+    </div>
+    ${c.sessions.length?`<div class="slist">${c.sessions.map(s=>{ const st=status(s); return `<div class="srow ${st} ${s===nx&&st!=="today"?"next":""}"><div class="sd">${s.date.getDate()} ${MONG[s.date.getMonth()]}<small>${DOW[s.date.getDay()]}${st==="today"?" · σήμερα":""}</small></div><div class="st">${s.topic?esc(s.topic):`<span class="sub">${st==="past"?"Ολοκληρώθηκε":"Συνάντηση"}</span>`}${s.guests.length?`<small>${esc(s.guests.map(g=>g.n).join(", "))}</small>`:""}${st==="past"?linksHTML(s):""}</div></div>`; }).join("")}</div>`:""}
+    ${c.tags?.length?`<div class="sub" style="font-size:13px">Λέξεις-κλειδιά: ${c.tags.map(esc).join(" · ")}</div>`:""}
+  </aside>`;
+  lightCaps();
+  $(".drawer .close").focus();
+}
+function closeDrawer(){ $("#drawerRoot").innerHTML = ""; if(lastFocus && document.contains(lastFocus)) lastFocus.focus(); }
+
+/* ---------- ICS export ---------- */
+function icsFor(sessions, name){
+  const st = d => d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+"T"+pad(d.getHours())+pad(d.getMinutes())+"00";
+  const fold = s => s.replace(/[\\;,]/g, m=>"\\"+m).replace(/\n/g,"\\n");
+  const tz = "BEGIN:VTIMEZONE\r\nTZID:Europe/Athens\r\nBEGIN:STANDARD\r\nDTSTART:19701025T040000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nTZOFFSETFROM:+0300\r\nTZOFFSETTO:+0200\r\nTZNAME:EET\r\nEND:STANDARD\r\nBEGIN:DAYLIGHT\r\nDTSTART:19700329T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0300\r\nTZNAME:EEST\r\nEND:DAYLIGHT\r\nEND:VTIMEZONE\r\n";
+  const ev = sessions.map(s => { const c = s.course; const who = (s.guests.length?s.guests.map(g=>g.n):[...c.sp].map(k=>FAC[k]?.n)).join(", ");
+    return `BEGIN:VEVENT\r\nUID:${s.key}@laiko-panepistimio\r\nDTSTAMP:20261012T000000Z\r\nDTSTART;TZID=Europe/Athens:${st(s.start)}\r\nDTEND;TZID=Europe/Athens:${st(s.end)}\r\nSUMMARY:${fold(c.code+" "+(s.topic||c.title))}\r\nDESCRIPTION:${fold(c.title+"\n"+who+"\nΛαϊκό Πανεπιστήμιο, Εταιρεία των Φίλων του Λαού")}\r\nLOCATION:${fold(LP.rooms[c.room].short+", Ευριπίδου 12, Αθήνα")}\r\nEND:VEVENT\r\n`; }).join("");
+  return `BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Laiko Panepistimio//GR\r\nCALSCALE:GREGORIAN\r\nX-WR-CALNAME:${fold(name)}\r\n${tz}${ev}END:VCALENDAR\r\n`;
+}
+let DL = null, CM = null;
+async function exportIcs(id){
+  if(!DL) return;
+  const sess = id==="FAV" ? SESS.filter(s=>FAV.has(s.course.id) && status(s)!=="past") : COURSE[id].sessions.filter(s=>status(s)!=="past");
+  if(!sess.length){ toast("Δεν υπάρχουν επόμενες συναντήσεις"); return; }
+  const fname = id==="FAV" ? "laiko-panepistimio-epiloges.ics" : "laiko-panepistimio-"+COURSE[id].code.replace(/[^\w-]/g,"")+id+".ics";
+  try{ await DL.save({filename: fname, data: icsFor(sess, id==="FAV"?"Λαϊκό Πανεπιστήμιο · οι επιλογές μου":"Λαϊκό Πανεπιστήμιο · "+COURSE[id].code)}); }
+  catch(e){ if(e?.code!=="cancelled" && e?.code!=="declined") toast("Η λήψη δεν ολοκληρώθηκε"); }
+}
+
+/* ---------- comments ---------- */
+async function commentOn(el){
+  if(!CM || !el) return;
+  try{ const r = await CM.openComposer({element: el}); if(!r.opened) toast("Πατήστε μέσα στη σελίδα και δοκιμάστε ξανά"); }
+  catch(e){ if(e?.code==="unavailable"){ CM=null; lightCaps(); toast("Ο σχολιασμός δεν είναι διαθέσιμος σε αυτή την προβολή"); } }
+}
+
+/* ---------- up next + term ---------- */
+function renderTop(){
+  const s = pdate("12/10"), e = pdate("22/1"); e.setHours(23,59);
+  const total = Math.ceil((e - s)/(7*864e5)), wk = Math.min(total, Math.max(0, Math.floor((NOW - s)/(7*864e5))+1));
+  const pct = Math.max(0, Math.min(100, (NOW - s)/(e - s)*100));
+  const doneN = SESS.filter(x=>status(x)==="past").length;
+  const cta = REG_URL ? `<a class="reg-cta" href="${REG_URL}" target="_blank" rel="noopener">Εγγραφή & κοινοποίηση</a>` : "";
+  $("#term").innerHTML = cta + (NOW < s ? `<span>Έναρξη <b>12 Οκτωβρίου 2026</b></span>` : NOW > e ? `<span><b>Το εξάμηνο ολοκληρώθηκε</b> · ${SESS.length} διαλέξεις</span>` :
+    `<span><b>Εβδομάδα ${wk} από ${total}</b> · ${doneN} από ${SESS.length} διαλέξεις έγιναν</span><div class="bar" role="progressbar" aria-valuenow="${Math.round(pct)}" aria-valuemin="0" aria-valuemax="100" aria-label="Πορεία εξαμήνου"><i style="width:${pct}%"></i></div><span>12 Οκτ 2026 – 22 Ιαν 2027</span>`);
+  const up = SESS.filter(x=>x.end>=NOW).slice(0,4);
+  $("#upnext").innerHTML = up.length ? `<h2>Επόμενες διαλέξεις</h2><div class="strip">${up.map(x=>{ const t = status(x)==="today"; return `<button type="button" class="slot ${t?"today":""}" style="--c:${fieldColor(x.course.field)}" data-open="${x.course.id}"><span class="when">${t?`<span class="pill today">Σήμερα</span>`:""}${fmtDate(x.date)} · ${x.course.time.replace("-","–")}</span><span class="t">${esc(x.topic||x.course.title)}</span><span class="when">${esc(x.course.code)} · ${esc(LP.rooms[x.course.room].short)}</span></button>`; }).join("")}</div>` : "";
+}
+
+/* ---------- router ---------- */
+const VIEWS = {programma:viewProgramma, imerologio:viewCalendar, archeio:viewArchive, didaskontes:viewTeachers, epiloges:viewMine, koinotita:viewCommunity, anamorfosi:viewReform};
+function render(){
+  const y = window.scrollY;
+  $("#view").innerHTML = VIEWS[VIEW]();
+  document.querySelectorAll("#tabs a").forEach(a => a.dataset.v===VIEW ? a.setAttribute("aria-current","page") : a.removeAttribute("aria-current"));
+  bindRail(); renderResults();
+  if(VIEW==="didaskontes") bindTeachers();
+  lightCaps();
+  window.scrollTo(0, y);
+}
+function route(){
+  const h = (location.hash||"").slice(1);
+  if(h.startsWith("p-") && FAC[h.slice(2)]){ VIEW="didaskontes"; render(); highlightPerson(h.slice(2)); return; }
+  VIEW = VIEWS[h] ? h : "programma"; render();
+}
+function highlightPerson(k){
+  const el = document.getElementById("p-"+k); if(!el) return;
+  el.closest("details").open = true; el.classList.add("hl"); el.scrollIntoView({block:"center"}); setTimeout(()=>el.classList.remove("hl"), 2400);
+}
+function goPerson(k){ closeDrawer(); if(VIEW!=="didaskontes"){ VIEW="didaskontes"; try{ history.replaceState(null,"","#didaskontes"); }catch(e){ location.hash="didaskontes"; } render(); } highlightPerson(k); }
+window.addEventListener("hashchange", route);
+
+/* ---------- global events ---------- */
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-open],[data-fav],[data-ics],[data-comment],[data-comment-el],[data-comment-jump],[data-person],[data-close],[data-del]");
+  if(!t) return;
+  if(t.hasAttribute("data-close")) return closeDrawer();
+  if(t.dataset.open) return openCourse(t.dataset.open);
+  if(t.dataset.fav){ toggleFav(t.dataset.fav); if($(".drawer")) openCourse(t.dataset.fav); return; }
+  if(t.dataset.ics) return exportIcs(t.dataset.ics);
+  if(t.dataset.comment) return commentOn(document.getElementById("card-"+t.dataset.comment));
+  if(t.dataset.commentEl) return commentOn(document.getElementById(t.dataset.commentEl));
+  if(t.dataset.commentJump){ const id=t.dataset.commentJump; closeDrawer();
+    if(VIEW!=="programma"){ VIEW="programma"; try{ history.replaceState(null,"","#programma"); }catch(_){} }
+    Object.assign(F,{q:"",fields:[],cycle:"",dow:"",slot:"",room:"",speaker:"",state:"all",favOnly:false}); render();
+    const card=document.getElementById("card-"+id); card.scrollIntoView({block:"center"}); return commentOn(card); }
+  if(t.dataset.person) return goPerson(t.dataset.person);
+  if(t.dataset.del) return delLink(t.dataset.del, +t.dataset.i);
+});
+document.addEventListener("submit", e => { const f = e.target.closest("[data-add]"); if(!f) return; e.preventDefault(); addLink(f.dataset.add, f); });
+document.addEventListener("keydown", e => { if(e.key==="Escape" && $(".drawer")) closeDrawer(); });
+
+let toastT; function toast(msg){ $("#toastRoot").innerHTML = `<div class="toast" role="status">${esc(msg)}</div>`; clearTimeout(toastT); toastT = setTimeout(()=>$("#toastRoot").innerHTML="", 2600); }
+
+function lightCaps(){
+  document.querySelectorAll(".needs-dl").forEach(b => b.hidden = !DL);
+  document.querySelectorAll(".needs-cm").forEach(b => b.hidden = !CM);
+  const n = $("#cmNote"); if(n) n.hidden = !!CM;
+}
+
+/* ---------- boot ---------- */
+updateFavN(); renderTop(); route();
+setInterval(() => { const prev = NOW; NOW = athensNow(); if(prev.getHours()!==NOW.getHours() || prev.getMinutes()!==NOW.getMinutes()){ renderTop(); if(!$(".drawer") && !document.activeElement?.matches?.("input,select")) renderResults(); } }, 60000);
+
+if(window.claude?.use){
+  window.claude.use("downloads").then(d => { DL = d; lightCaps(); }).catch(()=>{});
+  window.claude.use("comments").then(c => { CM = c; lightCaps(); }).catch(()=>{});
+  window.claude.use("user").then(async u => { CAN_EDIT = u ? await u.canEdit() : false; if(VIEW==="archeio") renderResults(); }).catch(()=>{});
+  window.claude.use("db").then(db => {
+    if(!db) return; DB = db;
+    db.collection("links").onSnapshot(snap => {
+      const m = {}; snap.docs.forEach(d => { if(d.exists) m[d.id] = d.data(); }); LINKS = m;
+      if(VIEW==="archeio") renderResults();
+      const dr = $(".drawer"); if(dr){ const id = $("#dTitle") && COURSES.find(c=>c.title===$("#dTitle").textContent)?.id; if(id) openCourse(id); }
+    }, () => {});
+  }).catch(()=>{});
+}
+})();
+</script>
