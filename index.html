@@ -314,7 +314,7 @@ footer .wrap{padding-block:18px 28px;display:flex;flex-wrap:wrap;gap:6px 22px}
     <div class="term" id="term"></div>
   </div>
 </header>
-<div class="freeband"><div class="wrap"><span><b>Δωρεάν, όπως από το 1865.</b> Όλα τα μαθήματα του Λαϊκού Πανεπιστημίου παρακολουθούνται χωρίς δίδακτρα, με εγγραφή και συμβολική δωρεά 10€ για όλο το έτος.</span><a href="#anamorfosi">Το πρόγραμμα και η Μελέτη Αναμόρφωσης</a></div></div>
+<div class="freeband"><div class="wrap"><span><b>Δωρεάν, όπως από το 1865.</b> Όλα τα μαθήματα του Λαϊκού Πανεπιστημίου παρακολουθούνται χωρίς δίδακτρα, με εγγραφή και συμβολική δωρεά 10€ για όλο το έτος.</span></div></div>
 <nav class="tabs" aria-label="Ενότητες">
   <div class="wrap" id="tabs">
     <a href="#programma" data-v="programma">Πρόγραμμα</a>
@@ -323,7 +323,6 @@ footer .wrap{padding-block:18px 28px;display:flex;flex-wrap:wrap;gap:6px 22px}
     <a href="#didaskontes" data-v="didaskontes">Διδάσκοντες</a>
     <a href="#epiloges" data-v="epiloges">Οι επιλογές μου <span class="n" id="favN"></span></a>
     <a href="#koinotita" data-v="koinotita">Κοινότητα</a>
-    <a href="#anamorfosi" data-v="anamorfosi">Αναμόρφωση 2026</a>
   </div>
 </nav>
 
@@ -347,7 +346,8 @@ footer .wrap{padding-block:18px 28px;display:flex;flex-wrap:wrap;gap:6px 22px}
 (function(){
 "use strict";
 const LP = window.LP, BIO = window.LP_BIO || {};
-const REG_URL = "eggrafes/";
+const MODE = window.PK_MODE || "programma";
+const REG_URL = window.PK_REG || "eggrafes/";
 const DOW = ["Κυριακή","Δευτέρα","Τρίτη","Τετάρτη","Πέμπτη","Παρασκευή","Σάββατο"];
 const DOWS = ["Κυρ","Δευ","Τρι","Τετ","Πεμ","Παρ","Σαβ"];
 const MON = ["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"];
@@ -693,7 +693,7 @@ function viewReform(){
   const li = ([s,t]) => `<li><span class="st ${s}">${ST[s]}</span><span>${esc(t)}</span></li>`;
   return `<div class="reform-intro"><div class="prose"><h2>Από τη μελέτη στην πράξη</h2>
       <p>Η <b>Μελέτη Αναμόρφωσης και Εκσυγχρονισμού</b> (Ιούλιος 2026) προτείνει πέντε άξονες και τρεις φάσεις για την Εταιρεία. Το ψηφιακό πρόγραμμα του Λαϊκού Πανεπιστημίου είναι το πρώτο απτό βήμα της Φάσης Α΄: η ιστοσελίδα με ηλεκτρονικές εγγραφές, το ημερολόγιο μαθημάτων και η τράπεζα διαλέξεων που ζητά η μελέτη λειτουργούν ήδη εδώ, ως πρότυπο για το Διοικητικό Συμβούλιο.</p>
-      <p class="sub">Η σελίδα δείχνει τι λειτουργεί σήμερα, τι ακολουθεί και τι περιμένει απόφαση του ΔΣ. Σχολιάστε κάθε άξονα από την ενότητα «Κοινότητα».</p></div>
+      <p class="sub">Η σελίδα δείχνει τι λειτουργεί σήμερα, τι ακολουθεί και τι περιμένει απόφαση του ΔΣ.</p></div>
     <div class="studycard"><img src="logo-bronze.png" alt="" width="64" height="79"><small>Εσωτερικό έγγραφο εργασίας</small><b>Μελέτη Αναμόρφωσης και Εκσυγχρονισμού</b><span style="font-size:13px">Συντάκτης: Κωνσταντίνος Πολίτης · Ιούλιος 2026</span></div></div>
     <div class="coremodel">
       <div class="core a"><span class="eyebrow" style="color:var(--bronze)">Πυρήνας · αμετάβλητος</span><h3>Το Λαϊκό Πανεπιστήμιο μένει δωρεάν</h3><p>Όλα τα μαθήματα, σεμινάρια και διαλέξεις του προγράμματος παραμένουν δωρεάν, χωρίς εξαίρεση και χωρίς χρονικό όριο. Δεν αδειοδοτούνται και δεν εντάσσονται σε χρηματοδοτούμενες δράσεις.</p></div>
@@ -796,8 +796,9 @@ function render(){
 }
 function route(){
   const h = (location.hash||"").slice(1);
+  if(MODE==="reform"){ VIEW="anamorfosi"; render(); return; }
   if(h.startsWith("p-") && FAC[h.slice(2)]){ VIEW="didaskontes"; render(); highlightPerson(h.slice(2)); return; }
-  VIEW = VIEWS[h] ? h : "programma"; render();
+  VIEW = (VIEWS[h] && h!=="anamorfosi") ? h : "programma"; render();
 }
 function highlightPerson(k){
   const el = document.getElementById("p-"+k); if(!el) return;
