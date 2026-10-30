@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="el"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ενσωμάτωση · Λαϊκό Πανεπιστήμιο</title>
+<meta name="description" content="Βάλτε το Πρόγραμμα και τις Εγγραφές του Λαϊκού Πανεπιστημίου της Εταιρείας των Φίλων του Λαού στον δικό σας ιστότοπο.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;600;700&family=GFS+Didot&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14243f;--red:#8e1b1b;--gold:#d6ae76;--paper:#f7f1e5;--card:#fffaf0;--mute:#5a4a36}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 'Commissioner','Segoe UI',system-ui,sans-serif}
+.bar{background:var(--red);border-bottom:3px solid var(--gold);padding:12px 16px;text-align:center}
+.bar a{color:#fff;font-weight:700;text-decoration:underline}
+main{max-width:920px;margin:0 auto;padding:32px 16px 64px}
+h1{font-family:'GFS Didot',serif;font-size:clamp(30px,5vw,44px);line-height:1.15;margin:0 0 8px}
+.eyebrow{color:var(--mute);font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+h2{font-family:'GFS Didot',serif;font-size:27px;margin:44px 0 10px;border-top:1px solid var(--gold);padding-top:24px}
+.card{background:var(--card);border:1px solid #e3d3b4;border-radius:10px;padding:18px 18px 14px;margin:14px 0}
+.card h3{margin:0 0 6px;font-size:19px}
+.card p{margin:0 0 10px;color:var(--mute)}
+pre{position:relative;background:#14243f;color:#f3e6cc;border-radius:8px;padding:14px 14px;margin:0;overflow-x:auto;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre}
+.copy{display:inline-block;margin-top:10px;background:var(--red);color:#fff;border:0;border-radius:999px;padding:9px 18px;font:700 15px 'Commissioner',sans-serif;cursor:pointer}
+.copy.done{background:#2f6b3a}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.tabs button{border:1px solid var(--gold);background:#fff;border-radius:999px;padding:7px 16px;font:600 15px 'Commissioner',sans-serif;cursor:pointer;color:var(--ink)}
+.tabs button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.preview{border:2px dashed #cdb68c;border-radius:10px;padding:10px;background:#fff}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 22px;border-radius:999px;font-weight:700;text-decoration:none}
+.btn.navy{background:#14243f;color:#fff}.btn.gold{background:#d6ae76;color:#14243f}
+ol li{margin-bottom:6px}
+.note{font-size:15px;color:var(--mute)}
+</style></head>
+<body>
+<div class="bar"><a href="../">← Πίσω στο Πρόγραμμα</a></div>
+<main>
+<div class="eyebrow">Εταιρεία των Φίλων του Λαού · Λαϊκό Πανεπιστήμιο</div>
+<h1>Βάλτε το Πρόγραμμα στον δικό σας ιστότοπο</h1>
+<p>Σύλλογοι, ενορίες, δήμοι, σχολεία και φίλοι της Εταιρείας μπορούν να δείχνουν το <b>Πρόγραμμα</b> και τη φόρμα <b>Εγγραφών</b> του Λαϊκού Πανεπιστημίου στις δικές τους σελίδες. Ενημερώνονται αυτόματα: κάθε αλλαγή εμφανίζεται αμέσως σε όλους.</p>
+
+<h2>1. Ο απλούστερος τρόπος: ένα κομμάτι κώδικα</h2>
+<p>Αντιγράψτε τον κώδικα και επικολλήστε τον εκεί που θέλετε να εμφανιστεί. Σε WordPress χρησιμοποιήστε το μπλοκ «Προσαρμοσμένο HTML» (Custom HTML). Το ύψος προσαρμόζεται μόνο του.</p>
+
+<div class="card"><h3>Πρόγραμμα</h3><p>Όλα τα μαθήματα, οι ημερομηνίες και οι εισηγητές.</p>
+<pre id="c1">&lt;div class="lp-embed" data-view="programma"&gt;&lt;/div&gt;
+&lt;script src="https://programma.politisk.gr/embed.js" async&gt;&lt;/script&gt;</pre>
+<button class="copy" data-for="c1">Αντιγραφή κώδικα</button></div>
+
+<div class="card"><h3>Εγγραφές</h3><p>Η φόρμα εγγραφής στα μαθήματα.</p>
+<pre id="c2">&lt;div class="lp-embed" data-view="eggrafes"&gt;&lt;/div&gt;
+&lt;script src="https://programma.politisk.gr/embed.js" async&gt;&lt;/script&gt;</pre>
+<button class="copy" data-for="c2">Αντιγραφή κώδικα</button></div>
+<p class="note">Θέλετε και τα δύο στην ίδια σελίδα; Βάλτε και τα δύο <code>&lt;div&gt;</code>. Η γραμμή <code>&lt;script&gt;</code> αρκεί μία φορά.</p>
+
+<h2>2. Αν ο ιστότοπός σας δεν δέχεται σενάρια (script)</h2>
+<p>Ορισμένες πλατφόρμες επιτρέπουν μόνο <i>iframe</i>. Χρησιμοποιήστε τότε αυτόν τον κώδικα. Αλλάξτε το ύψος (height) αν χρειάζεται.</p>
+<div class="card"><h3>Πρόγραμμα (iframe)</h3>
+<pre id="c3">&lt;iframe src="https://programma.politisk.gr/?embed=1" title="Πρόγραμμα Λαϊκού Πανεπιστημίου" style="width:100%;height:1400px;border:0" loading="lazy"&gt;&lt;/iframe&gt;</pre>
+<button class="copy" data-for="c3">Αντιγραφή κώδικα</button></div>
+<div class="card"><h3>Εγγραφές (iframe)</h3>
+<pre id="c4">&lt;iframe src="https://programma.politisk.gr/eggrafes/?embed=1" title="Εγγραφές Λαϊκού Πανεπιστημίου" style="width:100%;height:1600px;border:0" loading="lazy" allow="clipboard-write"&gt;&lt;/iframe&gt;</pre>
+<button class="copy" data-for="c4">Αντιγραφή κώδικα</button></div>
+
+<h2>3. Μόνο κουμπιά με σύνδεσμο</h2>
+<p>Για Facebook, newsletter, email ή οποιαδήποτε σελίδα: δύο κουμπιά που ανοίγουν το Πρόγραμμα και τις Εγγραφές.</p>
+<div class="card"><div class="btns" style="margin-bottom:12px">
+<a class="btn navy" href="https://programma.politisk.gr/" target="_blank" rel="noopener">Δες το Πρόγραμμα</a>
+<a class="btn gold" href="https://programma.politisk.gr/eggrafes/" target="_blank" rel="noopener">Εγγραφές</a></div>
+<pre id="c5">&lt;a href="https://programma.politisk.gr/" target="_blank" style="display:inline-block;padding:12px 22px;border-radius:999px;background:#14243f;color:#fff;font-weight:700;text-decoration:none"&gt;Δες το Πρόγραμμα&lt;/a&gt;
+&lt;a href="https://programma.politisk.gr/eggrafes/" target="_blank" style="display:inline-block;padding:12px 22px;border-radius:999px;background:#d6ae76;color:#14243f;font-weight:700;text-decoration:none"&gt;Εγγραφές&lt;/a&gt;</pre>
+<button class="copy" data-for="c5">Αντιγραφή κώδικα</button>
+<p class="note" style="margin-top:12px">Απλοί σύνδεσμοι: https://programma.politisk.gr/ και https://programma.politisk.gr/eggrafes/</p></div>
+
+<h2>Προεπισκόπηση</h2>
+<div class="tabs"><button data-v="programma" aria-pressed="true">Πρόγραμμα</button><button data-v="eggrafes" aria-pressed="false">Εγγραφές</button></div>
+<div class="preview" id="pv"></div>
+
+<h2>Χρειάζεστε βοήθεια;</h2>
+<p>Γραμματεία του Λαϊκού Πανεπιστημίου, Ευριπίδου 12, Αθήνα · 210 3216626</p>
+</main>
+<script src="../embed.js"></script>
+<script>
+document.querySelectorAll(".copy").forEach(function(b){
+  b.addEventListener("click", function(){
+    var t = document.getElementById(b.dataset.for).textContent;
+    function ok(){ b.textContent="Αντιγράφηκε ✓"; b.classList.add("done"); setTimeout(function(){ b.textContent="Αντιγραφή κώδικα"; b.classList.remove("done"); },2000); }
+    if(navigator.clipboard) navigator.clipboard.writeText(t).then(ok, fallback); else fallback();
+    function fallback(){ var a=document.createElement("textarea"); a.value=t; document.body.appendChild(a); a.select(); try{document.execCommand("copy"); ok();}catch(e){} a.remove(); }
+  });
+});
+function show(v){
+  var pv=document.getElementById("pv"); pv.innerHTML='<div class="lp-embed" data-view="'+v+'" data-min-height="700"></div>';
+  document.querySelectorAll(".tabs button").forEach(function(x){ x.setAttribute("aria-pressed", x.dataset.v===v); });
+  var s=document.createElement("script"); s.src="../embed.js"; document.body.appendChild(s);
+}
+document.querySelectorAll(".tabs button").forEach(function(b){ b.onclick=function(){ show(b.dataset.v); }; });
+show("programma");
+</script>
+</body></html>

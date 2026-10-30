@@ -6,6 +6,7 @@ s = s.replace('<script src="data.js"></script>',
   '<script>window.PK_MODE="reform";window.PK_REG="../eggrafes/";</script>\n<script src="../data.js"></script>')
 s = s.replace('<script src="bios.js"></script>', '<script src="../bios.js"></script>')
 s = s.replace('src="logo-bronze.png"', 'src="../logo-bronze.png"')
+s = s.replace('src="assets/embed-mode.js"', 'src="../assets/embed-mode.js"')
 s = re.sub(r'<title>[^<]*</title>', '<title>Μελέτη Αναμόρφωσης και Εκσυγχρονισμού · Εταιρεία των Φίλων του Λαού</title>', s, 1)
 s = s.replace('<meta name="description" content="Πρόγραμμα Λαϊκού Πανεπιστημίου της Εταιρείας των Φίλων του Λαού, Α΄ εξάμηνο 2026–27.">',
   '<meta name="description" content="Μελέτη Αναμόρφωσης και Εκσυγχρονισμού της Εταιρείας των Φίλων του Λαού (Ιούλιος 2026): άξονες, φάσεις, δείκτες.">')
