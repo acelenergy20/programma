@@ -17,6 +17,8 @@
       chips: ['Ποια μαθήματα έχει αυτή την εβδομάδα;', 'Πώς γράφομαι στο Λαϊκό Πανεπιστήμιο;', 'Τι είναι ο πρώτος ήχος;'],
       note: 'Απαντά σύστημα τεχνητής νοημοσύνης και μπορεί να κάνει λάθη. Μη γράφετε ευαίσθητα προσωπικά στοιχεία.',
       privacy: 'Προσωπικά δεδομένα', privacyUrl: 'https://politisk.gr/prosopika-dedomena/',
+      listen: 'Ακρόαση', stop: 'Διακοπή ακρόασης', mic: 'Υπαγόρευση με τη φωνή', micStop: 'Τέλος υπαγόρευσης', listening: 'Σας ακούω…',
+      micNote: 'Η υπαγόρευση χρησιμοποιεί την υπηρεσία φωνής του προγράμματος περιήγησής σας (π.χ. της Google στον Chrome).',
       offline: 'Δεν υπάρχει σύνδεση. Δοκιμάστε ξανά σε λίγο, ή καλέστε τη Γραμματεία στο 210 3216626 (καθημερινές 17:00–20:00).'
     },
     en: {
@@ -26,6 +28,8 @@
       chips: ['Which lectures are on this week?', 'How do I register at the People’s University?', 'What is the first mode?'],
       note: 'Answers come from an AI system and may contain mistakes. Please do not share sensitive personal data.',
       privacy: 'Privacy', privacyUrl: 'https://politisk.gr/en/privacy/',
+      listen: 'Listen', stop: 'Stop reading', mic: 'Speak your question', micStop: 'Stop dictation', listening: 'Listening…',
+      micNote: 'Dictation uses your browser\u2019s speech service (e.g. Google in Chrome).',
       offline: 'No connection. Please try again shortly, or call the Secretariat on +30 210 3216626 (weekdays 17:00–20:00).'
     }
   };
@@ -69,6 +73,11 @@
   textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font:inherit;max-height:120px;min-height:40px;color:var(--ink);background:var(--paper)}
   textarea:focus{outline:2px solid var(--gold);border-color:var(--gold)}
   .send{background:var(--red);color:#fff;border:none;border-radius:10px;padding:0 14px;font:inherit;font-weight:600;cursor:pointer}
+  .spk{display:inline-flex;align-items:center;gap:4px;margin-top:6px;border:1px solid var(--line);background:var(--paper);color:var(--red);border-radius:999px;padding:2px 10px 2px 8px;font:inherit;font-size:12.5px;cursor:pointer}
+  .spk:hover{border-color:var(--gold)} .spk[aria-pressed=true]{background:#fbf1dd;border-color:var(--gold)}
+  .mic{background:#fff;color:var(--red);border:1px solid var(--line);border-radius:10px;width:42px;font-size:18px;cursor:pointer;flex:none}
+  .mic[aria-pressed=true]{background:var(--red);color:#fff;border-color:var(--red);animation:pulse 1.2s infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 6px rgba(122,31,31,.18)}}
   .send:disabled{opacity:.5;cursor:default}
   .note{font-size:11.5px;color:var(--muted);padding:6px 14px 10px;background:#fff;line-height:1.35}
   .note a{color:var(--muted)}
@@ -117,9 +126,9 @@
             <button class="ib x" type="button" aria-label="${this.t.close}">✕</button></header>
           <div class="log" role="log" aria-live="polite"></div>
           <div class="chips"></div>
-          <form><textarea rows="1" maxlength="1200" aria-label="${this.t.ph}" placeholder="${this.t.ph}"></textarea>
+          <form><button class="mic" type="button" hidden aria-pressed="false" aria-label="${this.t.mic}" title="${this.t.mic}">🎤</button><textarea rows="1" maxlength="1200" aria-label="${this.t.ph}" placeholder="${this.t.ph}"></textarea>
             <button class="send" type="submit">${this.t.send}</button></form>
-          <div class="note">${this.t.note} <a href="${this.t.privacyUrl}" target="_blank" rel="noopener">${this.t.privacy}</a></div>
+          <div class="note">${this.t.note} <span class="micnote" hidden>${this.t.micNote} </span><a href="${this.t.privacyUrl}" target="_blank" rel="noopener">${this.t.privacy}</a></div>
         </section>`;
       this.$ = s => r.querySelector(s);
       this.$('.fab').addEventListener('click', () => this.toggle());
@@ -130,6 +139,7 @@
       ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.send(); } });
       ta.addEventListener('input', () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 120) + 'px'; });
       this.$('.panel').addEventListener('keydown', e => { if (e.key === 'Escape') this.toggle(false); });
+      this.setupVoice();
       setTimeout(() => { const tip = this.$('.tip'); if (tip) tip.remove(); }, 9000);
       if (ds.mode === 'page') this.setAttribute('page', '');
       if (this.state.open || this.hasAttribute('page')) this.toggle(true);
@@ -158,8 +168,82 @@
     bubble(kind, text) {
       const d = document.createElement('div'); d.className = 'm ' + kind;
       if (kind === 'u') d.textContent = text; else if (kind === 'w') d.textContent = text; else d.innerHTML = render(text);
+      if (kind === 'a' && this.voice) {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'spk'; b.setAttribute('aria-pressed', 'false');
+        b.innerHTML = '<span aria-hidden="true">🔊</span> ' + this.t.listen;
+        b.addEventListener('click', () => this.speak(text, b)); d.appendChild(b); d._spk = b;
+      }
       this.$('.log').appendChild(d); d.scrollIntoView({ block: 'end' });
       return d;
+    }
+    // ---------- φωνή: ακρόαση (speechSynthesis) και υπαγόρευση (SpeechRecognition), μόνο με τα εργαλεία του browser ----------
+    setupVoice() {
+      const want = this.lang === 'en' ? 'en' : 'el';
+      const pick = () => {
+        const vs = (window.speechSynthesis && speechSynthesis.getVoices()) || [];
+        const mine = vs.filter(v => (v.lang || '').toLowerCase().startsWith(want));
+        const pref = want === 'en' ? /en-gb/i : /el-gr/i;
+        this.voice = mine.find(v => pref.test(v.lang) && /google|natural|premium|enhanced/i.test(v.name)) || mine.find(v => pref.test(v.lang)) || mine[0] || null;
+        if (this.voice && this.state.open) this.paint();
+      };
+      if ('speechSynthesis' in window) { pick(); speechSynthesis.addEventListener && speechSynthesis.addEventListener('voiceschanged', pick); }
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SR) {
+        const mic = this.$('.mic'); mic.hidden = false; this.$('.micnote').hidden = false;
+        mic.addEventListener('click', () => this.dictate(SR, mic));
+      }
+    }
+    speakable(md) {
+      let t = md.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/https?:\/\/\S+/g, '').replace(/[*_#>`]/g, '')
+        .split('\n').map(l => l.replace(/^\s*[-•]\s+/, '').trim()).filter(Boolean)
+        .map(l => /[.;:!?;»)]$/.test(l) ? l : l + '.').join(' ');
+      if (this.lang !== 'en') {
+        const B = '(?<![Α-Ωα-ωΆ-Ώά-ώA-Za-z])';           // αρχή λέξης (το \b δεν πιάνει ελληνικά)
+        const R = (re, to) => { t = t.replace(new RegExp(B + re, 'g'), to); };
+        const GEN = { 'α': 'πρώτου', 'β': 'δευτέρου', 'γ': 'τρίτου', 'δ': 'τετάρτου' }, NOM = { 'α': 'πρώτος', 'β': 'δεύτερος', 'γ': 'τρίτος', 'δ': 'τέταρτος' };
+        t = t.replace(new RegExp(B + 'πλ\\.\\s?([αβγδ])΄', 'g'), (_, n) => 'πλάγιος του ' + GEN[n]);
+        t = t.replace(new RegExp(B + '([αβγδ])΄(?=\\s+ήχ)', 'g'), (_, n) => NOM[n]);
+        R('πλ\\.\\s?', 'πλάγιος ');
+        t = t.replace(/(^|\s)(τον|Τον) κ\.\s/g, '$1$2 κύριο ').replace(/(^|\s)(του|Του) κ\.\s/g, '$1$2 κυρίου ').replace(/(^|\s)(ο|Ο) κ\.\s/g, '$1$2 κύριος ');
+        R('κ\\.\\s(?=[Α-Ω])', 'κύριο '); R('σ\\.\\s?(?=\\d)', 'σελίδα ');
+        R('τηλ\\.\\s?', 'τηλέφωνο '); R('Θ\\. Φωκαεύς', 'Θεόδωρος Φωκαεύς'); R('π\\.χ\\.', 'παραδείγματος χάρη');
+        t = t.replace(/\(σύστημα ΤΝ\)/g, ', σύστημα τεχνητής νοημοσύνης,').replace(new RegExp(B + 'ΤΝ(?![Α-Ω])', 'g'), 'τεχνητή νοημοσύνη')
+          .replace(/(\d{1,2}):00\s?[–-]\s?(\d{1,2}):00/g, '$1 έως $2').replace(/(\d+)\s?€/g, '$1 ευρώ')
+          .replace(/([Α-Ωα-ω])΄/g, '$1');
+      }
+      return t.replace(/\s+/g, ' ').trim();
+    }
+    speak(text, btn) {
+      const ss = window.speechSynthesis; if (!ss) return;
+      const same = this.speaking === btn; ss.cancel();
+      if (this.speaking) { this.speaking.setAttribute('aria-pressed', 'false'); this.speaking.lastChild.textContent = ' ' + this.t.listen; this.speaking = null; }
+      if (same) return;                                   // δεύτερο πάτημα: διακοπή
+      const u = new SpeechSynthesisUtterance(this.speakable(text));
+      try { u.voice = this.voice; } catch (e) {} u.lang = this.voice ? this.voice.lang : (this.lang === 'en' ? 'en-GB' : 'el-GR'); u.rate = 0.95;
+      const done = () => { if (this.speaking === btn) { btn.setAttribute('aria-pressed', 'false'); btn.lastChild.textContent = ' ' + this.t.listen; this.speaking = null; } };
+      u.onend = done; u.onerror = done;
+      btn.setAttribute('aria-pressed', 'true'); btn.lastChild.textContent = ' ' + this.t.stop; this.speaking = btn;
+      ss.speak(u);
+    }
+    dictate(SR, mic) {
+      if (this.rec) { this.rec.stop(); return; }
+      if (window.speechSynthesis) speechSynthesis.cancel();
+      const ta = this.$('textarea'), before = ta.value;
+      const rec = new SR(); this.rec = rec;
+      rec.lang = this.lang === 'en' ? 'en-GB' : 'el-GR'; rec.interimResults = true; rec.continuous = false;
+      mic.setAttribute('aria-pressed', 'true'); mic.setAttribute('aria-label', this.t.micStop); ta.placeholder = this.t.listening;
+      let finalText = '';
+      rec.onresult = e => {
+        let interim = ''; finalText = '';
+        for (const r of e.results) (r.isFinal ? (finalText += r[0].transcript) : (interim += r[0].transcript));
+        ta.value = (before ? before + ' ' : '') + (finalText || interim);
+      };
+      rec.onend = () => {
+        this.rec = null; mic.setAttribute('aria-pressed', 'false'); mic.setAttribute('aria-label', this.t.mic); ta.placeholder = this.t.ph;
+        if (finalText.trim()) { this.dictated = true; this.send(); } else ta.focus();
+      };
+      rec.onerror = () => {};
+      try { rec.start(); } catch { rec.onend(); }
     }
     async turnstileToken() {
       if (!this.sitekey) return undefined;
@@ -199,7 +283,9 @@
         if (res.ok) this.state.messages.push({ role: 'assistant', content: reply });
         else this.state.messages.pop();            // αποτυχία: δεν κρατάμε την ερώτηση στο ιστορικό
       } catch { reply = this.t.offline; this.state.messages.pop(); }
-      this.save(); w.remove(); this.bubble('a', reply);
+      this.save(); w.remove(); const ab = this.bubble('a', reply);
+      if (this.dictated && ab._spk) this.speak(reply, ab._spk);
+      this.dictated = false;
       this.busy = false; this.$('.send').disabled = false; ta.focus();
     }
   }
