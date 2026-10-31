@@ -72,6 +72,9 @@
   .send:disabled{opacity:.5;cursor:default}
   .note{font-size:11.5px;color:var(--muted);padding:6px 14px 10px;background:#fff;line-height:1.35}
   .note a{color:var(--muted)}
+  :host([page]) .fab,:host([page]) .tip,:host([page]) .x{display:none}
+  :host([page]) .panel{position:fixed;inset:0;width:100vw;height:100dvh;border-radius:0;border:none;max-width:none}
+  @media (min-width:760px){:host([page]) .panel{inset:24px auto 24px 50%;transform:translateX(-50%);width:720px;height:calc(100dvh - 48px);border-radius:16px;border:1px solid var(--line)}}
   @media (max-width:520px){.panel{right:0;bottom:0;width:100vw;height:100dvh;border-radius:0;border:none}.tip{display:none}}
   @media (prefers-reduced-motion:reduce){.fab{transition:none}.log{scroll-behavior:auto}}`;
 
@@ -128,12 +131,14 @@
       ta.addEventListener('input', () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 120) + 'px'; });
       this.$('.panel').addEventListener('keydown', e => { if (e.key === 'Escape') this.toggle(false); });
       setTimeout(() => { const tip = this.$('.tip'); if (tip) tip.remove(); }, 9000);
-      if (this.state.open) this.toggle(true);
+      if (ds.mode === 'page') this.setAttribute('page', '');
+      if (this.state.open || this.hasAttribute('page')) this.toggle(true);
     }
     load() { try { return JSON.parse(sessionStorage.getItem(this.key)) || { messages: [] }; } catch { return { messages: [] }; } }
     save() { try { sessionStorage.setItem(this.key, JSON.stringify(this.state)); } catch {} }
     toggle(force) {
       const p = this.$('.panel'), open = force ?? p.hidden;
+      if (!open && this.hasAttribute('page')) return;
       p.hidden = !open; this.$('.fab').setAttribute('aria-expanded', String(open));
       const tip = this.$('.tip'); if (tip) tip.remove();
       this.state.open = open; this.save();
