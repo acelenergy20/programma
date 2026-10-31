@@ -158,20 +158,20 @@
       const log = this.$('.log');
       log.innerHTML = '';
       this.bubble('a', this.t.hello);
-      for (const m of this.state.messages) this.bubble(m.role === 'user' ? 'u' : 'a', m.content);
+      for (const m of this.state.messages) this.bubble(m.role === 'user' ? 'u' : 'a', m.content, m.sig);
       const chips = this.$('.chips'); chips.innerHTML = '';
       if (!this.state.messages.length) for (const c of this.t.chips) {
         const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = c;
         b.addEventListener('click', () => { this.$('textarea').value = c; this.send(); }); chips.appendChild(b);
       }
     }
-    bubble(kind, text) {
+    bubble(kind, text, sig) {
       const d = document.createElement('div'); d.className = 'm ' + kind;
       if (kind === 'u') d.textContent = text; else if (kind === 'w') d.textContent = text; else d.innerHTML = render(text);
-      if (kind === 'a' && this.voice) {
+      if (kind === 'a' && (this.voice || this.serverTts)) {
         const b = document.createElement('button'); b.type = 'button'; b.className = 'spk'; b.setAttribute('aria-pressed', 'false');
         b.innerHTML = '<span aria-hidden="true">🔊</span> ' + this.t.listen;
-        b.addEventListener('click', () => this.speak(text, b)); d.appendChild(b); d._spk = b;
+        b.addEventListener('click', () => this.speak(text, b, sig)); d.appendChild(b); d._spk = b;
       }
       this.$('.log').appendChild(d); d.scrollIntoView({ block: 'end' });
       return d;
@@ -186,6 +186,7 @@
         this.voice = mine.find(v => pref.test(v.lang) && /google|natural|premium|enhanced/i.test(v.name)) || mine.find(v => pref.test(v.lang)) || mine[0] || null;
         if (this.voice && this.state.open) this.paint();
       };
+      fetch(this.endpoint + '/health').then(r => r.json()).then(h => { if (h.tts) { this.serverTts = true; if (this.state.open) this.paint(); } }).catch(() => {});
       if ('speechSynthesis' in window) { pick(); speechSynthesis.addEventListener && speechSynthesis.addEventListener('voiceschanged', pick); }
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (SR) {
@@ -213,21 +214,37 @@
       }
       return t.replace(/\s+/g, ' ').trim();
     }
-    speak(text, btn) {
-      const ss = window.speechSynthesis; if (!ss) return;
-      const same = this.speaking === btn; ss.cancel();
+    stopSpeaking() {
+      if (window.speechSynthesis) speechSynthesis.cancel();
+      if (this.audio) { this.audio.pause(); this.audio = null; }
       if (this.speaking) { this.speaking.setAttribute('aria-pressed', 'false'); this.speaking.lastChild.textContent = ' ' + this.t.listen; this.speaking = null; }
+    }
+    async speak(text, btn, sig) {
+      const same = this.speaking === btn; this.stopSpeaking();
       if (same) return;                                   // δεύτερο πάτημα: διακοπή
+      btn.setAttribute('aria-pressed', 'true'); btn.lastChild.textContent = ' ' + this.t.stop; this.speaking = btn;
+      const done = () => { if (this.speaking === btn) { btn.setAttribute('aria-pressed', 'false'); btn.lastChild.textContent = ' ' + this.t.listen; this.speaking = null; this.audio = null; } };
+      if (this.serverTts) {                               // γυναικεία φωνή της Διδαχής, ίδια παντού
+        try {
+          const r = await fetch(this.endpoint + '/tts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text, sig, lang: this.lang }) });
+          if (!r.ok) throw new Error('tts ' + r.status);
+          const url = URL.createObjectURL(await r.blob());
+          if (this.speaking !== btn) return;              // πατήθηκε διακοπή στο μεταξύ
+          const a = new Audio(url); this.audio = a;
+          a.onended = a.onerror = () => { URL.revokeObjectURL(url); done(); };
+          await a.play();
+          return;
+        } catch (e) { if (this.speaking !== btn) return; }   // αλλιώς: φωνή της συσκευής
+      }
+      const ss = window.speechSynthesis; if (!ss || !this.voice) return done();
       const u = new SpeechSynthesisUtterance(this.speakable(text));
       try { u.voice = this.voice; } catch (e) {} u.lang = this.voice ? this.voice.lang : (this.lang === 'en' ? 'en-GB' : 'el-GR'); u.rate = 0.95;
-      const done = () => { if (this.speaking === btn) { btn.setAttribute('aria-pressed', 'false'); btn.lastChild.textContent = ' ' + this.t.listen; this.speaking = null; } };
       u.onend = done; u.onerror = done;
-      btn.setAttribute('aria-pressed', 'true'); btn.lastChild.textContent = ' ' + this.t.stop; this.speaking = btn;
       ss.speak(u);
     }
     dictate(SR, mic) {
       if (this.rec) { this.rec.stop(); return; }
-      if (window.speechSynthesis) speechSynthesis.cancel();
+      this.stopSpeaking();
       const ta = this.$('textarea'), before = ta.value;
       const rec = new SR(); this.rec = rec;
       rec.lang = this.lang === 'en' ? 'en-GB' : 'el-GR'; rec.interimResults = true; rec.continuous = false;
@@ -267,12 +284,12 @@
       this.state.messages.push({ role: 'user', content: text }); this.save();
       this.bubble('u', text);
       const w = this.bubble('w', this.t.wait);
-      let reply;
+      let reply, res, data;
       try {
         const body = { messages: this.state.messages.slice(-12), lang: this.lang, page: location.href.split('#')[0], session: this.state.session };
         if (this.sitekey && !this.state.session) body.turnstile = await this.turnstileToken();
-        let res = await fetch(this.endpoint + '/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-        let data = await res.json().catch(() => ({}));
+        res = await fetch(this.endpoint + '/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+        data = await res.json().catch(() => ({}));
         if (data.needs_verification && this.sitekey) {           // η συνεδρία έληξε: νέος έλεγχος, μία φορά
           this.state.session = undefined; body.session = undefined; body.turnstile = await this.turnstileToken();
           res = await fetch(this.endpoint + '/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -280,11 +297,11 @@
         }
         if (data.session) this.state.session = data.session;
         reply = data.reply || this.t.offline;
-        if (res.ok) this.state.messages.push({ role: 'assistant', content: reply });
+        if (res.ok) this.state.messages.push({ role: 'assistant', content: reply, sig: data.sig });
         else this.state.messages.pop();            // αποτυχία: δεν κρατάμε την ερώτηση στο ιστορικό
       } catch { reply = this.t.offline; this.state.messages.pop(); }
-      this.save(); w.remove(); const ab = this.bubble('a', reply);
-      if (this.dictated && ab._spk) this.speak(reply, ab._spk);
+      this.save(); w.remove(); const ab = this.bubble('a', reply, res && res.ok ? data.sig : undefined);
+      if (this.dictated && ab._spk) this.speak(reply, ab._spk, res && res.ok ? data.sig : undefined);
       this.dictated = false;
       this.busy = false; this.$('.send').disabled = false; ta.focus();
     }
