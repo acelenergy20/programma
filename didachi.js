@@ -17,6 +17,9 @@
       chips: ['Ποια μαθήματα έχει αυτή την εβδομάδα;', 'Πώς γράφομαι στο Λαϊκό Πανεπιστήμιο;', 'Τι είναι ο πρώτος ήχος;'],
       note: 'Απαντά σύστημα τεχνητής νοημοσύνης και μπορεί να κάνει λάθη. Μη γράφετε ευαίσθητα προσωπικά στοιχεία.',
       privacy: 'Προσωπικά δεδομένα', privacyUrl: 'https://politisk.gr/prosopika-dedomena/',
+      wTitle: 'Καλώς ορίσατε',
+      wText: 'Είμαι η Διδαχή, ψηφιακή βοηθός (σύστημα ΤΝ). Ρωτήστε με ό,τι θέλετε για τον ιστότοπο: θα σας οδηγήσω στη σωστή σελίδα και θα σας πω τι προσφέρεται, από τα μαθήματα και τις εγγραφές του Λαϊκού Πανεπιστημίου ως τη Μουσική στην Κοινότητα και την ψαλτική τέχνη.',
+      wAsk: 'Ρωτήστε τη Διδαχή', wLater: 'Συνέχεια στον ιστότοπο', wNote: 'Απαντά σύστημα τεχνητής νοημοσύνης και μπορεί να κάνει λάθη.',
       listen: 'Ακρόαση', stop: 'Διακοπή ακρόασης', mic: 'Υπαγόρευση με τη φωνή', micStop: 'Τέλος υπαγόρευσης', listening: 'Σας ακούω…',
       micNote: 'Η υπαγόρευση χρησιμοποιεί την υπηρεσία φωνής του προγράμματος περιήγησής σας (π.χ. της Google στον Chrome).',
       offline: 'Δεν υπάρχει σύνδεση. Δοκιμάστε ξανά σε λίγο, ή καλέστε τη Γραμματεία στο 210 3216626 (καθημερινές 17:00–20:00).'
@@ -28,6 +31,9 @@
       chips: ['Which lectures are on this week?', 'How do I register at the People’s University?', 'What is the first mode?'],
       note: 'Answers come from an AI system and may contain mistakes. Please do not share sensitive personal data.',
       privacy: 'Privacy', privacyUrl: 'https://politisk.gr/en/privacy/',
+      wTitle: 'Welcome',
+      wText: 'I am Didache, an AI assistant. Ask me anything about this website: I will take you to the right page and tell you what is on offer, from the People\u2019s University courses and registration to Music in the Community and the psaltic art.',
+      wAsk: 'Ask Didache', wLater: 'Continue to the website', wNote: 'Answers come from an AI system and may contain mistakes.',
       listen: 'Listen', stop: 'Stop reading', mic: 'Speak your question', micStop: 'Stop dictation', listening: 'Listening…',
       micNote: 'Dictation uses your browser\u2019s speech service (e.g. Google in Chrome).',
       offline: 'No connection. Please try again shortly, or call the Secretariat on +30 210 3216626 (weekdays 17:00–20:00).'
@@ -84,6 +90,21 @@
   :host([page]) .fab,:host([page]) .tip,:host([page]) .x{display:none}
   :host([page]) .panel{position:fixed;inset:0;width:100vw;height:100dvh;border-radius:0;border:none;max-width:none}
   @media (min-width:760px){:host([page]) .panel{inset:24px auto 24px 50%;transform:translateX(-50%);width:720px;height:calc(100dvh - 48px);border-radius:16px;border:1px solid var(--line)}}
+  .wb{position:fixed;inset:0;z-index:2147483002;background:rgba(27,20,14,.45);display:grid;place-items:center;padding:16px;animation:fade .25s ease-out}
+  .wc{width:min(440px,100%);background:var(--paper);border:1px solid var(--gold);border-radius:18px;box-shadow:0 24px 60px rgba(40,15,5,.35);overflow:hidden;text-align:center}
+  .wc .wh{background:linear-gradient(180deg,var(--red),var(--red2));border-bottom:2px solid var(--gold);padding:22px 20px 16px;color:#fff}
+  .wc .wh .mk{width:64px;height:64px;margin:0 auto 8px;color:var(--gold)} .wc .wh .mk svg{width:100%;height:100%}
+  .wc h2{margin:0;font:600 26px/1.15 Georgia,"Noto Serif",serif;letter-spacing:.02em}
+  .wc .wh p{margin:4px 0 0;font-size:13px;opacity:.9}
+  .wc .wb2{padding:18px 22px 20px}
+  .wc .wb2 p{margin:0 0 16px;font-size:15.5px;line-height:1.55}
+  .wc .acts{display:flex;flex-direction:column;gap:8px}
+  .wc .go{background:var(--red);color:#fff;border:none;border-radius:999px;padding:11px 18px;font:inherit;font-weight:600;font-size:15.5px;cursor:pointer}
+  .wc .go:hover{background:var(--red2)} .wc .go:focus-visible,.wc .later:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .wc .later{background:transparent;border:none;color:var(--muted);font:inherit;font-size:14px;cursor:pointer;padding:6px;text-decoration:underline;text-underline-offset:3px}
+  .wc small{display:block;margin-top:10px;color:var(--muted);font-size:11.5px}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.wb{animation:none}}
   @media (max-width:520px){.panel{right:0;bottom:0;width:100vw;height:100dvh;border-radius:0;border:none}.tip{display:none}}
   @media (prefers-reduced-motion:reduce){.fab{transition:none}.log{scroll-behavior:auto}}`;
 
@@ -142,7 +163,31 @@
       this.setupVoice();
       setTimeout(() => { const tip = this.$('.tip'); if (tip) tip.remove(); }, 9000);
       if (ds.mode === 'page') this.setAttribute('page', '');
+      if (ds.welcome && !this.hasAttribute('page') && !this.state.messages.length) {
+        let seen = false; try { seen = sessionStorage.getItem('didachi.welcomed') === '1'; } catch {}
+        if (!seen) setTimeout(() => this.welcome(), 900);
+      }
       if (this.state.open || this.hasAttribute('page')) this.toggle(true);
+    }
+    welcome() {
+      if (this.$('.wb') || !this.$('.panel').hidden) return;
+      try { sessionStorage.setItem('didachi.welcomed', '1'); } catch {}
+      const t = this.t, w = document.createElement('div');
+      w.className = 'wb';
+      w.innerHTML = `<div class="wc" role="dialog" aria-modal="true" aria-labelledby="dw-t" aria-describedby="dw-d">
+        <div class="wh"><div class="mk">${ICON}</div><h2 id="dw-t">${t.wTitle}</h2><p>${t.title} · ${t.sub}</p></div>
+        <div class="wb2"><p id="dw-d">${t.wText}</p>
+          <div class="acts"><button class="go" type="button">${t.wAsk}</button><button class="later" type="button">${t.wLater}</button></div>
+          <small>${t.wNote}</small></div></div>`;
+      const close = (open) => { w.remove(); document.removeEventListener('keydown', esc, true); if (open) this.toggle(true); else this.$('.fab').focus(); };
+      const esc = e => { if (e.key === 'Escape') close(false); if (e.key === 'Tab') { const b = [...w.querySelectorAll('button')]; const i = b.indexOf(this.shadowRoot.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); b.at(-1).focus(); } else if (!e.shiftKey && i === b.length - 1) { e.preventDefault(); b[0].focus(); } } };
+      w.addEventListener('click', e => { if (e.target === w) close(false); });
+      w.querySelector('.go').addEventListener('click', () => close(true));
+      w.querySelector('.later').addEventListener('click', () => close(false));
+      document.addEventListener('keydown', esc, true);
+      const tip = this.$('.tip'); if (tip) tip.remove();
+      this.shadowRoot.appendChild(w);
+      w.querySelector('.go').focus();
     }
     load() { try { return JSON.parse(sessionStorage.getItem(this.key)) || { messages: [] }; } catch { return { messages: [] }; } }
     save() { try { sessionStorage.setItem(this.key, JSON.stringify(this.state)); } catch {} }
