@@ -34,7 +34,7 @@
     }
   };
 
-  const ICON = `<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".55"/><path d="M24 11 L36 35 H12 Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M9 39 H39" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".7"/></svg>`;
+  const ICON = `<svg viewBox="0 0 48 48" aria-hidden="true"><defs><clipPath id="dcc"><circle cx="24" cy="24" r="22"/></clipPath><radialGradient id="dcbg" cx="50%" cy="38%" r="65%"><stop offset="0" stop-color="#f7e8c8"/><stop offset="1" stop-color="#d9b56e"/></radialGradient></defs><circle cx="24" cy="24" r="22" fill="url(#dcbg)"/><g clip-path="url(#dcc)"><path d="M12.6 25 Q11.6 9.2 24 9.4 Q36.4 9.2 35.4 25 L36.6 37.5 Q33 35.5 30.6 34.6 L29.6 26 L18.4 26 L17.4 34.6 Q15 35.5 11.4 37.5 Z" fill="#3a2418"/><rect x="21.3" y="27" width="5.4" height="9" rx="2" fill="#d6a47a"/><path d="M5 49 C7 39 15 35.2 24 35.2 C33 35.2 41 39 43 49 Z" fill="#7a1f1f"/><path d="M16 36.6 Q24 42 32 36.6" fill="none" stroke="#c9a14a" stroke-width="1.6"/><ellipse cx="24" cy="21.8" rx="7.2" ry="9" fill="#e6bc93"/><path d="M16.7 20 Q17 12.4 24 12.2 Q31 12.4 31.3 20 Q29.3 15.6 24 15.2 Q18.7 15.6 16.7 20 Z" fill="#3a2418"/><path d="M19.2 19.1 Q21.1 18 22.8 18.9 M25.2 18.9 Q26.9 18 28.8 19.1" fill="none" stroke="#3a2418" stroke-width=".95" stroke-linecap="round"/><path d="M19.5 21.3 Q21.2 19.8 22.9 21.3 Q21.2 22.5 19.5 21.3 Z M25.1 21.3 Q26.8 19.8 28.5 21.3 Q26.8 22.5 25.1 21.3 Z" fill="#fbf4e6"/><circle cx="21.2" cy="21.2" r=".95" fill="#2a1a10"/><circle cx="26.8" cy="21.2" r=".95" fill="#2a1a10"/><path d="M24 21.6 L23.2 25 Q24 25.6 24.8 25" fill="none" stroke="#a8714c" stroke-width=".7" stroke-linecap="round"/><path d="M22.3 27.3 Q24 28.3 25.7 27.3" fill="none" stroke="#8e3b2f" stroke-width="1" stroke-linecap="round"/><circle cx="20.3" cy="24.6" r="1.4" fill="#d98a6a" opacity=".22"/><circle cx="27.7" cy="24.6" r="1.4" fill="#d98a6a" opacity=".22"/></g><circle cx="24" cy="24" r="22" fill="none" stroke="#c9a14a" stroke-width="1.8"/></svg>`;
 
   const CSS = `
   :host{all:initial;--ink:#2b1d14;--paper:#fbf7ef;--line:#e6dccb;--red:#7a1f1f;--red2:#5e1616;--gold:#c9a14a;--muted:#6f6254;
@@ -44,7 +44,7 @@
     background:radial-gradient(circle at 35% 30%,#93302a,var(--red) 55%,var(--red2));color:var(--gold);cursor:pointer;
     box-shadow:0 6px 22px rgba(60,20,10,.35);display:grid;place-items:center;padding:0;transition:transform .15s}
   .fab:hover{transform:translateY(-2px)} .fab:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-  .fab svg{width:40px;height:40px}
+  .fab svg{width:54px;height:54px}
   .tip{position:fixed;right:92px;bottom:36px;z-index:2147483000;background:var(--paper);border:1px solid var(--line);border-radius:10px;
     padding:6px 12px;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.12);font-family:Georgia,"Noto Serif",serif;color:var(--red)}
   .panel{position:fixed;right:20px;bottom:96px;z-index:2147483001;width:min(400px,calc(100vw - 32px));height:min(620px,calc(100vh - 120px));
@@ -53,7 +53,7 @@
   .panel[hidden]{display:none}
   header{background:linear-gradient(180deg,var(--red),var(--red2));color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px;
     border-bottom:2px solid var(--gold)}
-  header .mark{width:38px;height:38px;color:var(--gold);flex:none} header .mark svg{width:100%;height:100%}
+  header .mark{width:42px;height:42px;color:var(--gold);flex:none} header .mark svg{width:100%;height:100%}
   header h2{margin:0;font:600 20px/1.1 Georgia,"Noto Serif","Times New Roman",serif;letter-spacing:.02em}
   header p{margin:2px 0 0;font-size:12.5px;opacity:.88}
   header .sp{flex:1}
