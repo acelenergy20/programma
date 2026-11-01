@@ -40,14 +40,14 @@
   :host{all:initial;--ink:#2b1d14;--paper:#fbf7ef;--line:#e6dccb;--red:#7a1f1f;--red2:#5e1616;--gold:#c9a14a;--muted:#6f6254;
     font-family:"Noto Sans","Segoe UI",system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.5;color:var(--ink)}
   *{box-sizing:border-box}
-  .fab{position:fixed;right:20px;bottom:20px;z-index:2147483000;width:62px;height:62px;border-radius:50%;border:2px solid var(--gold);
+  .fab{position:fixed;right:20px;bottom:20px;z-index:2147483000;width:78px;height:78px;border-radius:50%;border:2px solid var(--gold);
     background:radial-gradient(circle at 35% 30%,#93302a,var(--red) 55%,var(--red2));color:var(--gold);cursor:pointer;
     box-shadow:0 6px 22px rgba(60,20,10,.35);display:grid;place-items:center;padding:0;transition:transform .15s}
   .fab:hover{transform:translateY(-2px)} .fab:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-  .fab svg{width:54px;height:54px}
-  .tip{position:fixed;right:92px;bottom:36px;z-index:2147483000;background:var(--paper);border:1px solid var(--line);border-radius:10px;
+  .fab svg{width:70px;height:70px}
+  .tip{position:fixed;right:108px;bottom:44px;z-index:2147483000;background:var(--paper);border:1px solid var(--line);border-radius:10px;
     padding:6px 12px;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.12);font-family:Georgia,"Noto Serif",serif;color:var(--red)}
-  .panel{position:fixed;right:20px;bottom:96px;z-index:2147483001;width:min(400px,calc(100vw - 32px));height:min(620px,calc(100vh - 120px));
+  .panel{position:fixed;right:20px;bottom:110px;z-index:2147483001;width:min(400px,calc(100vw - 32px));height:min(620px,calc(100vh - 120px));
     background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px rgba(40,15,5,.30);
     display:flex;flex-direction:column;overflow:hidden}
   .panel[hidden]{display:none}
