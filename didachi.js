@@ -133,7 +133,9 @@
       this.endpoint = (this.getAttribute('endpoint') || ds.endpoint || 'https://bot.politisk.gr').replace(/\/$/, '');
       this.sitekey = this.getAttribute('turnstile') || ds.turnstile || '';
       const docLang = (document.documentElement.lang || '').slice(0, 2);
-      this.lang = this.getAttribute('lang') || (location.pathname.startsWith('/en/') || docLang === 'en' ? 'en' : 'el');
+      let qLang = ''; try { qLang = (new URLSearchParams(location.search).get('lang') || '').slice(0, 2).toLowerCase(); } catch (e) {}
+      const want = this.getAttribute('lang') || ds.lang || qLang;
+      this.lang = T[want] ? want : (location.pathname.startsWith('/en/') || docLang === 'en' ? 'en' : 'el');
       this.t = T[this.lang];
       this.key = 'didachi.v1';
       this.state = this.load();
