@@ -369,9 +369,9 @@ const SLOTS=[
  ['echos_a','Ήχος α΄'],['echos_b','Ήχος β΄'],['echos_g','Ήχος γ΄'],['echos_d','Ήχος δ΄'],
  ['echos_pld','Ήχος πλ. δ΄'],['echos_pla','Ήχος πλ. α΄'],['echos_plb','Ήχος πλ. β΄'],['echos_bar','Ήχος βαρύς'],
  ['kampana','Καμπάνα (Ψάλτης 1)'],['simantro','Σήμαντρο (Ψάλτης 2)'],['thymiato','Θυμιατό (Ψάλτης 3)'],['katzion','Κατζίον (Ψάλτης 4)'],
- ['ymnos','Ύμνος έναρξης'],['niki','Ύμνος νίκης']];
+ ['ymnos','Ύμνος εισαγωγής (σε επανάληψη)'],['niki','Ύμνος νίκης']];
 /* ---------- YouTube (μόνο στὸν δικό μας ἱστότοπο, μὲ ὁρατὸ player) ---------- */
-const YT_SLOTS={ ymnos:{id:'RgQUKB4QFBo',loop:true}, echos_a:{id:'8cje8fDwfu8'}, echos_b:{id:'Y-N0TUPHr_U'}, echos_g:{id:'HHDME8ObxJw'} };
+const YT_SLOTS={ echos_a:{id:'8cje8fDwfu8'}, echos_b:{id:'Y-N0TUPHr_U'}, echos_g:{id:'HHDME8ObxJw'} };
 const YTP=(function(){ const ok=/politisk\.gr$/.test(location.hostname); let api=null, pl=null, timer=0, pend=null, curK=null;
  function box(){ let b=document.getElementById('ytbox'); if(b) return b;
    b=document.createElement('div'); b.id='ytbox'; b.innerHTML='<div class="yth"><span id="ytt">Ακρόαση</span><button id="ytx" title="Κλείσιμο">✕</button></div><div id="ytp"></div>'; document.body.appendChild(b);
@@ -387,19 +387,21 @@ const YTP=(function(){ const ok=/politisk\.gr$/.test(location.hostname); let api
 })();
 const AUD=(function(){ const raw={}, buf={}, src={}; let db=null;
  function idb(){ return new Promise(r=>{ try{ const q=indexedDB.open('kyrilleion',1); q.onupgradeneeded=()=>q.result.createObjectStore('a'); q.onsuccess=()=>{db=q.result;r(db)}; q.onerror=()=>r(null);}catch(e){r(null)} }); }
+ let readyRes; const ready=new Promise(r=>readyRes=r);
  async function load(){ await idb();
    for(const [k] of SLOTS){ let ab=null;
      try{ if(db){ ab=await new Promise(r=>{const t=db.transaction('a').objectStore('a').get(k); t.onsuccess=()=>r(t.result||null); t.onerror=()=>r(null);}); if(ab) src[k]='local'; } }catch(e){}
      if(!ab){ try{ const res=await fetch('audio/'+k+'.mp3'); if(res.ok){ ab=await res.arrayBuffer(); src[k]='site'; } }catch(e){} }
      if(ab) raw[k]=ab; }
-   if(window.renderAudio) renderAudio(); }
+   readyRes(); if(window.renderAudio) renderAudio(); }
  async function decode(k){ if(buf[k]) return buf[k]; const a=SND.ac(); if(!a||!raw[k]) return null; try{ buf[k]=await a.decodeAudioData(raw[k].slice(0)); }catch(e){ buf[k]=null; } return buf[k]; }
  let cur={};
- function play(k,vol){ if(!raw[k]){ const L=(SLOTS.find(x=>x[0]===k)||[,''])[1]; return YTP.play(k,L); } if(!SND.on) return false; decode(k).then(b=>{ if(!b) return; const a=SND.ac(); const s=a.createBufferSource(), g=a.createGain(); g.gain.value=vol==null?1:vol; s.buffer=b; s.connect(g).connect(a.destination); s.start(); cur[k]=s; }); return true; }
+ const LOOP={ymnos:true};
+ function play(k,vol){ if(!raw[k]){ const L=(SLOTS.find(x=>x[0]===k)||[,''])[1]; return YTP.play(k,L); } if(!SND.on) return false; decode(k).then(b=>{ if(!b) return; const a=SND.ac(); const s=a.createBufferSource(), g=a.createGain(); g.gain.value=vol==null?1:vol; s.buffer=b; s.loop=!!LOOP[k]; s.connect(g).connect(a.destination); stop(k); s.start(); cur[k]=s; }); return true; }
  function stop(k){ try{ cur[k]&&cur[k].stop(); }catch(e){} }
  async function put(k,file){ const ab=await file.arrayBuffer(); raw[k]=ab; delete buf[k]; src[k]='local'; try{ db&&db.transaction('a','readwrite').objectStore('a').put(ab,k); }catch(e){} }
  function clear(k){ delete raw[k]; delete buf[k]; delete src[k]; try{ db&&db.transaction('a','readwrite').objectStore('a').delete(k); }catch(e){} }
- return {load,play,stop,put,clear,has:k=>!!raw[k],src:k=>src[k]};
+ return {load,play,stop,put,clear,ready:()=>ready,has:k=>!!raw[k],src:k=>src[k]};
 })();
 const SND=(function(){ let ac=null, on=true;
  const ctx=()=>{ if(!ac){ try{ ac=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(ac&&ac.state==='suspended') ac.resume(); return ac; };
@@ -438,7 +440,7 @@ const SND=(function(){ let ac=null, on=true;
   win(){ if(AUD.play('niki',.8)) return; // καμπάνα καὶ θυμιατό
     [0,1.6,3.2].forEach(t=>kampana(t,196,.16)); [0,.8,1.6,2.4].forEach(t=>kampana(t+.4,293.7,.07));
     for(let sw=0;sw<4;sw++) for(let k=0;k<10;k++) tink(.3+sw*.6+k*.035,.05); },
-  start(){ if(AUD.play('ymnos',.5)) return; kampana(0,196,.13); },
+  start(){ kampana(0,196,.13); },
   // ἡ ὑπογραφὴ τοῦ κάθε ψάλτη, διακριτικά (v: ἔνταση)
   sig(i,v){ v=v||1; if(AUD.play(['kampana','simantro','thymiato','katzion'][i],Math.min(1,.45*v))) return; if(i===0){ kampana(0,196,.09*v); }
    else if(i===1){ [[0,1],[.17,0],[.27,0],[.5,1]].forEach(([t,k])=>wood(t,k?360:470,.3*v)); }
@@ -487,7 +489,7 @@ function resolve(ok,cat,kind){
  render();
 }
 document.getElementById('newg').onclick=newGame;
-document.getElementById('sndb').onclick=()=>{ const o=SND.toggle(); document.getElementById('sndb').textContent=o?'🔔 Ήχοι':'🔕 Σίγαση'; };
+document.getElementById('sndb').onclick=()=>{ const o=SND.toggle(); if(!o){ AUD.stop('ymnos'); YTP.stop(); } document.getElementById('sndb').textContent=o?'🔔 Ήχοι':'🔕 Σίγαση'; };
 document.getElementById('np').onchange=newGame;
 
 /* ---------- κάρτες ---------- */
@@ -543,8 +545,8 @@ function introShow(i){ islide=Math.max(0,Math.min(SLIDES.length-1,i));
  document.getElementById('idots').innerHTML=SLIDES.map((_,k)=>`<i class="${k===islide?'on':''}"></i>`).join('');
  document.getElementById('iprev').style.visibility=islide?'visible':'hidden';
  document.getElementById('inext').style.visibility=islide<SLIDES.length-1?'visible':'hidden';
- if(!imusic){ imusic=true; if(!AUD.play('ymnos',.6)) SND.start(); } }
-function introClose(){ document.getElementById('intro').classList.add('hide'); YTP.stop(); }
+ if(!imusic){ imusic=true; SND.unlock(); AUD.ready().then(()=>{ if(document.getElementById('intro').classList.contains('hide')) return; if(!AUD.play('ymnos',.7)) SND.start(); }); } }
+function introClose(){ document.getElementById('intro').classList.add('hide'); YTP.stop(); AUD.stop('ymnos'); }
 function introOpen(){ imusic=false; document.getElementById('intro').classList.remove('hide');
  document.querySelectorAll('#islides .slide').forEach((d,k)=>d.classList.toggle('on',k===0)); islide=0;
  document.getElementById('idots').innerHTML=SLIDES.map((_,k)=>`<i class="${k===0?'on':''}"></i>`).join('');
