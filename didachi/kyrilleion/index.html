@@ -201,6 +201,17 @@ header h1 .sub{font-size:17px;letter-spacing:.02em;color:var(--soft);font-style:
 .opts.tf button{font-size:20px!important}
 .qfoot .jbtn{border-radius:18px!important;border-bottom:5px solid rgba(0,0,0,.3)!important}
 .qfoot .jbtn small{font-family:Georgia,serif;font-weight:normal}
+
+/* σκοτεινά ύφη: τα λευκά πάνελ γίνονται σκούρα, για αναγνώσιμο κείμενο */
+body[data-theme=psif] #v-rules,body[data-theme=psif] #v-audio,body[data-theme=psif] .tcard,body[data-theme=psif] table,body[data-theme=agr] #v-rules,body[data-theme=agr] #v-audio,body[data-theme=agr] .tcard,body[data-theme=agr] table{background:var(--card)!important;color:var(--ink)!important;border-color:var(--gold)!important}
+body[data-theme=psif] #v-rules h3,body[data-theme=psif] #v-audio h3,body[data-theme=agr] #v-rules h3,body[data-theme=agr] #v-audio h3{color:var(--gold)!important}
+body[data-theme=psif] #v-rules p,body[data-theme=psif] #v-rules li,body[data-theme=psif] #v-rules b,body[data-theme=psif] #v-audio td,body[data-theme=psif] table td,body[data-theme=psif] table th,body[data-theme=psif] .tcard div,body[data-theme=agr] #v-rules p,body[data-theme=agr] #v-rules li,body[data-theme=agr] #v-rules b,body[data-theme=agr] #v-audio td,body[data-theme=agr] table td,body[data-theme=agr] table th,body[data-theme=agr] .tcard div{color:var(--ink)}
+body[data-theme=psif] table th,body[data-theme=agr] table th{color:var(--gold)!important}
+body[data-theme=psif] #audtab td[style],body[data-theme=agr] #audtab td[style]{color:#b9c7a8!important}
+
+.setg label{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(128,128,128,.25);font-size:16px}
+.setg label:last-child{border-bottom:0}.setg .btn{min-width:170px;text-align:center}
+#setfab{position:fixed;top:12px;right:14px;z-index:9;font-size:22px!important;padding:6px 12px!important;border-radius:50%!important}
 </style>
 </head>
 <body>
@@ -280,7 +291,7 @@ header h1 .sub{font-size:17px;letter-spacing:.02em;color:var(--soft);font-style:
 
   <div class="foot"><nav><button data-v="game" class="on">Παιχνίδι</button><button data-v="cards">Κάρτες</button><button data-v="stats">Τράπεζα</button><button data-v="rules">Κανόνες</button><button data-v="audio">Ηχητικά</button></nav>
    <div class="legend" id="legend"></div>
-   <div class="ctrl2"><select id="thsel" class="btn" title="Ύφος" style="padding:6px 10px"></select><button class="btn" id="voxb" title="Η Διδαχή διαβάζει δυνατά">🗣 Φωνή</button><button class="btn" id="sndb" title="Ήχοι παιχνιδιού">🔔 Ήχοι</button><button class="btn" id="netb">🌐 Εξ αποστάσεως</button><button class="btn" id="instb" style="display:none">📲 Εγκατάσταση εφαρμογής</button></div>
+   <div class="ctrl2"><button class="btn" id="setb">⚙ Ρυθμίσεις</button></div>
   </div>
 </div>
 
@@ -289,6 +300,15 @@ header h1 .sub{font-size:17px;letter-spacing:.02em;color:var(--soft);font-style:
  <div class="inav"><button class="btn" id="iprev">‹</button><span id="idots"></span><button class="btn pri" id="inext">Επόμενο ›</button></div>
  <button class="iskip" id="iskip">Παράλειψη ›</button>
 </div></div>
+<div class="modal" id="setbox"><div class="qcard" style="max-width:440px"><div class="qhead" style="background:var(--acc)"><span>⚙ Ρυθμίσεις</span><button class="btn" id="setx" style="padding:2px 10px">✕</button></div><div class="qbody setg">
+ <label>Ύφος<select id="thsel" class="btn" style="padding:6px 10px"></select></label>
+ <label>Φωνή της Διδαχής<button class="btn" id="voxb" title="Η Διδαχή διαβάζει δυνατά">🗣 Φωνή</button></label>
+ <label>Ήχοι παιχνιδιού<button class="btn" id="sndb">🔔 Ήχοι</button></label>
+ <label>Παιχνίδι με κωδικό<button class="btn" id="netb">🌐 Εξ αποστάσεως</button></label>
+ <label>Εισαγωγή<button class="btn" id="setintro">▶ Προβολή</button></label>
+ <label id="instrow" style="display:none">Εφαρμογή<button class="btn" id="instb">📲 Εγκατάσταση</button></label>
+</div></div></div>
+<button class="btn" id="setfab" title="Ρυθμίσεις">⚙</button>
 <div class="modal" id="netbox"><div class="qcard" style="max-width:460px"><div class="qhead" style="background:var(--acc)"><span>🌐 Παιχνίδι εξ αποστάσεως</span><button class="btn" id="netx" style="padding:2px 10px">✕</button></div><div class="qbody" id="netbody"></div></div></div>
 <div id="tray"><div id="trayc"><div class="tt">ΑΝΑΒΑΣΗ · ΚΑΤΑΒΑΣΗ</div></div></div>
 <div class="modal" id="lb" onclick="this.classList.remove('show')"><figure style="margin:0;text-align:center;background:var(--card);padding:16px;border-radius:18px;max-width:520px"><img id="lbimg" style="max-width:100%;max-height:70vh;border-radius:12px"><figcaption id="lbcap" style="margin-top:8px;color:#7a1f1f"></figcaption></figure></div>
@@ -785,7 +805,7 @@ document.getElementById('inext').onclick=()=>{ const first=!imusic; document.get
 document.getElementById('iprev').onclick=()=>introShow(islide-1);
 document.getElementById('iskip').onclick=introClose;
 document.getElementById('islides').addEventListener('click',e=>{ if(e.target.id==='ienter') introClose(); });
-document.getElementById('thsel').innerHTML=Object.entries(THEMES).map(([k,t])=>`<option value="${k}">Ύφος: ${t.n}</option>`).join('');
+document.getElementById('thsel').innerHTML=Object.entries(THEMES).map(([k,t])=>`<option value="${k}">${t.n}</option>`).join('');
 document.getElementById('thsel').onchange=e=>applyTheme(e.target.value);
 { let k='psif'; try{k=localStorage.getItem('kyr-theme2')||'psif'}catch(e){} if(!THEMES[k])k='psif'; document.getElementById('thsel').value=k; applyTheme(k); }
 /* PWA: μόνο στὸν δικό μας ἱστότοπο */
@@ -844,6 +864,13 @@ const Tray=(function(){
  }
  return {roll};
 })();
+
+{ const sb=document.getElementById('setbox'), op=()=>sb.classList.add('show'), cl=()=>sb.classList.remove('show');
+  document.getElementById('setb').onclick=op; document.getElementById('setfab').onclick=op; document.getElementById('setx').onclick=cl;
+  sb.addEventListener('click',e=>{ if(e.target===sb) cl(); });
+  document.getElementById('netb').addEventListener('click',cl,true);
+  document.getElementById('setintro').onclick=()=>{ cl(); introOpen(); };
+  const ib=document.getElementById('instb'), ir=document.getElementById('instrow'); new MutationObserver(()=>{ ir.style.display=ib.style.display==='none'?'none':''; }).observe(ib,{attributes:true,attributeFilter:['style']}); }
 </script>
 </body>
 </html>
