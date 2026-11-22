@@ -107,6 +107,21 @@ nav button.on,.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
 #ytbox.show{display:block}
 #ytbox .yth{display:flex;justify-content:space-between;align-items:center;font:13px Georgia,serif;color:#7a1f1f;margin:0 2px 4px}
 #ytbox button{border:0;background:none;color:#7a1f1f;font-size:15px;cursor:pointer}
+#intro{position:fixed;inset:0;z-index:25;background:radial-gradient(circle at 50% 30%,rgba(60,30,10,.55),rgba(20,10,5,.85));display:flex;align-items:center;justify-content:center;padding:14px}
+#intro.hide{display:none}
+#intro .ibox{position:relative;max-width:640px;width:100%;background:linear-gradient(180deg,#fbf6ea,#f1e6cf);border:3px solid #a8843a;border-radius:22px;box-shadow:0 20px 60px rgba(0,0,0,.45);padding:26px 30px 18px;max-height:92vh;overflow:auto}
+#intro h2{margin:6px 0 8px;font-weight:normal;color:#7a1f1f;font-size:30px;text-align:center}
+#intro h4{margin:0;text-align:center;letter-spacing:.16em;color:#a8843a;font-weight:normal;font-size:13px;text-transform:uppercase}
+#intro p,#intro li{font-size:16.5px;line-height:1.6;color:#2b2420}
+#intro .icn{display:block;margin:8px auto 4px;width:150px;height:150px;border-radius:50%;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+#intro .slide{display:none;animation:fadein .5s ease}
+#intro .slide.on{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#intro .inav{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+#idots i{display:inline-block;width:9px;height:9px;border-radius:50%;background:#d9c7a7;margin:0 4px}
+#idots i.on{background:#7a1f1f}
+#intro .iskip{position:absolute;top:12px;right:16px;border:0;background:none;color:#7a5a20;font:14px Georgia,serif;cursor:pointer;text-decoration:underline}
+#intro .enter{display:block;margin:16px auto 0;font-size:18px;padding:10px 26px}
 </style>
 </head>
 <body>
@@ -141,7 +156,7 @@ nav button.on,.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
    <h3 style="color:var(--acc);font-weight:normal">Ηχογραφήσεις</h3>
    <p style="font-size:14px;color:#6b5f55">Για κάθε θέση μπορείτε να φορτώσετε ένα αρχείο mp3 από τον υπολογιστή σας. Φυλάσσεται σε αυτόν τον φυλλομετρητή. Όπου δεν υπάρχει ηχογράφηση, ακούγεται ο συνθετικός ήχος.</p>
    <table id="audtab"></table></section>
-  <section id="v-rules" class="stats" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px 22px 16px">
+  <section id="v-rules" class="stats" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px 22px 16px"><p style="text-align:right;margin:10px 0 0"><button class="btn" onclick="introOpen()">▶ Προβολή εισαγωγής</button></p>
    <h3 style="color:var(--acc);font-weight:normal;margin-bottom:4px">Η νουθεσία του Αγίου</h3>
    <p>Στο κέντρο του τροχού, στο Ίσον, στέκει ο <b>Άγιος Ιερομάρτυς Κύριλλος ΣΤ΄</b>, Πατριάρχης Κωνσταντινουπόλεως. Επί των ημερών του εγκρίθηκε το 1814 η <b>Νέα Μέθοδος</b> των τριών Διδασκάλων. Χάρη σε αυτήν η ψαλτική τέχνη ανανεώθηκε, διδάχθηκε σε όλο το Γένος και έφτασε ζωντανή ως τις μέρες μας.</p>
    <p>Ο Άγιος ευλογεί τους ψάλτες και τους νουθετεί σε ένα πράγμα: <b>να αριστεύσουν στην ψαλτική</b>. Κάθε σωστή απάντηση είναι ένας κόκκος θυμιάματος. Όποιος συμπληρώσει την Οκτώηχο προσφέρει το θυμίαμά του στη <b>μνήμη και στο μαρτύριο</b> του Αγίου, που απαγχονίστηκε στην Αδριανούπολη στις 18 Απριλίου 1821.</p>
@@ -166,6 +181,11 @@ nav button.on,.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
   <p class="ded">Ο τροχός του ταμπλό είναι εμπνευσμένος από τον «Τροχό» της Οκτωήχου στην αναπτυγμένη του μορφή, όπως σώζεται στις Παπαδικές. Στο κέντρο, στο Ίσον, ο Άγιος Κύριλλος ΣΤ΄ ευλογεί τους ψάλτες. Η Νέα Μέθοδος της ψαλτικής εγκρίθηκε το 1814 επί πατριαρχίας του Αγίου Κυρίλλου ΣΤ΄, ο οποίος μαρτύρησε στην Αδριανούπολη στις 18 Απριλίου 1821.</p>
 </div>
 
+<div id="intro"><div class="ibox">
+ <div class="islides" id="islides"></div>
+ <div class="inav"><button class="btn" id="iprev">‹</button><span id="idots"></span><button class="btn pri" id="inext">Επόμενο ›</button></div>
+ <button class="iskip" id="iskip">Παράλειψη ›</button>
+</div></div>
 <div id="tray"><div id="trayc"><div class="tt">ΑΝΑΒΑΣΗ · ΚΑΤΑΒΑΣΗ</div></div></div>
 <div class="modal" id="lb" onclick="this.classList.remove('show')"><figure style="margin:0;text-align:center;background:var(--card);padding:16px;border-radius:18px;max-width:520px"><img id="lbimg" style="max-width:100%;max-height:70vh;border-radius:12px"><figcaption id="lbcap" style="margin-top:8px;color:#7a1f1f"></figcaption></figure></div>
 <div class="modal" id="modal"><div class="qcard"><div class="qhead" id="qhead"></div><div class="qbody"><p class="qtext" id="qtext"></p><div class="opts" id="opts"></div><div class="ans" id="ans"></div></div><div class="qfoot" id="qfoot"></div></div></div>
@@ -306,7 +326,7 @@ let P=[],turn=0,phase='roll',reach=new Set(),lastRoll=0;
 function newGame(){
  const n=+document.getElementById('np').value;
  P=[...Array(n)].map((_,i)=>({label:'Ψάλτης '+(i+1),name:'',pos:HUBID,w:new Set(),col:PCOL[i]}));
- turn=0;phase='roll';reach.clear();render();try{SND.start();}catch(e){} say(`«Ευλόγησον, Δέσποτα!» Όλοι ξεκινούν από το Ίσον. Αρχίζει ο ${nm(P[0])}.`);
+ turn=0;phase='roll';reach.clear();render();try{ if(!window._boot) SND.start(); }catch(e){} say(`«Ευλόγησον, Δέσποτα!» Όλοι ξεκινούν από το Ίσον. Αρχίζει ο ${nm(P[0])}.`);
 }
 function miniWheel(p){ let h='<svg viewBox="0 0 120 120" width="120" height="120">'; for(let i=0;i<8;i++){const a1=-Math.PI/2+(i-.5)*Math.PI/4,a2=a1+Math.PI/4;const x1=60+52*Math.cos(a1),y1=60+52*Math.sin(a1),x2=60+52*Math.cos(a2),y2=60+52*Math.sin(a2);const c=catOf(WCAT[i]).c;h+=`<path d="M60,60L${x1},${y1}A52,52 0 0 1 ${x2},${y2}Z" fill="${p.w.has(i)?c:'#f1e8d8'}" stroke="#5b4630"/>`;const am=-Math.PI/2+i*Math.PI/4;h+=`<text x="${60+36*Math.cos(am)}" y="${60+36*Math.sin(am)}" font-size="9" text-anchor="middle" dominant-baseline="middle" fill="${p.w.has(i)?'#fff':'#7a1f1f'}" font-family="Georgia">${ECHS[i]}</text>`} h+=`<circle cx="60" cy="60" r="56" fill="none" stroke="#5b4630" stroke-width="2"/><circle cx="60" cy="60" r="11" fill="#fbf7ef" stroke="#5b4630"/></svg>`; return h; }
 function render(){
@@ -351,7 +371,7 @@ const SLOTS=[
  ['kampana','Καμπάνα (Ψάλτης 1)'],['simantro','Σήμαντρο (Ψάλτης 2)'],['thymiato','Θυμιατό (Ψάλτης 3)'],['katzion','Κατζίον (Ψάλτης 4)'],
  ['ymnos','Ύμνος έναρξης'],['niki','Ύμνος νίκης']];
 /* ---------- YouTube (μόνο στὸν δικό μας ἱστότοπο, μὲ ὁρατὸ player) ---------- */
-const YT_SLOTS={ echos_a:{id:'8cje8fDwfu8'}, echos_b:{id:'Y-N0TUPHr_U'}, echos_g:{id:'HHDME8ObxJw'} };
+const YT_SLOTS={ ymnos:{id:'RgQUKB4QFBo',dur:900}, echos_a:{id:'8cje8fDwfu8'}, echos_b:{id:'Y-N0TUPHr_U'}, echos_g:{id:'HHDME8ObxJw'} };
 const YTP=(function(){ const ok=/politisk\.gr$/.test(location.hostname); let api=null, pl=null, timer=0, pend=null;
  function box(){ let b=document.getElementById('ytbox'); if(b) return b;
    b=document.createElement('div'); b.id='ytbox'; b.innerHTML='<div class="yth"><span id="ytt">Ακρόαση</span><button id="ytx" title="Κλείσιμο">✕</button></div><div id="ytp"></div>'; document.body.appendChild(b);
@@ -497,7 +517,45 @@ window.renderAudio=function(){ const t=document.getElementById('audtab'); if(!t)
  t.querySelectorAll('input[type=file]').forEach(i=>i.onchange=async()=>{ if(i.files[0]){ await AUD.put(i.dataset.k,i.files[0]); renderAudio(); } });
  t.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>{ const k=b.dataset.play; if(!AUD.play(k,1)){ const i=['kampana','simantro','thymiato','katzion'].indexOf(k); if(i>=0) SND.sig(i,1.2); else if(k==='ymnos') SND.start(); else if(k==='niki') SND.win(); else { SND.sig(0,1); } } });
  t.querySelectorAll('[data-clr]').forEach(b=>b.onclick=()=>{ AUD.clear(b.dataset.clr); renderAudio(); }); };
-drawBoard(); newGame(); buildCards(); renderAudio(); AUD.load();
+/* ---------- εἰσαγωγή: διαφάνειες καὶ καλωσόρισμα ---------- */
+const SLIDES=[
+ `<h4>Διδαχή · παιχνίδι γνώσεων της ψαλτικής</h4><h2>Κυρίλλειον</h2><img class="icn" src="${ICON}" alt="">
+  <p>Το παιχνίδι είναι αφιερωμένο στη μνήμη του <b>Αγίου Ιερομάρτυρος Κυρίλλου ΣΤ΄</b>, Πατριάρχου Κωνσταντινουπόλεως. Επί των ημερών του εγκρίθηκε το 1814 η <b>Νέα Μέθοδος</b> των τριών Διδασκάλων, Χρυσάνθου, Γρηγορίου και Χουρμουζίου. Χάρη σε αυτήν η ψαλτική τέχνη ανανεώθηκε και έφτασε ζωντανή ως τις μέρες μας.</p>
+  <p>Μαρτύρησε στην Αδριανούπολη στις 18 Απριλίου 1821, όπως και ο Πατριάρχης Γρηγόριος Ε΄, επειδή θεωρήθηκε ότι μετείχε στη Φιλική Εταιρεία και ενίσχυε τους επαναστατημένους Έλληνες. Το παιχνίδι φέρει το όνομά του: κάθε σωστή απάντηση είναι ένας κόκκος θυμιάματος στη μνήμη του.</p>`,
+ `<h4>Ο στόχος</h4><h2>Να αριστεύσετε στην ψαλτική</h2>
+  <p>Στο κέντρο του τροχού, στο <b>Ίσον</b>, ο Άγιος ευλογεί τους ψάλτες και τους νουθετεί να αριστεύσουν.</p>
+  <p>Στόχος κάθε ψάλτη είναι να συμπληρώσει την <b>Οκτώηχο</b>: να ανάψει και τους οκτώ ήχους στο <b>θυμιατό</b> του και να επιστρέψει στο Ίσον, για να προσφέρει το θυμίαμά του στη μνήμη και στο μαρτύριο του Αγίου.</p>`,
+ `<h4>Ο τροχός</h4><h2>Ανάβαση και κατάβαση</h2>
+  <ul><li>Όλοι ξεκινούν από το Ίσον: «Ευλόγησον, Δέσποτα!».</li>
+  <li>Ρίχνετε δύο ζάρια με χαρακτήρες ποσότητας. Το <b>μπλε</b> σάς ανεβάζει δεξιόστροφα, το <b>κόκκινο</b> σάς κατεβάζει αριστερόστροφα. Διαλέγετε ένα από τα δύο.</li>
+  <li>Κάθε ήχος ανοίγει <b>δύο πεντάχορδα</b>: ένα στην περιφέρεια και ένα στην ακτίνα του προς το Ίσον, με την ίδια διαδοχή χρωμάτων και μαρτυριών.</li>
+  <li>Κάθε ψάλτης έχει το χρώμα και το όργανό του: <b>καμπάνα, σήμαντρο, θυμιατό, κατζίον</b>.</li></ul>`,
+ `<h4>Οι ερωτήσεις</h4><h2>«Άξιος!»</h2>
+  <ul><li>Σε όποια θέση σταθείτε, απαντάτε σε ερώτηση του πεδίου της: Θεωρία, Ορθογραφία, Τυπικό, Υμνολογία, Ιστορία, Αρμονικά.</li>
+  <li><b>Σωστά:</b> «Άξιος!» και ξαναρίχνετε. <b>Λάθος:</b> ο λόγος περνά στον άλλο χορό.</li>
+  <li>Στη <b>θέση ενός ήχου</b>, δηλαδή στο εξωτερικό τετράγωνο κάθε ακτίνας, η σωστή απάντηση ανάβει τον ήχο στο θυμιατό σας.</li></ul>`,
+ `<h4>Το τέλος</h4><h2>Το θυμίαμα στο Ίσον</h2>
+  <p>Όταν ανάψουν και οι οκτώ ήχοι, επιστρέφετε στο Ίσον και απαντάτε στην <b>τελική ερώτηση</b>. Με τη σωστή απάντηση το θυμίαμά σας ανεβαίνει στη μνήμη του Αγίου και αναδεικνύεστε <b>Πρωτοψάλτης της παρτίδας</b>.</p>
+  <button class="btn pri enter" id="ienter">Ας αρχίσουμε</button>`];
+let islide=0, imusic=false;
+function introShow(i){ islide=Math.max(0,Math.min(SLIDES.length-1,i));
+ document.querySelectorAll('#islides .slide').forEach((d,k)=>d.classList.toggle('on',k===islide));
+ document.getElementById('idots').innerHTML=SLIDES.map((_,k)=>`<i class="${k===islide?'on':''}"></i>`).join('');
+ document.getElementById('iprev').style.visibility=islide?'visible':'hidden';
+ document.getElementById('inext').style.visibility=islide<SLIDES.length-1?'visible':'hidden';
+ if(!imusic){ imusic=true; if(!AUD.play('ymnos',.6)) SND.start(); } }
+function introClose(){ document.getElementById('intro').classList.add('hide'); YTP.stop(); }
+function introOpen(){ imusic=false; document.getElementById('intro').classList.remove('hide');
+ document.querySelectorAll('#islides .slide').forEach((d,k)=>d.classList.toggle('on',k===0)); islide=0;
+ document.getElementById('idots').innerHTML=SLIDES.map((_,k)=>`<i class="${k===0?'on':''}"></i>`).join('');
+ document.getElementById('iprev').style.visibility='hidden'; document.getElementById('inext').style.visibility='visible';
+ document.getElementById('inext').textContent='▶ Είσοδος'; }
+document.getElementById('islides').innerHTML=SLIDES.map(h=>`<div class="slide">${h}</div>`).join('');
+document.getElementById('inext').onclick=()=>{ const first=!imusic; document.getElementById('inext').textContent='Επόμενο ›'; introShow(first?Math.max(islide,0)+(first&&islide===0?0:1):islide+1); if(first&&islide===0) introShow(1); };
+document.getElementById('iprev').onclick=()=>introShow(islide-1);
+document.getElementById('iskip').onclick=introClose;
+document.getElementById('islides').addEventListener('click',e=>{ if(e.target.id==='ienter') introClose(); });
+drawBoard(); window._boot=1; newGame(); window._boot=0; buildCards(); renderAudio(); AUD.load(); introOpen();
 </script>
 <script>/* ---------- τρισδιάστατη ρίψη των ζαριών (three.js + cannon.js) ---------- */
 const Tray=(function(){
