@@ -342,7 +342,7 @@ function drawBoard(){
  ECHOI.forEach((e,i)=>{ const a=nodes[spokeStart[i]].a-HW+Math.PI/8; const [x,y]=pol(432,a); let deg=a*180/Math.PI+90; if(Math.sin(a)>0.2) deg+=180; h+=`<text x="${x}" y="${y}" font-family="Georgia" font-size="15" fill="${TH.label}" text-anchor="middle" dominant-baseline="middle" transform="rotate(${deg} ${x} ${y})">${e}</text>`;
    const b=nodes[spokeStart[i]].a-HW; const [lx1,ly1]=pol(R2,b),[lx2,ly2]=pol(440,b); h+=`<line x1="${lx1}" y1="${ly1}" x2="${lx2}" y2="${ly2}" stroke="${TH.line}" stroke-width="2"/>`; });
  // διακοσμητικοί ομόκεντροι κύκλοι, όπως στον τροχό του χειρογράφου
- h+=`<defs><clipPath id="astc"><circle cx="${CX}" cy="${CY}" r="${R1-2}"/></clipPath></defs><image href="${AST}" x="${CX-R1*1.3-73}" y="${CY-R1*1.3-72}" width="${2.6*R1}" height="${2.6*R1}" clip-path="url(#astc)" opacity="${TH.ast}" pointer-events="none"/>`;
+ h+=`<defs><clipPath id="astc"><circle cx="${CX}" cy="${CY}" r="${R1-2}"/></clipPath></defs><image href="${AST}" x="${CX-R1*1.3-62}" y="${CY-R1*1.3-92}" width="${2.6*R1}" height="${2.6*R1}" clip-path="url(#astc)" opacity="${TH.ast}" pointer-events="none"/>`;
  [R1-12].forEach(r=>h+=`<circle cx="${CX}" cy="${CY}" r="${r}" fill="none" stroke="${TH.deco}" stroke-width="1.2"/>`);
  // εικόνες σε ολόκληρο τον τομέα (κάτω από τα κελιά), με απαλό σβήσιμο στα όρια
  { const T=Math.PI/8, R0=HUB-4, RO=428; const p=(r,t)=>`${(r*Math.sin(t)).toFixed(1)},${(-r*Math.cos(t)).toFixed(1)}`;
