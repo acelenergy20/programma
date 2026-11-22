@@ -26,7 +26,7 @@ nav button.on,.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
 #pL,#pR{display:none}
 
 .boardbox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px}
-#board{width:100%;height:auto;display:block}
+#board{width:100%;height:auto;display:block;overflow:visible}
 .cell{cursor:default;transition:opacity .2s}
 .cell.reach{cursor:pointer;stroke:#000;stroke-width:3}
 .player{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;margin-bottom:12px;text-align:center}
@@ -282,6 +282,17 @@ nav{display:none!important}
  .pslot .pz,.pslot .instr{display:none}.pslot h3{font-size:14px!important}.pslot .pname{font-size:12px;width:92%}
  .pslot .player>div:last-child{font-size:11px!important}
  header h1{font-size:28px}header .sub{display:block;font-size:14px}header{padding-left:86px!important;padding-right:86px!important}#setfab,#inffab{top:6px;font-size:18px!important;padding:4px 9px!important}#inffab{right:58px}}
+
+/* μεγέθυνση τροχού μετά τη ρίψη */
+body.zoom::after{content:'';position:fixed;inset:0;background:radial-gradient(circle,rgba(5,10,24,.55),rgba(5,10,24,.92));z-index:30;animation:sfade .5s both}
+body.zoom .wrap{z-index:35}
+body.zoom #board{animation:zin 1s cubic-bezier(.2,.8,.25,1) both;position:relative;z-index:36}
+body.zoomout #board{animation:zout .6s ease-in-out both}
+@keyframes zin{from{transform:rotateX(16deg) rotate(-330deg) scale(.9)}to{transform:translate(var(--zx),var(--zy)) rotateX(0) rotate(0) scale(var(--zs))}}
+@keyframes zout{from{transform:translate(var(--zx),var(--zy)) scale(var(--zs))}to{transform:rotateX(16deg)}}
+body.zoom .pslot,body.zoom .dtop,body.zoom #v-game .ctrl:not(.dtop),body.zoom .msg{opacity:0;pointer-events:none;transition:opacity .3s}
+#zhint{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:40;color:#f7e08f;font-size:16px;background:rgba(0,0,0,.45);padding:6px 16px;border-radius:20px;display:none}
+body.zoom #zhint{display:block}
 </style>
 </head>
 <body>
@@ -379,6 +390,7 @@ nav{display:none!important}
  <label>Ύφος<select id="thsel" class="btn" style="padding:6px 10px"></select></label>
  <label>Γραμματοσειρά κουμπιών<select id="bfsel" class="btn" style="padding:6px 10px"><option value="round">Στρογγυλή (Comfortaa)</option><option value="byz">Βυζαντινή (Caudex)</option><option value="hell">Κλασική ελληνική (GFS Neohellenic)</option><option value="clean">Καθαρή (Commissioner)</option><option value="digi">Ψηφιακή (Play)</option></select></label>
  <label>Σχήμα κουμπιών<select id="bssel" class="btn" style="padding:6px 10px"><option value="candy">Καραμέλα (ανάγλυφο)</option><option value="tile">Ψηφίδα (χρυσό πλαίσιο)</option><option value="seal">Σφραγίδα (διπλό πλαίσιο)</option><option value="pill">Κάψουλα (επίπεδο)</option></select></label>
+ <label>Μεγέθυνση τροχού στη ρίψη<button class="btn" id="zoomb">🔍 Ναι</button></label>
  <label>Φωνή της Διδαχής<button class="btn" id="voxb" title="Η Διδαχή διαβάζει δυνατά">🗣 Φωνή</button></label>
  <label>Ήχοι παιχνιδιού<button class="btn" id="sndb">🔔 Ήχοι</button></label>
  <label>Παιχνίδι με κωδικό<button class="btn" id="netb">🌐 Εξ αποστάσεως</button></label>
@@ -386,7 +398,7 @@ nav{display:none!important}
  <label id="instrow" style="display:none">Εφαρμογή<button class="btn" id="instb">📲 Εγκατάσταση</button></label>
 </div></div></div>
 <button class="btn" id="setfab" title="Ρυθμίσεις">⚙</button><button class="btn" id="inffab" title="Πληροφορίες">ⓘ</button>
-<button class="btn pri" id="backg" style="display:none">← Στο παιχνίδι</button>
+<div id="zhint">Διαλέξτε θέση · πατήστε έξω από τον τροχό για σμίκρυνση</div><button class="btn pri" id="backg" style="display:none">← Στο παιχνίδι</button>
 <div class="modal" id="infbox"><div class="qcard" style="max-width:460px"><div class="qhead" style="background:var(--acc)"><span>ⓘ Πληροφορίες</span><button class="btn" id="infx" style="padding:2px 10px">✕</button></div><div class="qbody setg">
  <label>Κάρτες ερωτήσεων<button class="btn" data-go="cards">📇 Κάρτες</button></label>
  <label>Τράπεζα ερωτήσεων<button class="btn" data-go="stats">📊 Τράπεζα</button></label>
@@ -585,7 +597,7 @@ function render(){
    else { x=n.x+side*22; y=n.y-HUB-24; ang=0; }
    return `<g class="arw" data-c="${id}" transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${ang.toFixed(1)})"><g class="bob"><path d="M-13,-22 L13,-22 L13,-4 L22,-4 L0,18 L-22,-4 L-13,-4 Z" fill="${col}" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></g></g>`; };
  if(phase==='move') reach.forEach(id=>{ const b=reachB.has(id), r=reachR.has(id); if(b) t+=arrow(id,'#1f5fc4',b&&r?-1:0); if(r) t+=arrow(id,'#c42626',b&&r?1:0); });
- document.getElementById('tokens').innerHTML=t;
+ document.getElementById('tokens').innerHTML=t; try{ if(phase==='move'&&reach.size) setTimeout(()=>ZOOM.inn(),30); else ZOOM.out(); }catch(e){}
  document.querySelectorAll('#tokens .arw').forEach(g=>g.onclick=ev=>{ ev.stopPropagation(); onCell(+g.dataset.c); });
  document.querySelectorAll('#tokens .pawn').forEach(g=>g.onclick=ev=>{ev.stopPropagation();const i=+g.dataset.p;lifted=(lifted===i?-1:i);const c=+g.dataset.c;render();if(phase==='move'&&reach.has(c))onCell(c);});
 }
@@ -899,6 +911,19 @@ let deferredInstall=null; window.addEventListener('beforeinstallprompt',e=>{ e.p
 document.getElementById('instb').onclick=async()=>{ if(!deferredInstall) return; deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall=null; document.getElementById('instb').style.display='none'; };
 drawBoard(); window._boot=1; newGame(); window._boot=0; buildCards(); renderAudio(); AUD.load(); document.getElementById('intro').classList.add('hide'); if(NET.hasLink()){ document.getElementById('splash').style.display='none'; NET.open(); } else setTimeout(()=>SPLASH.open(),0);
 
+
+/* μεγέθυνση τροχού */
+const ZOOM=(function(){ let on=false, en=true; try{ en=localStorage.getItem('kyr-zoom')!=='0'; }catch(e){}
+ const zb=document.getElementById('zoomb'); const lab=()=>zb.textContent=en?'🔍 Ναι':'🔍 Όχι'; lab();
+ zb.onclick=()=>{ en=!en; try{localStorage.setItem('kyr-zoom',en?'1':'0')}catch(e){} lab(); if(!en) out(); };
+ function inn(){ if(on||!en) return; const bd=document.getElementById('board'); if(!bd||bd.offsetParent===null) return; on=true;
+   const r=bd.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, Z=Math.min(innerWidth*.98,innerHeight*.96)/r.width;
+   const R=document.documentElement.style; R.setProperty('--zx',(innerWidth/2-cx).toFixed(1)+'px'); R.setProperty('--zy',(innerHeight/2-cy).toFixed(1)+'px'); R.setProperty('--zs',Math.max(1,Z).toFixed(3));
+   document.body.classList.remove('zoomout'); document.body.classList.add('zoom'); }
+ function out(){ if(!on) return; on=false; document.body.classList.remove('zoom'); document.body.classList.add('zoomout'); setTimeout(()=>document.body.classList.remove('zoomout'),650); }
+ document.addEventListener('click',e=>{ if(on&&!e.target.closest('#board')&&!e.target.closest('.modal')) out(); });
+ return {inn,out,get on(){return on}};
+})();
 /* πληροφορίες, επιστροφή, προσαρμογή οθόνης */
 { const ib=document.getElementById('infbox'), op=()=>ib.classList.add('show'), cl=()=>ib.classList.remove('show');
   document.getElementById('infb').onclick=op; document.getElementById('inffab').onclick=op; document.getElementById('infx').onclick=cl;
