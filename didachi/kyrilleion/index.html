@@ -4,7 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Κυρίλλειον: παιχνίδι γνώσεων ψαλτικής, στη μνήμη του Αγίου Ιερομάρτυρος Κυρίλλου ΣΤ΄. Μέρος της Διδαχής.">
-<link rel="icon" href="/logo-small.png">
+<meta name="theme-color" content="#0d1b36">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Κυρίλλειον">
 <title>Κυρίλλειον · Παιχνίδι γνώσεων της Ψαλτικής</title>
 <style>
 :root{--bg:#f4efe6;--card:#fbf7ef;--line:#e6dccb;--ink:#2b2420;--soft:#6b5f55;--acc:#7a1f1f;--gold:#a8843a}
@@ -233,7 +237,7 @@ header h1 .sub{font-size:17px;letter-spacing:.02em;color:var(--soft);font-style:
 
   <div class="foot"><nav><button data-v="game" class="on">Παιχνίδι</button><button data-v="cards">Κάρτες</button><button data-v="stats">Τράπεζα</button><button data-v="rules">Κανόνες</button><button data-v="audio">Ηχητικά</button></nav>
    <div class="legend" id="legend"></div>
-   <div class="ctrl2"><select id="thsel" class="btn" title="Ύφος" style="padding:6px 10px"></select><button class="btn" id="voxb" title="Η Διδαχή διαβάζει δυνατά">🗣 Φωνή</button><button class="btn" id="sndb" title="Ήχοι παιχνιδιού">🔔 Ήχοι</button></div>
+   <div class="ctrl2"><select id="thsel" class="btn" title="Ύφος" style="padding:6px 10px"></select><button class="btn" id="voxb" title="Η Διδαχή διαβάζει δυνατά">🗣 Φωνή</button><button class="btn" id="sndb" title="Ήχοι παιχνιδιού">🔔 Ήχοι</button><button class="btn" id="instb" style="display:none">📲 Εγκατάσταση εφαρμογής</button></div>
   </div>
 </div>
 
@@ -644,6 +648,10 @@ document.getElementById('islides').addEventListener('click',e=>{ if(e.target.id=
 document.getElementById('thsel').innerHTML=Object.entries(THEMES).map(([k,t])=>`<option value="${k}">Ύφος: ${t.n}</option>`).join('');
 document.getElementById('thsel').onchange=e=>applyTheme(e.target.value);
 { let k='psif'; try{k=localStorage.getItem('kyr-theme2')||'psif'}catch(e){} if(!THEMES[k])k='psif'; document.getElementById('thsel').value=k; applyTheme(k); }
+/* PWA: μόνο στὸν δικό μας ἱστότοπο */
+if('serviceWorker' in navigator && /politisk\.gr$/.test(location.hostname)){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+let deferredInstall=null; window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredInstall=e; document.getElementById('instb').style.display='inline-block'; });
+document.getElementById('instb').onclick=async()=>{ if(!deferredInstall) return; deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall=null; document.getElementById('instb').style.display='none'; };
 drawBoard(); window._boot=1; newGame(); window._boot=0; buildCards(); renderAudio(); AUD.load(); introOpen();
 </script>
 <script>/* ---------- τρισδιάστατη ρίψη των ζαριών (three.js + cannon.js) ---------- */

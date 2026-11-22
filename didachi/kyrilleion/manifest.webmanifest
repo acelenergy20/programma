@@ -1,0 +1,36 @@
+{
+ "name": "Κυρίλλειον · παιχνίδι γνώσεων ψαλτικής",
+ "short_name": "Κυρίλλειον",
+ "description": "Παιχνίδι γνώσεων της ψαλτικής, στη μνήμη του Αγίου Κυρίλλου ΣΤ΄. Διδαχή.",
+ "lang": "el",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#0d1b36",
+ "theme_color": "#0d1b36",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  },
+  {
+   "src": "maskable-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
