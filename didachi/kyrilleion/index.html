@@ -49,8 +49,10 @@ nav button.on,.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
 .opts{display:grid;gap:8px;margin:10px 0}
 .opts button{text-align:left;font:16px Georgia,serif;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px;cursor:pointer}
 .opts button:disabled{opacity:1;color:#2b2420;cursor:default}.opts.tf{display:flex;gap:10px}.opts.tf button{flex:1;text-align:center;font-size:20px;padding:14px;font-weight:bold}
-.opts button.ok{background:#e3f1df;border-color:#4b8b3b}
-.opts button.no{background:#f6e0dc;border-color:#a33}
+.opts.done button{pointer-events:none;color:#5c544e!important;-webkit-text-fill-color:#5c544e;opacity:1}
+.opts.done button.ok{background:#2f7d32!important;border-color:#1f5a22;color:#fff!important;-webkit-text-fill-color:#fff;font-weight:bold;font-size:18px;box-shadow:0 0 0 3px rgba(47,125,50,.35)}
+.opts.done button.no{background:#b3261e!important;border-color:#7d1a14;color:#fff!important;-webkit-text-fill-color:#fff;font-weight:bold}
+.opts button{color:#2b2420;-webkit-text-fill-color:#2b2420}
 .ans{display:none;background:#fff;border-left:4px solid var(--gold);padding:10px 12px;border-radius:6px;margin-top:8px}
 .ans small{color:#6b5f55}
 .ans,.ans *:not(small){color:#2b2420!important}.ans b,.ans strong{color:#7a1f1f!important;font-size:1.08em}
@@ -667,7 +669,7 @@ function ask(cat,kind,given){
  const foot=document.getElementById('qfoot');
  const finish=(ok,remote)=>{ if(!remote) NET.send('fin',{ok}); m.classList.remove('show'); resolve(ok,cat,kind); };
  window._fin=ok=>finish(ok,true);
- o.classList.toggle('tf',!!(OPTS&&OPTS.length===2&&OPTS[0]==='Σωστό')); if(q.o){ OPTS.forEach((t,ix)=>{const b=document.createElement('button');b.textContent='ΑΒΓΔ'[ix]+'. '+t;b.dataset.v=t;b.onclick=(ev,remote)=>{ if(!remote){ if(!live) return; NET.send('pick',{v:t}); } o.querySelectorAll('button').forEach(x=>{x.disabled=true;if(x.dataset.v===q.a)x.classList.add('ok')}); if(t!==q.a)b.classList.add('no'); ans.style.display='block'; VOX.speak((t===q.a?'Σωστά. ':'Η σωστή απάντηση είναι: '+q.a+'. ')+(q.ex||'')); foot.innerHTML=''; if(live){ const nb=document.createElement('button');nb.className='btn pri';nb.textContent='Συνέχεια';nb.onclick=()=>finish(t===q.a);foot.appendChild(nb); } else foot.innerHTML='<span style="font-size:14px;opacity:.8">Συνεχίζει ο ψάλτης που παίζει…</span>'; };o.appendChild(b)});
+ o.classList.toggle('tf',!!(OPTS&&OPTS.length===2&&OPTS[0]==='Σωστό')); if(q.o){ OPTS.forEach((t,ix)=>{const b=document.createElement('button');b.textContent='ΑΒΓΔ'[ix]+'. '+t;b.dataset.v=t;b.onclick=(ev,remote)=>{ if(!remote){ if(!live) return; NET.send('pick',{v:t}); } o.classList.add('done'); o.querySelectorAll('button').forEach(x=>{x.onclick=null; if(x.dataset.v===q.a){x.classList.add('ok');x.textContent='✓ '+x.textContent;} }); if(t!==q.a){b.classList.add('no');b.textContent='✗ '+b.textContent;} ans.style.display='block'; VOX.speak((t===q.a?'Σωστά. ':'Η σωστή απάντηση είναι: '+q.a+'. ')+(q.ex||'')); foot.innerHTML=''; if(live){ const nb=document.createElement('button');nb.className='btn pri';nb.textContent='Συνέχεια';nb.onclick=()=>finish(t===q.a);foot.appendChild(nb); } else foot.innerHTML='<span style="font-size:14px;opacity:.8">Συνεχίζει ο ψάλτης που παίζει…</span>'; };o.appendChild(b)});
    window._pick=v=>{ const b=[...o.querySelectorAll('button')].find(x=>x.dataset.v===v); if(b) b.onclick(null,true); };
    foot.innerHTML=live?'<span style="color:#6b5f55;font-size:14px;margin-right:auto">Διαλέξτε απάντηση</span>':'<span style="font-size:14px;opacity:.8">Απαντά ο '+nm(P[turn])+'…</span>'; }
  else { foot.innerHTML=''; const r=document.createElement('button');r.className='btn pri jbig';r.textContent='👁 Δείξε τη σωστή απάντηση';r.onclick=(ev,remote)=>{ if(!remote) NET.send('reveal',{}); ans.style.display='block';foot.innerHTML=''; if(!live){ foot.innerHTML='<span style="font-size:14px;opacity:.8">Κρίνει ο '+nm(P[turn])+'…</span>'; return; } VOX.speak('Η σωστή απάντηση: '+q.a+'. Συμφωνεί με τη δική σας; Πατήστε Ναι ή Όχι.');
