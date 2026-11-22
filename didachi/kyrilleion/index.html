@@ -371,18 +371,18 @@ const SLOTS=[
  ['kampana','Καμπάνα (Ψάλτης 1)'],['simantro','Σήμαντρο (Ψάλτης 2)'],['thymiato','Θυμιατό (Ψάλτης 3)'],['katzion','Κατζίον (Ψάλτης 4)'],
  ['ymnos','Ύμνος έναρξης'],['niki','Ύμνος νίκης']];
 /* ---------- YouTube (μόνο στὸν δικό μας ἱστότοπο, μὲ ὁρατὸ player) ---------- */
-const YT_SLOTS={ ymnos:{id:'RgQUKB4QFBo',dur:900}, echos_a:{id:'8cje8fDwfu8'}, echos_b:{id:'Y-N0TUPHr_U'}, echos_g:{id:'HHDME8ObxJw'} };
-const YTP=(function(){ const ok=/politisk\.gr$/.test(location.hostname); let api=null, pl=null, timer=0, pend=null;
+const YT_SLOTS={ ymnos:{id:'RgQUKB4QFBo',loop:true}, echos_a:{id:'8cje8fDwfu8'}, echos_b:{id:'Y-N0TUPHr_U'}, echos_g:{id:'HHDME8ObxJw'} };
+const YTP=(function(){ const ok=/politisk\.gr$/.test(location.hostname); let api=null, pl=null, timer=0, pend=null, curK=null;
  function box(){ let b=document.getElementById('ytbox'); if(b) return b;
    b=document.createElement('div'); b.id='ytbox'; b.innerHTML='<div class="yth"><span id="ytt">Ακρόαση</span><button id="ytx" title="Κλείσιμο">✕</button></div><div id="ytp"></div>'; document.body.appendChild(b);
    document.getElementById('ytx').onclick=stop; return b; }
  function loadApi(){ if(api) return api; api=new Promise(r=>{ window.onYouTubeIframeAPIReady=()=>r(); const sc=document.createElement('script'); sc.src='https://www.youtube.com/iframe_api'; document.head.appendChild(sc); }); return api; }
- function stop(){ clearTimeout(timer); try{ pl&&pl.stopVideo(); }catch(e){} const b=document.getElementById('ytbox'); if(b) b.classList.remove('show'); }
- function play(k,label){ const s=YT_SLOTS[k]; if(!ok||!s||!SND.on) return false; const b=box(); b.classList.add('show'); document.getElementById('ytt').textContent=label||'Ακρόαση';
+ function stop(){ clearTimeout(timer); curK=null; try{ pl&&pl.stopVideo(); }catch(e){} const b=document.getElementById('ytbox'); if(b) b.classList.remove('show'); }
+ function play(k,label){ const s=YT_SLOTS[k]; if(!ok||!s||!SND.on) return false; curK=k; const b=box(); b.classList.add('show'); document.getElementById('ytt').textContent=label||'Ακρόαση';
    loadApi().then(()=>{ const args={videoId:s.id,startSeconds:s.start||0}; if(s.end) args.endSeconds=s.end;
-     if(!pl){ pl=new YT.Player('ytp',{width:240,height:135,videoId:s.id,playerVars:{autoplay:1,start:s.start||0,rel:0,modestbranding:1,playsinline:1},events:{onReady:e=>{e.target.setVolume(70);e.target.playVideo();}}}); }
+     if(!pl){ pl=new YT.Player('ytp',{width:240,height:135,videoId:s.id,playerVars:{autoplay:1,start:s.start||0,rel:0,modestbranding:1,playsinline:1},events:{onReady:e=>{e.target.setVolume(70);e.target.playVideo();}, onStateChange:e=>{ const c=YT_SLOTS[curK]; if(e.data===0&&c&&c.loop){ pl.seekTo(c.start||0,true); pl.playVideo(); } }}}); }
      else pl.loadVideoById(args); });
-   clearTimeout(timer); timer=setTimeout(stop,(s.dur||40)*1000); return true; }
+   clearTimeout(timer); if(!s.loop) timer=setTimeout(stop,(s.dur||40)*1000); return true; }
  return {play,stop,ok:()=>ok,has:k=>ok&&!!YT_SLOTS[k]};
 })();
 const AUD=(function(){ const raw={}, buf={}, src={}; let db=null;
