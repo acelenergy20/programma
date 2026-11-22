@@ -231,6 +231,41 @@ body[data-bshape=tile] .btn,body[data-bshape=tile] nav button,body[data-bshape=t
 body[data-bshape=pill] .btn,body[data-bshape=pill] nav button,body[data-bshape=pill] .opts button,body[data-bshape=pill] .qfoot .jbtn{border-radius:999px!important;border:1.5px solid rgba(128,128,128,.45)!important;border-bottom-width:1.5px!important;box-shadow:none!important;background-image:none!important}
 body[data-bshape=seal] .btn,body[data-bshape=seal] nav button,body[data-bshape=seal] .opts button,body[data-bshape=seal] .qfoot .jbtn{border-radius:12px!important;border:3px double var(--gold,#a8843a)!important;border-bottom-width:3px!important;box-shadow:0 0 0 2px rgba(0,0,0,.25),0 4px 10px rgba(0,0,0,.3)!important}
 body[data-bshape=tile] .btn:active,body[data-bshape=pill] .btn:active,body[data-bshape=seal] .btn:active{transform:scale(.96)}
+
+/* ---------- σκηνή έναρξης ---------- */
+#splash{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;
+  background:radial-gradient(ellipse at 50% 40%,#1d3a72 0%,#0b1630 60%,#050a18 100%);transition:opacity 1s ease}
+#splash.out{opacity:0;pointer-events:none}
+#splash .sframe{position:relative;padding:34px 54px 26px;text-align:center;border:3px solid #d9b45a;border-radius:6px;
+  outline:1px solid rgba(217,180,90,.55);outline-offset:9px;box-shadow:0 0 0 18px rgba(217,180,90,.06),0 0 80px rgba(217,180,90,.25),inset 0 0 40px rgba(217,180,90,.15);
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.15));animation:sframe 1.8s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes sframe{from{transform:scale(.6);opacity:0;filter:blur(6px)}to{transform:none;opacity:1;filter:none}}
+#splash .scorn{position:absolute;width:38px;height:38px;color:#d9b45a;font-size:30px;line-height:38px}
+#splash .scorn.a{top:-21px;left:-21px}#splash .scorn.b{top:-21px;right:-21px}#splash .scorn.c{bottom:-21px;left:-21px}#splash .scorn.d{bottom:-21px;right:-21px}
+#splash .scorn{background:#0b1630;border-radius:50%}
+#splash img{width:132px;height:132px;border-radius:50%;border:3px solid #d9b45a;box-shadow:0 0 30px rgba(217,180,90,.5);animation:sglow 3s ease-in-out infinite alternate}
+@keyframes sglow{to{box-shadow:0 0 55px rgba(255,214,120,.85)}}
+#splash .sk{letter-spacing:.5em;color:#d9b45a;font-size:14px;margin:14px 0 2px}
+#splash .stitle{font:700 clamp(40px,8vw,84px)/1.05 'KyrByz',Georgia,serif;letter-spacing:.12em;
+  background:linear-gradient(100deg,#9c7424 0%,#f7e08f 25%,#fff6cf 32%,#d9b45a 45%,#9c7424 60%,#f7e08f 80%,#d9b45a 100%);background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:sshine 4s linear infinite;filter:drop-shadow(0 3px 6px rgba(0,0,0,.6))}
+@keyframes sshine{from{background-position:120% 0}to{background-position:-100% 0}}
+#splash .ssub{color:#e9dcb4;font-style:italic;font-size:18px;margin-top:6px}
+#splash .sded{color:#cfc0a0;font-size:14px;margin-top:10px;letter-spacing:.04em}
+#splash .scap{max-width:680px;color:#e9dcb4;font-size:15px;line-height:1.55;margin-top:22px;text-align:center;opacity:0;transition:opacity 1.2s;min-height:3em}
+#splash .scap.on{opacity:.9}
+#sskip{position:absolute;bottom:22px;right:24px;font-size:18px!important;padding:10px 22px!important}
+#stap{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:#f7e08f;font-size:17px;animation:stap 1.2s ease-in-out infinite alternate;cursor:pointer;display:none}
+@keyframes stap{to{opacity:.45}}
+/* είσοδος του τροχού και των πλαισίων */
+body.entering #board{animation:bspin 2.6s cubic-bezier(.15,.75,.25,1) both}
+@keyframes bspin{from{transform:rotateX(16deg) rotate(-900deg) scale(.15);opacity:0}60%{opacity:1}to{transform:rotateX(16deg) rotate(0) scale(1);opacity:1}}
+body.entering #ps0,body.entering #ps2{animation:sideL .9s 2.3s cubic-bezier(.2,.9,.3,1.15) both}
+body.entering #ps1,body.entering #ps3{animation:sideR .9s 2.3s cubic-bezier(.2,.9,.3,1.15) both}
+@keyframes sideL{from{transform:translateX(-160%) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes sideR{from{transform:translateX(160%) rotate(8deg);opacity:0}to{transform:none;opacity:1}}
+body.entering .dtop,body.entering .foot,body.entering .ctrl{animation:sfade .8s 2.9s both}
+@keyframes sfade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -314,6 +349,10 @@ body[data-bshape=tile] .btn:active,body[data-bshape=pill] .btn:active,body[data-
   </div>
 </div>
 
+<div id="splash"><div class="sframe"><span class="scorn a">✠</span><span class="scorn b">✠</span><span class="scorn c">✠</span><span class="scorn d">✠</span>
+ <img id="sicon" alt=""><div class="sk">ΔΙΔΑΧΗ</div><div class="stitle">ΚΥΡΙΛΛΕΙΟΝ</div><div class="ssub">παιχνίδι γνώσεων ψαλτικής</div>
+ <div class="sded">Στη μνήμη του Αγίου Ιερομάρτυρος Κυρίλλου ΣΤ΄, Πατριάρχου Κωνσταντινουπόλεως</div></div>
+ <div class="scap" id="scap"></div><div id="stap">🔊 Αγγίξτε την οθόνη για να ακούσετε</div><button class="btn pri" id="sskip">Παράλειψη ⏭</button></div>
 <div id="intro"><div class="ibox">
  <div class="islides" id="islides"></div>
  <div class="inav"><button class="btn" id="iprev">‹</button><span id="idots"></span><button class="btn pri" id="inext">Επόμενο ›</button></div>
@@ -833,7 +872,28 @@ document.getElementById('thsel').onchange=e=>applyTheme(e.target.value);
 if('serviceWorker' in navigator && /politisk\.gr$/.test(location.hostname)){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 let deferredInstall=null; window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredInstall=e; document.getElementById('instb').style.display='inline-block'; });
 document.getElementById('instb').onclick=async()=>{ if(!deferredInstall) return; deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall=null; document.getElementById('instb').style.display='none'; };
-drawBoard(); window._boot=1; newGame(); window._boot=0; buildCards(); renderAudio(); AUD.load(); introOpen(); if(NET.hasLink()){ document.getElementById('intro').classList.add('hide'); NET.open(); }
+drawBoard(); window._boot=1; newGame(); window._boot=0; buildCards(); renderAudio(); AUD.load(); document.getElementById('intro').classList.add('hide'); if(NET.hasLink()){ document.getElementById('splash').style.display='none'; NET.open(); } else setTimeout(()=>SPLASH.open(),0);
+/* ---------- σκηνή έναρξης: λογότυπο, μήνυμα, μέλος, αυτόματη είσοδος ---------- */
+const SPLASH=(function(){ const el=document.getElementById('splash'); let started=false, ended=false, tmo=null;
+ document.getElementById('sicon').src=ICON;
+ const tmp=document.createElement('div'); tmp.innerHTML=SLIDES[0]; const paras=[...tmp.querySelectorAll('p')].map(p=>p.textContent.trim());
+ const text='Κυρίλλειον. Παιχνίδι γνώσεων ψαλτικής. '+paras.join(' ');
+ function begin(){ if(started||ended) return; started=true; clearTimeout(tmo); document.getElementById('stap').style.display='none';
+   SND.unlock(); AUD.ready().then(()=>{ if(!ended&&!AUD.play('ymnos',.35)) SND.start(); });
+   const cap=document.getElementById('scap'); let k=0; const showP=()=>{ if(ended) return; cap.classList.remove('on'); setTimeout(()=>{ cap.textContent=paras[k]||''; cap.classList.add('on'); },400); };
+   showP(); const half=setTimeout(()=>{ k=1; showP(); }, Math.max(9000,paras[0].length*62));
+   tmo=setTimeout(finish, 12000+text.length*75);
+   if(VOX.on) setTimeout(()=>VOX.speak(text,()=>setTimeout(finish,1200)),1500); else setTimeout(finish,14000); }
+ function finish(){ if(ended) return; ended=true; clearTimeout(tmo); VOX.stop(); AUD.stop('ymnos'); el.classList.add('out');
+   document.body.classList.add('entering'); try{ SND.start(); }catch(e){}
+   setTimeout(()=>{ el.style.display='none'; }, 1000);
+   setTimeout(()=>{ document.body.classList.remove('entering'); guide(); }, 3900); }
+ function open(){ el.style.display='flex'; el.classList.remove('out');
+   const ac=SND.ac&&SND.ac(); setTimeout(()=>{ if(started) return; const a=SND.ac&&SND.ac(); if(a&&a.state==='running') begin(); else { document.getElementById('stap').style.display='block'; const cap=document.getElementById('scap'); cap.textContent=paras[0]; cap.classList.add('on'); tmo=setTimeout(finish,28000); } },300); }
+ el.addEventListener('pointerdown',e=>{ if(e.target.id==='sskip') return; begin(); });
+ document.getElementById('sskip').onclick=e=>{ e.stopPropagation(); if(!started){ SND.unlock(); } started=true; finish(); };
+ return {open,finish};
+})();
 </script>
 <script>/* ---------- τρισδιάστατη ρίψη των ζαριών (three.js + cannon.js) ---------- */
 const Tray=(function(){
@@ -897,6 +957,7 @@ const Tray=(function(){
   const bf=document.getElementById('bfsel'), bs=document.getElementById('bssel');
   const af=v=>{document.body.dataset.bfont=v;bf.value=v;st('kyr-bfont',v)}, as=v=>{document.body.dataset.bshape=v;bs.value=v;st('kyr-bshape',v)};
   af(g('kyr-bfont')||'round'); as(g('kyr-bshape')||'candy'); bf.onchange=e=>af(e.target.value); bs.onchange=e=>as(e.target.value); }
+
 </script>
 </body>
 </html>
