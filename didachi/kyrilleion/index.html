@@ -75,8 +75,12 @@ nav button.on,.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
 .f4{transform:rotateX(-90deg) translateZ(32px)}.f5{transform:rotateY(-90deg) translateZ(32px)}.f6{transform:rotateY(180deg) translateZ(32px)}
 .scene.pick .cube{outline:3px solid var(--gold);border-radius:10px}
 .dlab{font-size:12px;color:var(--soft);text-align:center;margin-top:4px}
-.cell.reach.rb{stroke:#1f4f8a;stroke-width:4}
-.cell.reach.rr{stroke:#a62626;stroke-width:4}
+.cell.reach.rb{stroke:#1f5fc4;stroke-width:6}
+.cell.reach{animation:rpulse 1s ease-in-out infinite alternate}
+@keyframes rpulse{from{filter:brightness(1)}to{filter:brightness(1.35) drop-shadow(0 0 8px #fff)}}
+.arw{cursor:pointer}.arw .bob{animation:abob .7s ease-in-out infinite alternate;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5))}
+@keyframes abob{from{transform:translateY(-6px)}to{transform:translateY(4px)}}
+.cell.reach.rr{stroke:#c42626;stroke-width:6}
 #tray{position:fixed;inset:0;background:rgba(30,20,10,.35);display:none;align-items:center;justify-content:center;z-index:20}
 #tray.show{display:flex}
 #trayc{width:min(94vw,680px);background:#f3e9d6;border:6px solid #5b4630;border-radius:22px;padding:8px;box-shadow:0 14px 40px rgba(0,0,0,.35)}
@@ -439,7 +443,15 @@ function render(){
     <path d="M-6.6,-12 Q-6.8,-19.5 0,-19.8 Q6.8,-19.5 6.6,-12 Q0,-13.6 -6.6,-12Z" fill="#1c1714"/>
     <ellipse cx="-2.6" cy="-17.2" rx="1.8" ry="1" fill="#fff" opacity=".35"/>
     <ellipse cx="-5" cy="2" rx="1.6" ry="4" fill="#fff" opacity=".18"/></g></g></g>`;});
+ // βελάκια επιλογής: μπλε για ανάβαση, κόκκινο για κατάβαση
+ const arrow=(id,col,side)=>{ const n=nodes[id]; let x,y,ang;
+   if(n.type==='ring'){ const [px,py]=pol(R2+30,n.a+side*.035); x=px; y=py; ang=n.a*180/Math.PI+90; }
+   else if(n.type==='spoke'){ const pa=n.a+Math.PI/2*(side||1); x=n.x+(CW/2+26)*Math.cos(pa); y=n.y+(CW/2+26)*Math.sin(pa); ang=pa*180/Math.PI+90; }
+   else { x=n.x+side*22; y=n.y-HUB-24; ang=0; }
+   return `<g class="arw" data-c="${id}" transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${ang.toFixed(1)})"><g class="bob"><path d="M-13,-22 L13,-22 L13,-4 L22,-4 L0,18 L-22,-4 L-13,-4 Z" fill="${col}" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></g></g>`; };
+ if(phase==='move') reach.forEach(id=>{ const b=reachB.has(id), r=reachR.has(id); if(b) t+=arrow(id,'#1f5fc4',b&&r?-1:0); if(r) t+=arrow(id,'#c42626',b&&r?1:0); });
  document.getElementById('tokens').innerHTML=t;
+ document.querySelectorAll('#tokens .arw').forEach(g=>g.onclick=ev=>{ ev.stopPropagation(); onCell(+g.dataset.c); });
  document.querySelectorAll('#tokens .pawn').forEach(g=>g.onclick=ev=>{ev.stopPropagation();const i=+g.dataset.p;lifted=(lifted===i?-1:i);const c=+g.dataset.c;render();if(phase==='move'&&reach.has(c))onCell(c);});
 }
 function nm(p){ return p.name? `${p.name} (${p.label})` : p.label; }
