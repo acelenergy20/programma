@@ -103,6 +103,10 @@ nav button.on,.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
 .player.turn h3{color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.5)}
 .instr{font-size:12px;font-style:italic;color:#2b1a0c;opacity:.8;margin-top:2px;letter-spacing:.04em}
 .player.turn .instr{color:#fff;opacity:.95}
+#ytbox{position:fixed;right:16px;bottom:16px;z-index:30;background:#fbf7ef;border:2px solid #7a1f1f;border-radius:14px;padding:6px;box-shadow:0 10px 30px rgba(0,0,0,.3);display:none}
+#ytbox.show{display:block}
+#ytbox .yth{display:flex;justify-content:space-between;align-items:center;font:13px Georgia,serif;color:#7a1f1f;margin:0 2px 4px}
+#ytbox button{border:0;background:none;color:#7a1f1f;font-size:15px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -342,10 +346,25 @@ let rollB=0,rollR=0,reachB=new Set(),reachR=new Set();
 /* ---------- ἦχοι τοῦ παιχνιδιοῦ (WebAudio, χωρὶς ἀρχεῖα) ---------- */
 /* ---------- ἠχογραφήσεις mp3: θέσεις, φόρτωση, ἀναπαραγωγή ---------- */
 const SLOTS=[
- ['echos_a','Ήχος α΄ (απήχημα)'],['echos_b','Ήχος β΄ (απήχημα)'],['echos_g','Ήχος γ΄ (απήχημα)'],['echos_d','Ήχος δ΄ (απήχημα)'],
- ['echos_pld','Ήχος πλ. δ΄ (απήχημα)'],['echos_pla','Ήχος πλ. α΄ (απήχημα)'],['echos_plb','Ήχος πλ. β΄ (απήχημα)'],['echos_bar','Ήχος βαρύς (απήχημα)'],
+ ['echos_a','Ήχος α΄'],['echos_b','Ήχος β΄'],['echos_g','Ήχος γ΄'],['echos_d','Ήχος δ΄'],
+ ['echos_pld','Ήχος πλ. δ΄'],['echos_pla','Ήχος πλ. α΄'],['echos_plb','Ήχος πλ. β΄'],['echos_bar','Ήχος βαρύς'],
  ['kampana','Καμπάνα (Ψάλτης 1)'],['simantro','Σήμαντρο (Ψάλτης 2)'],['thymiato','Θυμιατό (Ψάλτης 3)'],['katzion','Κατζίον (Ψάλτης 4)'],
  ['ymnos','Ύμνος έναρξης'],['niki','Ύμνος νίκης']];
+/* ---------- YouTube (μόνο στὸν δικό μας ἱστότοπο, μὲ ὁρατὸ player) ---------- */
+const YT_SLOTS={ echos_a:{id:'8cje8fDwfu8'}, echos_b:{id:'Y-N0TUPHr_U'}, echos_g:{id:'HHDME8ObxJw'} };
+const YTP=(function(){ const ok=/politisk\.gr$/.test(location.hostname); let api=null, pl=null, timer=0, pend=null;
+ function box(){ let b=document.getElementById('ytbox'); if(b) return b;
+   b=document.createElement('div'); b.id='ytbox'; b.innerHTML='<div class="yth"><span id="ytt">Ακρόαση</span><button id="ytx" title="Κλείσιμο">✕</button></div><div id="ytp"></div>'; document.body.appendChild(b);
+   document.getElementById('ytx').onclick=stop; return b; }
+ function loadApi(){ if(api) return api; api=new Promise(r=>{ window.onYouTubeIframeAPIReady=()=>r(); const sc=document.createElement('script'); sc.src='https://www.youtube.com/iframe_api'; document.head.appendChild(sc); }); return api; }
+ function stop(){ clearTimeout(timer); try{ pl&&pl.stopVideo(); }catch(e){} const b=document.getElementById('ytbox'); if(b) b.classList.remove('show'); }
+ function play(k,label){ const s=YT_SLOTS[k]; if(!ok||!s||!SND.on) return false; const b=box(); b.classList.add('show'); document.getElementById('ytt').textContent=label||'Ακρόαση';
+   loadApi().then(()=>{ const args={videoId:s.id,startSeconds:s.start||0}; if(s.end) args.endSeconds=s.end;
+     if(!pl){ pl=new YT.Player('ytp',{width:240,height:135,videoId:s.id,playerVars:{autoplay:1,start:s.start||0,rel:0,modestbranding:1,playsinline:1},events:{onReady:e=>{e.target.setVolume(70);e.target.playVideo();}}}); }
+     else pl.loadVideoById(args); });
+   clearTimeout(timer); timer=setTimeout(stop,(s.dur||40)*1000); return true; }
+ return {play,stop,ok:()=>ok,has:k=>ok&&!!YT_SLOTS[k]};
+})();
 const AUD=(function(){ const raw={}, buf={}, src={}; let db=null;
  function idb(){ return new Promise(r=>{ try{ const q=indexedDB.open('kyrilleion',1); q.onupgradeneeded=()=>q.result.createObjectStore('a'); q.onsuccess=()=>{db=q.result;r(db)}; q.onerror=()=>r(null);}catch(e){r(null)} }); }
  async function load(){ await idb();
@@ -356,7 +375,7 @@ const AUD=(function(){ const raw={}, buf={}, src={}; let db=null;
    if(window.renderAudio) renderAudio(); }
  async function decode(k){ if(buf[k]) return buf[k]; const a=SND.ac(); if(!a||!raw[k]) return null; try{ buf[k]=await a.decodeAudioData(raw[k].slice(0)); }catch(e){ buf[k]=null; } return buf[k]; }
  let cur={};
- function play(k,vol){ if(!raw[k]||!SND.on) return false; decode(k).then(b=>{ if(!b) return; const a=SND.ac(); const s=a.createBufferSource(), g=a.createGain(); g.gain.value=vol==null?1:vol; s.buffer=b; s.connect(g).connect(a.destination); s.start(); cur[k]=s; }); return true; }
+ function play(k,vol){ if(!raw[k]){ const L=(SLOTS.find(x=>x[0]===k)||[,''])[1]; return YTP.play(k,L); } if(!SND.on) return false; decode(k).then(b=>{ if(!b) return; const a=SND.ac(); const s=a.createBufferSource(), g=a.createGain(); g.gain.value=vol==null?1:vol; s.buffer=b; s.connect(g).connect(a.destination); s.start(); cur[k]=s; }); return true; }
  function stop(k){ try{ cur[k]&&cur[k].stop(); }catch(e){} }
  async function put(k,file){ const ab=await file.arrayBuffer(); raw[k]=ab; delete buf[k]; src[k]='local'; try{ db&&db.transaction('a','readwrite').objectStore('a').put(ab,k); }catch(e){} }
  function clear(k){ delete raw[k]; delete buf[k]; delete src[k]; try{ db&&db.transaction('a','readwrite').objectStore('a').delete(k); }catch(e){} }
@@ -471,7 +490,7 @@ function stats(){ let h='<table><tr><th>Κατηγορία</th><th>Ερωτήσ�
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));
  ['game','cards','stats','rules','audio'].forEach(v=>document.getElementById('v-'+v).style.display=v===b.dataset.v?(v==='game'?'grid':'block'):'none'); if(b.dataset.v==='stats')stats();});
 window.renderAudio=function(){ const t=document.getElementById('audtab'); if(!t) return;
- t.innerHTML=SLOTS.map(([k,l])=>`<tr><td>${l}</td><td style="font-size:13px;color:${AUD.has(k)?'#2f6b2a':'#a8988a'}">${AUD.has(k)?(AUD.src(k)==='site'?'✓ ενσωματωμένο':'✓ φορτωμένο'):'συνθετικός'}</td>
+ t.innerHTML=SLOTS.map(([k,l])=>`<tr><td>${l}</td><td style="font-size:13px;color:${AUD.has(k)||YTP.has(k)?'#2f6b2a':'#a8988a'}">${AUD.has(k)?(AUD.src(k)==='site'?'✓ ενσωματωμένο':'✓ φορτωμένο'):(YT_SLOTS[k]?(YTP.ok()?'▶ YouTube':'YouTube (μόνο στη Διδαχή)'):'συνθετικός')}</td>
   <td><label class="btn" style="font-size:13px;padding:4px 10px">mp3…<input type="file" accept="audio/*" data-k="${k}" style="display:none"></label></td>
   <td><button class="btn" style="font-size:13px;padding:4px 10px" data-play="${k}">▶</button></td>
   <td>${AUD.src(k)==='local'?`<button class="btn" style="font-size:13px;padding:4px 10px" data-clr="${k}">✕</button>`:''}</td></tr>`).join('');
