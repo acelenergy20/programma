@@ -307,6 +307,9 @@ body.zoom #zhint{display:block}
 .mode .nl{display:flex;align-items:center;gap:10px;font-size:16px}.mode .nl input{flex:1;font-size:17px;padding:8px 10px}
 #modeb{font-size:17px!important;padding:10px 18px!important}
 .ncode{font-size:44px!important;letter-spacing:.25em;font-weight:bold;text-align:center;color:var(--gold,#a8843a);margin:6px 0 10px}
+
+.ans .askd{display:inline-block;margin-top:8px;font:700 14px var(--bf),Georgia,serif;color:#7a1f1f!important;text-decoration:none;border:1.5px solid #c9a24a;border-radius:999px;padding:5px 12px;background:#fbf3df}
+.ans .askd:hover{background:#f6e7bd}
 </style>
 </head>
 <body>
@@ -843,7 +846,7 @@ function ask(cat,kind,given){
  const OPTS=given?given.opts:(q.o?(q.o.length===2&&q.o[0]==='Σωστό'?q.o.slice():shuffle(q.o.slice())):null);
  if(!given) NET.send('ask',{cat,kind,qi:BANK.indexOf(q),opts:OPTS,echo:curEcho});
  VOX.speak(SPK.q(kind,cat,q,OPTS));
- const ans=document.getElementById('ans'); ans.style.display='none'; ans.innerHTML=`<b>${q.a}</b>${q.ex?`<br>${q.ex}`:''}<br><small>Πηγή: ${q.s}</small>`;
+ const ans=document.getElementById('ans'); ans.style.display='none'; ans.innerHTML=`<b>${q.a}</b>${q.ex?`<br>${q.ex}`:''}<br><small>Πηγή: ${q.s}</small><a class="askd" target="_blank" rel="noopener" href="/didachi/?q=${encodeURIComponent('Στο Κυρίλλειον με ρώτησαν: «'+q.q+'» Η σωστή απάντηση είναι: «'+q.a+'». Εξήγησέ μου περισσότερα.')}">🎓 Ρωτήστε τη Διδαχή γι' αυτό</a>`;
  const o=document.getElementById('opts'); o.innerHTML='';
  const foot=document.getElementById('qfoot');
  const finish=(ok,remote)=>{ if(!remote) NET.send('fin',{ok}); m.classList.remove('show'); resolve(ok,cat,kind); };

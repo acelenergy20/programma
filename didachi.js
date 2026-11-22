@@ -170,6 +170,7 @@
         if (!seen) setTimeout(() => this.welcome(), 900);
       }
       if (this.state.open || this.hasAttribute('page')) this.toggle(true);
+      try { const pq = new URLSearchParams(location.search).get('q'); if (pq) { this.toggle(true); const t = this.$('textarea'); t.value = pq.slice(0, 1200); t.dispatchEvent(new Event('input')); t.focus(); } } catch (e) {}
     }
     welcome() {
       if (this.$('.wb') || !this.$('.panel').hidden) return;
