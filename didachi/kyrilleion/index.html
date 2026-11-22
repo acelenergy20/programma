@@ -293,6 +293,13 @@ body.zoomout #board{animation:zout .6s ease-in-out both}
 body.zoom .pslot,body.zoom .dtop,body.zoom #v-game .ctrl:not(.dtop),body.zoom .msg{opacity:0;pointer-events:none;transition:opacity .3s}
 #zhint{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:40;color:#f7e08f;font-size:16px;background:rgba(0,0,0,.45);padding:6px 16px;border-radius:20px;display:none}
 body.zoom #zhint{display:block}
+
+#splash .scap{font-size:clamp(21px,2.5vw,33px)!important;line-height:1.35!important;max-width:min(1000px,92vw)!important;min-height:2.8em;margin-top:28px!important;
+  color:#e9dcb4;text-shadow:0 2px 8px rgba(0,0,0,.8);font-family:'KyrByz',Georgia,serif}
+#splash .scap.on{opacity:1!important;animation:supin .55s cubic-bezier(.2,.8,.3,1) both}
+@keyframes supin{from{opacity:0;transform:translateY(18px) scale(.97);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+#splash .scap span{opacity:.42;transition:opacity .25s,color .25s,text-shadow .25s}
+#splash .scap span.lit{opacity:1;color:#fff3c4;text-shadow:0 0 14px rgba(247,224,143,.7),0 2px 8px rgba(0,0,0,.8)}
 </style>
 </head>
 <body>
@@ -619,8 +626,19 @@ const VOX=(function(){ let on=true, v=null; const ss=window.speechSynthesis;
    local(c,g); }
  function speak(t,cb){ if(!on||!t){ cb&&cb(); return; } gen++; Q=chunks(clean(t)); done=cb||null;
    try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){} next(gen); }
+ function speakSeq(list,h){ h=h||{}; gen++; const g=gen; Q=[]; done=null; try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){}
+   let i=0; const pre={}; const url=k=>TTS+encodeURIComponent(clean(list[k]).slice(0,590));
+   const preload=k=>{ if(TTS&&remoteOk&&k<list.length&&!pre[k]){ const a=new Audio(); a.preload='auto'; a.src=url(k); pre[k]=a; } };
+   let wd=null; const step=()=>{ clearTimeout(wd); if(g!==gen) return; if(i>=list.length){ h.done&&h.done(); return; } const k=i++; const kk=i; wd=setTimeout(()=>{ if(g===gen&&i===kk){ try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){} step(); } }, list[k].length*140+5000);
+     if(TTS&&remoteOk){ preload(k); const a=pre[k]; au=a; preload(k+1); h.onStart&&h.onStart(k,a);
+       a.onended=()=>step(); const fb=()=>{ if(g!==gen||a.onerror===null) return; a.onerror=null; remoteOk=false; i=k; step(); };
+       a.onerror=fb; a.play().catch(err=>{ if(err&&err.name==='NotAllowedError') return; fb(); }); return; }
+     if(!ss){ h.onStart&&h.onStart(k,null); setTimeout(step,list[k].length*70); return; }
+     const u=new SpeechSynthesisUtterance(clean(list[k])); u.lang='el-GR'; if(v) u.voice=v; u.rate=.97;
+     u.onboundary=e=>h.onWord&&h.onWord(k,e.charIndex/(u.text.length||1)); u.onend=()=>step(); h.onStart&&h.onStart(k,null); ss.speak(u); };
+   step(); }
  function stop(){ gen++; Q=[]; done=null; try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){} }
- return { speak, stop, toggle(){ on=!on; if(!on){ try{ss&&ss.cancel()}catch(e){} try{au&&au.pause()}catch(e){} } return on; }, get on(){return on}, ok:()=>!!ss, hasGreek:()=>!!v };
+ return { speak, speakSeq, stop, toggle(){ on=!on; if(!on){ try{ss&&ss.cancel()}catch(e){} try{au&&au.pause()}catch(e){} } return on; }, get on(){return on}, ok:()=>!!ss, hasGreek:()=>!!v };
 })();
 function say(s){document.getElementById('msg').textContent=s; VOX.speak(s); }
 function reachable(start,steps,dir){ // dir +1 ανάβαση (δεξιόστροφα), -1 κατάβαση· στις ακτίνες ελεύθερα
@@ -946,6 +964,16 @@ function fitScreen(){ const bd=document.getElementById('board'), bw=bd&&bd.paren
 addEventListener('resize',()=>{ clearTimeout(window._fitT); window._fitT=setTimeout(fitScreen,120); });
 addEventListener('orientationchange',()=>setTimeout(fitScreen,300));
 setTimeout(fitScreen,60);
+/* υπέρτιτλοι που φωτίζονται με τον ρυθμό της απαγγελίας */
+const SUPER=(function(){ const cap=()=>document.getElementById('scap'); let spans=[], cum=[], tot=1, cur=null;
+ function frac(f){ spans.forEach((sp,i)=>sp.classList.toggle('lit',cum[i]<=f*tot+1)); }
+ function show(t,a,all){ const c=cap(); if(cur){ cur.ontimeupdate=null; } cur=a;
+   const w=t.split(/\s+/); let acc=0; cum=[]; c.classList.remove('on'); void c.offsetWidth;
+   c.innerHTML=w.map(x=>`<span>${x}</span>`).join(' '); spans=[...c.querySelectorAll('span')]; w.forEach(x=>{ cum.push(acc); acc+=x.length+1; }); tot=acc; c.classList.add('on');
+   if(all) frac(1); else if(a){ a.ontimeupdate=()=>{ if(a.duration&&isFinite(a.duration)) frac(Math.min(1,a.currentTime/a.duration*1.06)); }; }
+   else frac(0); }
+ return {show,frac};
+})();
 /* ---------- σκηνή έναρξης: λογότυπο, μήνυμα, μέλος, αυτόματη είσοδος ---------- */
 const SPLASH=(function(){ const el=document.getElementById('splash'); let started=false, ended=false, tmo=null;
  document.getElementById('sicon').src=ICON;
@@ -953,16 +981,18 @@ const SPLASH=(function(){ const el=document.getElementById('splash'); let starte
  const text='Κυρίλλειον. Παιχνίδι γνώσεων ψαλτικής. '+paras.join(' ');
  function begin(){ if(started||ended) return; started=true; clearTimeout(tmo); document.getElementById('stap').style.display='none';
    SND.unlock(); AUD.ready().then(()=>{ if(!ended&&!AUD.play('ymnos',.35)) SND.start(); });
-   const cap=document.getElementById('scap'); let k=0; const showP=()=>{ if(ended) return; cap.classList.remove('on'); setTimeout(()=>{ cap.textContent=paras[k]||''; cap.classList.add('on'); },400); };
-   showP(); const half=setTimeout(()=>{ k=1; showP(); }, Math.max(9000,paras[0].length*62));
-   tmo=setTimeout(finish, 12000+text.length*75);
-   if(VOX.on) setTimeout(()=>VOX.speak(text,()=>setTimeout(finish,1200)),1500); else setTimeout(finish,14000); }
+   const sents=[]; ['Κυρίλλειον.','Παιχνίδι γνώσεων ψαλτικής.',...paras].forEach(p=>(p.match(/[^.;!]+[.;!»]+[»]?\s*|[^.;!]+$/g)||[p]).forEach(x=>{ x=x.trim(); if(x) sents.push(x); }));
+   tmo=setTimeout(finish, 20000+text.length*90);
+   const go=()=>{ if(ended) return;
+     if(!VOX.on){ let k=0; const nx=()=>{ if(ended) return; if(k>=sents.length){ setTimeout(finish,800); return; } SUPER.show(sents[k],null); setTimeout(nx,Math.max(2200,sents[k].length*70)); k++; }; nx(); return; }
+     VOX.speakSeq(sents,{ onStart:(k,a)=>SUPER.show(sents[k],a), onWord:(k,f)=>SUPER.frac(f), done:()=>setTimeout(finish,1000) }); };
+   setTimeout(go,1300); }
  function finish(){ if(ended) return; ended=true; clearTimeout(tmo); VOX.stop(); AUD.stop('ymnos'); el.classList.add('out');
    document.body.classList.add('entering'); try{ SND.start(); }catch(e){}
    setTimeout(()=>{ el.style.display='none'; }, 1000);
    setTimeout(()=>{ document.body.classList.remove('entering'); guide(); }, 3900); }
  function open(){ el.style.display='flex'; el.classList.remove('out');
-   const ac=SND.ac&&SND.ac(); setTimeout(()=>{ if(started) return; const a=SND.ac&&SND.ac(); if(a&&a.state==='running') begin(); else { document.getElementById('stap').style.display='block'; const cap=document.getElementById('scap'); cap.textContent=paras[0]; cap.classList.add('on'); tmo=setTimeout(finish,28000); } },300); }
+   const ac=SND.ac&&SND.ac(); setTimeout(()=>{ if(started) return; const a=SND.ac&&SND.ac(); if(a&&a.state==='running') begin(); else { document.getElementById('stap').style.display='block'; SUPER.show(paras[0].split(/(?<=\.)\s/)[0],null,true); tmo=setTimeout(finish,28000); } },300); }
  el.addEventListener('pointerdown',e=>{ if(e.target.id==='sskip') return; begin(); });
  document.getElementById('sskip').onclick=e=>{ e.stopPropagation(); if(!started){ SND.unlock(); } started=true; finish(); };
  return {open,finish};
