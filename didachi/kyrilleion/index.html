@@ -626,33 +626,42 @@ function nm(p){ return p.name? `${p.name} (${p.label})` : p.label; }
 const VOX=(function(){ let on=true, v=null; const ss=window.speechSynthesis;
  function pick(){ if(!ss) return; const vs=ss.getVoices(); v=vs.find(x=>/^el/i.test(x.lang)&&/female|Athina|Melina|Google/i.test(x.name))||vs.find(x=>/^el/i.test(x.lang))||null; }
  if(ss){ pick(); ss.onvoiceschanged=pick; }
- function clean(t){ return String(t).replace(/Αρχή, μέση και τέλος, σύστημα πάντων των σημαδίων, των ανιόντων και κατιόντων, το ίσον εστί/g,'Αρχή μέση και τέλος σύστημα πάντων των σημαδίων των ανιόντων και κατιόντων το ίσον εστί').replace(/Κυρίλλου ΣΤ΄/g,'Κυρίλλου του Έκτου').replace(/Γρηγόριος Ε΄/g,'Γρηγόριος ο Πέμπτος').replace(/Γ΄ Πατριαρχική/g,'Τρίτη Πατριαρχική').replace(/[«»]/g,'').replace(/΄/g,'').replace(/\bπλ\. /g,'πλάγιος ').replace(/\(([^)]*)\)/g,', $1,'); }
+ function clean(t){ return String(t).replace(/Ήχος πλ\. ([αβγδ])΄/g,(m,x)=>'Πλάγιος του '+{α:'πρώτου',β:'δευτέρου',γ:'τρίτου',δ:'τετάρτου'}[x]+' ήχου').replace(/Ήχος ([αβγδ])΄/g,(m,x)=>({α:'Πρώτος',β:'Δεύτερος',γ:'Τρίτος',δ:'Τέταρτος'}[x])+' ήχος').replace(/Ήχος βαρύς/g,'Βαρύς ήχος')
+ .replace(/(?<![Α-Ωα-ωΆ-Ώά-ώ])πλ\.\s?([αβγδ])΄/g,(m,x)=>'πλάγιος του '+{α:'πρώτου',β:'δευτέρου',γ:'τρίτου',δ:'τετάρτου'}[x])
+ .replace(/(?<![Α-Ωα-ωΆ-Ώά-ώ])([αβγδ])΄(\s+ήχ)/g,(m,x,y)=>({α:'πρώτου',β:'δευτέρου',γ:'τρίτου',δ:'τετάρτου'}[x])+y)
+ .replace(/([Α-ΩΆ-Ώ][α-ωά-ώ]+ος) (Α|Β|Γ|Δ|Ε|ΣΤ|Ζ|Η|Θ)΄/g,(m,n,o)=>n+' ο '+{Α:'Πρώτος',Β:'Δεύτερος',Γ:'Τρίτος',Δ:'Τέταρτος',Ε:'Πέμπτος',ΣΤ:'Έκτος',Ζ:'Έβδομος',Η:'Όγδοος',Θ:'Ένατος'}[o]).replace(/Αρχή, μέση και τέλος, σύστημα πάντων των σημαδίων, των ανιόντων και κατιόντων, το ίσον εστί/g,'Αρχή μέση και τέλος σύστημα πάντων των σημαδίων των ανιόντων και κατιόντων το ίσον εστί').replace(/Κυρίλλου ΣΤ΄/g,'Κυρίλλου του Έκτου').replace(/Γρηγόριος Ε΄/g,'Γρηγόριος ο Πέμπτος').replace(/Γ΄ Πατριαρχική/g,'Τρίτη Πατριαρχική').replace(/[«»]/g,'').replace(/΄/g,'').replace(/\bπλ\. /g,'πλάγιος ').replace(/\s*\(([^)]*)\)/g,', $1,').replace(/,\s*([.;!?·:])/g,'$1').replace(/([.;!?·:])\s*\.+/g,'$1').replace(/\s{2,}/g,' ').trim(); }
  // φωνὴ τῆς Ἥρας (Azure AthinaNeural) μέσω τοῦ διακομιστῆ· ἀλλιῶς ἡ φωνὴ τῆς συσκευῆς
  const TTS=/politisk\.gr$/.test(location.hostname)?'https://hera-voice.politisk.workers.dev/k/tts?t=':null;
  let au=null, remoteOk=true;
- let gen=0, Q=[], done=null;
- function chunks(t){ const out=[]; let cur=''; (t.match(/[^.;!·:?]+[.;!·:?]*\s*/g)||[t]).forEach(x=>{ if((cur+x).length>500&&cur){ out.push(cur.trim()); cur=''; } cur+=x; }); if(cur.trim()) out.push(cur.trim()); return out; }
- function local(t,g){ if(!ss){ next(g); return; } try{ const u=new SpeechSynthesisUtterance(t); u.lang='el-GR'; if(v) u.voice=v; u.rate=.97; u.pitch=1; u.onend=()=>next(g); ss.speak(u); }catch(e){} }
- function next(g){ if(g!==gen) return; const c=Q.shift(); if(c==null){ const d=done; done=null; d&&d(); return; }
-   if(TTS&&remoteOk){ const a=new Audio(TTS+encodeURIComponent(c)); au=a; let fell=false; const fb=()=>{ if(fell||au!==a) return; fell=true; remoteOk=false; local(c,g); };
-     a.onended=()=>next(g); a.onerror=fb; a.play().catch(err=>{ if(err&&err.name==='NotAllowedError') return; fb(); }); return; }
-   local(c,g); }
- function speak(t,cb){ if(!on||!t){ cb&&cb(); return; } gen++; Q=chunks(clean(t)); done=cb||null;
-   try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){} next(gen); }
- function speakSeq(list,h){ h=h||{}; gen++; const g=gen; Q=[]; done=null; try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){}
-   let i=0; const pre={}; const url=k=>TTS+encodeURIComponent(clean(list[k]).slice(0,590));
-   const preload=k=>{ if(TTS&&remoteOk&&k<list.length&&!pre[k]){ const a=new Audio(); a.preload='auto'; a.src=url(k); pre[k]=a; } };
-   let wd=null; const step=()=>{ clearTimeout(wd); if(g!==gen) return; if(i>=list.length){ h.done&&h.done(); return; } const k=i++; const kk=i; wd=setTimeout(()=>{ if(g===gen&&i===kk){ try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){} step(); } }, list[k].length*140+5000);
-     if(TTS&&remoteOk){ preload(k); const a=pre[k]; au=a; preload(k+1); h.onStart&&h.onStart(k,a);
-       a.onended=()=>step(); const fb=()=>{ if(g!==gen||a.onerror===null) return; a.onerror=null; remoteOk=false; i=k; step(); };
+ let gen=0;
+ // κομμάτια εκφώνησης (πρόταση προς πρόταση), ώστε να επαναχρησιμοποιούνται οι προηχογραφήσεις
+ function pieces(c){ const raw=[]; (c.match(/[^.;!?·:]+[.;!?·:]+["»)]*\s*|[^.;!?·:]+$/g)||[c]).forEach(x=>{ x=x.trim(); if(!x) return;
+   while(x.length>480){ let cut=x.lastIndexOf(', ',480); if(cut<100) cut=480; raw.push(x.slice(0,cut+1).trim()); x=x.slice(cut+1).trim(); } if(x) raw.push(x); });
+   const out=[]; for(let i=0;i<raw.length;i++){ let x=raw[i]; while(i+1<raw.length&&/\s[^\s]{1,3}\.$/.test(x)&&x.split(/\s+/).length>1&&(x+' '+raw[i+1]).length<=480){ x+=' '+raw[++i]; } out.push(x); } return out; }
+ function key(c){ let h=0x811c9dc5; for(let i=0;i<c.length;i++){ h^=c.charCodeAt(i); h=Math.imul(h,0x01000193)>>>0; } return h.toString(16).padStart(8,'0'); }
+ const PRE=new Set(TTS?[]:[]);
+ function src(c){ const k=key(c); return PRE.has(k)?'voice/'+k+'.mp3':(TTS&&remoteOk?TTS+encodeURIComponent(c.slice(0,590)):null); }
+ function speakSeq(list,h){ h=h||{}; gen++; const g=gen; try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){}
+   let i=0; const pre={}; const mk=k=>{ if(k<list.length&&!(k in pre)){ const u=src(list[k]); if(u){ const a=new Audio(); a.preload='auto'; a.src=u; pre[k]=a; } else pre[k]=null; } return pre[k]; };
+   let wd=null; const step=()=>{ clearTimeout(wd); if(g!==gen) return; if(i>=list.length){ h.done&&h.done(); return; } const k=i++; const kk=i;
+     wd=setTimeout(()=>{ if(g===gen&&i===kk){ try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){} step(); } }, list[k].length*140+5000);
+     const a=mk(k); mk(k+1);
+     if(a){ au=a; h.onStart&&h.onStart(k,a); a.onended=()=>step();
+       const fb=()=>{ if(g!==gen||a.onerror===null) return; a.onerror=null; if(!PRE.has(key(list[k]))) remoteOk=false; loc(k); };
        a.onerror=fb; a.play().catch(err=>{ if(err&&err.name==='NotAllowedError') return; fb(); }); return; }
-     if(!ss){ h.onStart&&h.onStart(k,null); setTimeout(step,list[k].length*70); return; }
-     const u=new SpeechSynthesisUtterance(clean(list[k])); u.lang='el-GR'; if(v) u.voice=v; u.rate=.97;
+     loc(k); };
+   const loc=k=>{ if(!ss){ h.onStart&&h.onStart(k,null); setTimeout(step,list[k].length*70); return; }
+     const u=new SpeechSynthesisUtterance(list[k]); u.lang='el-GR'; if(v) u.voice=v; u.rate=.97;
      u.onboundary=e=>h.onWord&&h.onWord(k,e.charIndex/(u.text.length||1)); u.onend=()=>step(); h.onStart&&h.onStart(k,null); ss.speak(u); };
    step(); }
- function stop(){ gen++; Q=[]; done=null; try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){} }
- return { speak, speakSeq, stop, toggle(){ on=!on; if(!on){ try{ss&&ss.cancel()}catch(e){} try{au&&au.pause()}catch(e){} } return on; }, get on(){return on}, ok:()=>!!ss, hasGreek:()=>!!v };
+ function speak(t,cb){ if(!on||!t){ cb&&cb(); return; } speakSeq(pieces(clean(t)),{done:cb}); }
+ function stop(){ gen++; try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){} }
+ return { speak, speakSeq, stop, clean, pieces, key, src, pre:()=>PRE.size, toggle(){ on=!on; if(!on){ try{ss&&ss.cancel()}catch(e){} try{au&&au.pause()}catch(e){} } return on; }, get on(){return on}, ok:()=>!!ss, hasGreek:()=>!!v };
 })();
+const SPK={
+ q:(kind,cat,q,opts)=>`${kind==='final'?'Το θυμίαμα στο Ίσον. ':kind==='wedge'?'Θέση ήχου: '+ECHOI[curEcho]+'. ':''}${cat}. ${q.q} ${opts?opts.map((x,i)=>'ΑΒΓΔ'[i]+'. '+x+'.').join(' '):''}`,
+ ok:q=>'Σωστά! '+(q.ex||''), no:()=>'Λάθος.', right:q=>'Η σωστή απάντηση είναι: '+q.a+'. '+(q.ex||''),
+ open:q=>'Η σωστή απάντηση: '+q.a+'. Συμφωνεί με τη δική σας; Πατήστε Ναι ή Όχι.' };
 function say(s){document.getElementById('msg').textContent=s; VOX.speak(s); }
 function reachable(start,steps,dir){ // dir +1 ανάβαση (δεξιόστροφα), -1 κατάβαση· στις ακτίνες ελεύθερα
  const res=new Set(); (function go(cur,prev,left){ if(left===0){res.add(cur);return} for(const nb of nodes[cur].nb){ if(nb===prev) continue;
@@ -832,7 +841,7 @@ function ask(cat,kind,given){
  document.getElementById('qtext').textContent=q.q;
  const OPTS=given?given.opts:(q.o?(q.o.length===2&&q.o[0]==='Σωστό'?q.o.slice():shuffle(q.o.slice())):null);
  if(!given) NET.send('ask',{cat,kind,qi:BANK.indexOf(q),opts:OPTS,echo:curEcho});
- VOX.speak(`${kind==='final'?'Το θυμίαμα στο Ίσον. ':kind==='wedge'?'Θέση του '+ECHOI[curEcho]+'. ':''}${cat}. ${q.q} ${OPTS?OPTS.map((x,i)=>'ΑΒΓΔ'[i]+'. '+x).join('. '):''}`);
+ VOX.speak(SPK.q(kind,cat,q,OPTS));
  const ans=document.getElementById('ans'); ans.style.display='none'; ans.innerHTML=`<b>${q.a}</b>${q.ex?`<br>${q.ex}`:''}<br><small>Πηγή: ${q.s}</small>`;
  const o=document.getElementById('opts'); o.innerHTML='';
  const foot=document.getElementById('qfoot');
@@ -840,12 +849,12 @@ function ask(cat,kind,given){
  window._fin=ok=>finish(ok,true);
  o.classList.toggle('tf',!!(OPTS&&OPTS.length===2&&OPTS[0]==='Σωστό')); if(q.o){ OPTS.forEach((t,ix)=>{const b=document.createElement('button');b.textContent='ΑΒΓΔ'[ix]+'. '+t;b.dataset.v=t;b.onclick=(ev,remote)=>{ if(!remote){ if(!live) return; NET.send('pick',{v:t}); } o.classList.add('done'); o.querySelectorAll('button').forEach(x=>x.onclick=null); const good=[...o.querySelectorAll('button')].find(x=>x.dataset.v===q.a);
    const showGood=()=>{ if(good){ good.classList.add('ok','flash'); good.textContent='✓ '+good.textContent; } ans.style.display='block'; };
-   if(t===q.a){ showGood(); VOX.speak('Σωστά! '+(q.ex||'')); }
-   else { b.classList.add('no','flash'); b.textContent='✗ '+b.textContent; VOX.speak('Λάθος.'); setTimeout(()=>{ showGood(); VOX.speak('Η σωστή απάντηση είναι: '+q.a+'. '+(q.ex||'')); },1400); }
+   if(t===q.a){ showGood(); VOX.speak(SPK.ok(q)); }
+   else { b.classList.add('no','flash'); b.textContent='✗ '+b.textContent; VOX.speak(SPK.no()); setTimeout(()=>{ showGood(); VOX.speak(SPK.right(q)); },1400); }
    foot.innerHTML=''; if(live){ const nb=document.createElement('button');nb.className='btn pri';nb.textContent='Συνέχεια';nb.onclick=()=>finish(t===q.a);foot.appendChild(nb); } else foot.innerHTML='<span style="font-size:14px;opacity:.8">Συνεχίζει ο ψάλτης που παίζει…</span>'; };o.appendChild(b)});
    window._pick=v=>{ const b=[...o.querySelectorAll('button')].find(x=>x.dataset.v===v); if(b) b.onclick(null,true); };
    foot.innerHTML=live?'<span style="color:#6b5f55;font-size:14px;margin-right:auto">Διαλέξτε απάντηση</span>':'<span style="font-size:14px;opacity:.8">Απαντά ο '+nm(P[turn])+'…</span>'; }
- else { foot.innerHTML=''; const r=document.createElement('button');r.className='btn pri jbig';r.textContent='👁 Δείξε τη σωστή απάντηση';r.onclick=(ev,remote)=>{ if(!remote) NET.send('reveal',{}); ans.style.display='block';foot.innerHTML=''; if(!live){ foot.innerHTML='<span style="font-size:14px;opacity:.8">Κρίνει ο '+nm(P[turn])+'…</span>'; return; } VOX.speak('Η σωστή απάντηση: '+q.a+'. Συμφωνεί με τη δική σας; Πατήστε Ναι ή Όχι.');
+ else { foot.innerHTML=''; const r=document.createElement('button');r.className='btn pri jbig';r.textContent='👁 Δείξε τη σωστή απάντηση';r.onclick=(ev,remote)=>{ if(!remote) NET.send('reveal',{}); ans.style.display='block';foot.innerHTML=''; if(!live){ foot.innerHTML='<span style="font-size:14px;opacity:.8">Κρίνει ο '+nm(P[turn])+'…</span>'; return; } VOX.speak(SPK.open(q));
    const lb=document.createElement('div');lb.className='jq';lb.textContent='Συμφωνεί η δική σας απάντηση με τη σωστή;';
    const y=document.createElement('button');y.className='btn jbtn jyes';y.innerHTML='✓ Ναι<small>απάντησα σωστά</small>';y.onclick=()=>finish(true);
    const nn=document.createElement('button');nn.className='btn jbtn jno';nn.innerHTML='✗ Όχι<small>έκανα λάθος</small>';nn.onclick=()=>finish(false);foot.append(lb,y,nn)};
@@ -922,8 +931,10 @@ function introShow(i){ islide=Math.max(0,Math.min(SLIDES.length-1,i));
  document.getElementById('iprev').style.visibility=islide?'visible':'hidden';
  document.getElementById('inext').style.visibility=islide<SLIDES.length-1?'visible':'hidden';
  if(!imusic){ imusic=true; SND.unlock(); AUD.ready().then(()=>{ if(document.getElementById('intro').classList.contains('hide')) return; if(!AUD.play('ymnos',.4)) SND.start(); }); }
- const sl=document.querySelectorAll('#islides .slide')[islide]; if(sl){ const c=sl.cloneNode(true); c.querySelectorAll('button').forEach(b=>b.remove()); c.querySelectorAll('h2,h4,li,p').forEach(e=>e.append('. ')); VOX.speak(c.textContent.replace(/\s+/g,' ').replace(/(\.\s*){2,}/g,'. ')); } }
-function guide(){ VOX.speak(`Πατήστε «Ρίξε τα ζάρια». Το μπλε ζάρι σας ανεβάζει, το κόκκινο σας κατεβάζει. Ο τροχός μεγαλώνει και τα βελάκια δείχνουν πού μπορείτε να πάτε. Διαλέξτε θέση και απαντήστε στην ερώτηση. ${P.length===1?'Παίζετε μόνος, για εξάσκηση· με κάθε απάντηση μαθαίνετε κάτι.':'Σωστή απάντηση: ξαναρίχνετε. Λάθος: ο λόγος περνά στον άλλο χορό.'} Αρχίζει ο ${nm(P[turn])}.`); }
+ const t=slideText(islide); if(t) VOX.speak(t); }
+function slideText(i){ const sl=document.querySelectorAll('#islides .slide')[i]; if(!sl) return ''; const c=sl.cloneNode(true); c.querySelectorAll('button').forEach(b=>b.remove()); c.querySelectorAll('h2,h4,li,p').forEach(e=>e.append('. ')); return c.textContent.replace(/\s+/g,' ').replace(/(\.\s*){2,}/g,'. '); }
+function guideText(solo,name){ return `Πατήστε «Ρίξε τα ζάρια». Το μπλε ζάρι σας ανεβάζει, το κόκκινο σας κατεβάζει. Ο τροχός μεγαλώνει και τα βελάκια δείχνουν πού μπορείτε να πάτε. Διαλέξτε θέση και απαντήστε στην ερώτηση. ${solo?'Παίζετε μόνος, για εξάσκηση· με κάθε απάντηση μαθαίνετε κάτι.':'Σωστή απάντηση: ξαναρίχνετε. Λάθος: ο λόγος περνά στον άλλο χορό.'} Αρχίζει ο ${name}.`; }
+function guide(){ VOX.speak(guideText(P.length===1,nm(P[turn]))); }
 function guideNet(){ setTimeout(guide,400); }
 function modeOpen(){ const m=document.getElementById('modebox'); m.classList.add('show'); try{ document.getElementById('modename').value=localStorage.getItem('kyr-name')||''; }catch(e){}
   VOX.speak('Πώς θα παίξετε; Μόνος σας, για εξάσκηση, ή με άλλους ψάλτες, με κωδικό.'); }
@@ -967,6 +978,22 @@ const ZOOM=(function(){ let on=false, en=true; try{ en=localStorage.getItem('kyr
   document.getElementById('msolo').onclick=()=>{ const n=nm0(); cl(); window.SOLO=true; newGame(); if(n){ P[0].name=n; render(); } guide(); };
   document.getElementById('mhost').onclick=()=>{ const n=nm0(); cl(); VOX.stop(); NET.create(n); VOX.speak('Ο κωδικός σας ετοιμάζεται. Στείλτε τον στους ψάλτες με το κουμπί Αποστολή. Όταν μπουν, πατήστε Έναρξη.'); };
   document.getElementById('mjoin').onclick=()=>{ const n=nm0(); cl(); VOX.stop(); NET.joinUI(n); }; }
+
+/* σώμα εκφωνήσεων για προηχογράφηση */
+function voiceCorpus(){ const raw=[]; const L=['Ψάλτης 1','Ψάλτης 2','Ψάλτης 3','Ψάλτης 4']; const E0=curEcho;
+ BANK.forEach(q=>{ const cat=q.c;
+   ['plain','wedge','final'].forEach(kind=>{ if(kind==='wedge'){ for(let e=0;e<8;e++){ curEcho=e; raw.push(SPK.q(kind,cat,q,q.o)); } } else raw.push(SPK.q(kind,cat,q,q.o)); });
+   raw.push(SPK.ok(q),SPK.no(),SPK.right(q),SPK.open(q)); });
+ curEcho=E0;
+ L.forEach(n=>{ raw.push(`Συνδεθήκατε. Σειρά έχει ο ${n}.`,`Ο λόγος περνά στον άλλο χορό· σειρά έχει ο ${n}.`,`Αρχίζει ο ${n}.`,
+   `«Άξιος!» Ο ${n} συμπλήρωσε την Οκτώηχο και το θυμίαμά του ανέβηκε στη μνήμη του Αγίου Κυρίλλου. Πρωτοψάλτης της παρτίδας!`,`«Άξιος!» ${n}, ξαναρίχνετε.`,
+   guideText(true,n),guideText(false,n));
+   for(let e=0;e<8;e++) raw.push(`«Άξιος!» Ο ${ECHOI[e]} ανάβει στο θυμιατό σας. ${n}, ξαναρίχνετε.`);
+   for(let b=1;b<=6;b++) for(let r=1;r<=6;r++) raw.push(`${n}: ανάβαση ${b} φωνών (μπλε) ή κατάβαση ${r} φωνών (κόκκινο). Διαλέξτε κελί.`,`${n}: ανάβαση ${b} φωνών ή κατάβαση ${r} φωνών.`); });
+ raw.push('Στο Ίσον προσφέρει θυμίαμα όποιος έχει συμπληρώσει την Οκτώηχο. Ρίξτε ξανά.','Δεν πειράζει· μάθατε κάτι καινούργιο. Ρίξτε ξανά τα ζάρια.',
+   'Πώς θα παίξετε; Μόνος σας, για εξάσκηση, ή με άλλους ψάλτες, με κωδικό.','Ο κωδικός σας ετοιμάζεται. Στείλτε τον στους ψάλτες με το κουμπί Αποστολή. Όταν μπουν, πατήστε Έναρξη.');
+ SLIDES.forEach((_,i)=>raw.push(slideText(i))); SPLASH.sents().forEach(x=>raw.push(x));
+ const set=new Map(); raw.forEach(t=>VOX.pieces(VOX.clean(t)).forEach(c=>set.set(VOX.key(c),c))); return [...set].map(([k,c])=>({k,c})); }
 /* πληροφορίες, επιστροφή, προσαρμογή οθόνης */
 { const ib=document.getElementById('infbox'), op=()=>ib.classList.add('show'), cl=()=>ib.classList.remove('show');
   document.getElementById('infb').onclick=op; document.getElementById('inffab').onclick=op; document.getElementById('infx').onclick=cl;
@@ -1004,13 +1031,18 @@ const SPLASH=(function(){ const el=document.getElementById('splash'); let starte
  document.getElementById('sicon').src=ICON;
  const tmp=document.createElement('div'); tmp.innerHTML=SLIDES[0]; const paras=[...tmp.querySelectorAll('p')].map(p=>p.textContent.trim());
  const text='Κυρίλλειον. Παιχνίδι γνώσεων ψαλτικής. '+paras.join(' ');
+ const SENTS=[]; ['Κυρίλλειον.','Παιχνίδι γνώσεων ψαλτικής.',...paras].forEach(p=>(p.match(/[^.;!]+[.;!»]+[»]?\s*|[^.;!]+$/g)||[p]).forEach(x=>{ x=x.trim(); if(x) SENTS.push(x); }));
+
  function begin(){ if(started||ended) return; started=true; clearTimeout(tmo); document.getElementById('stap').style.display='none';
    SND.unlock(); AUD.ready().then(()=>{ if(!ended&&!AUD.play('ymnos',.35)) SND.start(); });
-   const sents=[]; ['Κυρίλλειον.','Παιχνίδι γνώσεων ψαλτικής.',...paras].forEach(p=>(p.match(/[^.;!]+[.;!»]+[»]?\s*|[^.;!]+$/g)||[p]).forEach(x=>{ x=x.trim(); if(x) sents.push(x); }));
+   const sents=SENTS;
    tmo=setTimeout(finish, 20000+text.length*90);
    const go=()=>{ if(ended) return;
      if(!VOX.on){ let k=0; const nx=()=>{ if(ended) return; if(k>=sents.length){ setTimeout(finish,800); return; } SUPER.show(sents[k],null); setTimeout(nx,Math.max(2200,sents[k].length*70)); k++; }; nx(); return; }
-     VOX.speakSeq(sents,{ onStart:(k,a)=>SUPER.show(sents[k],a), onWord:(k,f)=>SUPER.frac(f), done:()=>setTimeout(finish,1000) }); };
+     const E=[]; sents.forEach((x,si)=>{ const c=VOX.clean(x), ps=VOX.pieces(c); let off=0; ps.forEach(p=>{ E.push({c:p,si,off,len:p.length,tot:c.length}); off+=p.length+1; }); });
+     let cs=-1; VOX.speakSeq(E.map(e=>e.c),{ onStart:(k,a)=>{ const e=E[k]; if(e.si!==cs){ cs=e.si; SUPER.show(sents[e.si],null); } SUPER.frac(e.off/e.tot);
+         if(a) a.ontimeupdate=()=>{ if(a.duration&&isFinite(a.duration)) SUPER.frac(Math.min(1,(e.off+Math.min(1,a.currentTime/a.duration*1.06)*e.len)/e.tot)); }; },
+       onWord:(k,f)=>{ const e=E[k]; SUPER.frac((e.off+f*e.len)/e.tot); }, done:()=>setTimeout(finish,1000) }); };
    setTimeout(go,1300); }
  function finish(){ if(ended) return; ended=true; clearTimeout(tmo); VOX.stop(); AUD.stop('ymnos'); el.classList.add('out');
    document.body.classList.add('entering'); try{ SND.start(); }catch(e){}
@@ -1020,7 +1052,7 @@ const SPLASH=(function(){ const el=document.getElementById('splash'); let starte
    const ac=SND.ac&&SND.ac(); setTimeout(()=>{ if(started) return; const a=SND.ac&&SND.ac(); if(a&&a.state==='running') begin(); else { document.getElementById('stap').style.display='block'; SUPER.show(paras[0].split(/(?<=\.)\s/)[0],null,true); tmo=setTimeout(finish,28000); } },300); }
  el.addEventListener('pointerdown',e=>{ if(e.target.id==='sskip') return; begin(); });
  document.getElementById('sskip').onclick=e=>{ e.stopPropagation(); if(!started){ SND.unlock(); } started=true; finish(); };
- return {open,finish};
+ return {open,finish,sents:()=>SENTS};
 })();
 </script>
 <script>/* ---------- τρισδιάστατη ρίψη των ζαριών (three.js + cannon.js) ---------- */
