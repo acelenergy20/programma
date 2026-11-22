@@ -554,7 +554,7 @@ function newGame(remoteN){
  const n=remoteN||(NET.on?Math.max(2,NET.seats.length):+document.getElementById('np').value);
  if(NET.on&&remoteN==null) NET.send('new',{n});
  P=[...Array(n)].map((_,i)=>({label:'Ψάλτης '+(i+1),name:'',pos:HUBID,w:new Set(),col:PCOL[i]}));
- turn=0;phase='roll';reach.clear();render();try{ if(!window._boot) SND.start(); }catch(e){} say(`«Αρχή, μέση και τέλος, σύστημα πάντων των σημαδίων, των ανιόντων και κατιόντων, το ίσον εστί». Αρχίζει ο ${nm(P[0])}.`); NET.applyNames();
+ turn=0;phase='roll';reach.clear();render();try{ if(!window._boot) SND.start(); }catch(e){} { const m=`Αρχίζει ο ${nm(P[0])}.`; if(window._boot) document.getElementById('msg').textContent=m; else say(m); }; NET.applyNames();
 }
 function miniWheel(p){ let h='<svg viewBox="0 0 120 120" width="120" height="120">'; for(let i=0;i<8;i++){const a1=-Math.PI/2+(i-.5)*Math.PI/4,a2=a1+Math.PI/4;const x1=60+52*Math.cos(a1),y1=60+52*Math.sin(a1),x2=60+52*Math.cos(a2),y2=60+52*Math.sin(a2);const c=catOf(WCAT[i]).c;h+=`<path d="M60,60L${x1},${y1}A52,52 0 0 1 ${x2},${y2}Z" fill="${p.w.has(i)?c:'#f1e8d8'}" stroke="#5b4630"/>`;const am=-Math.PI/2+i*Math.PI/4;h+=`<text x="${60+36*Math.cos(am)}" y="${60+36*Math.sin(am)}" font-size="9" text-anchor="middle" dominant-baseline="middle" fill="${p.w.has(i)?'#fff':'#7a1f1f'}" font-family="Georgia">${ECHS[i]}</text>`} h+=`<circle cx="60" cy="60" r="56" fill="none" stroke="#5b4630" stroke-width="2"/><circle cx="60" cy="60" r="11" fill="#fbf7ef" stroke="#5b4630"/></svg>`; return h; }
 function render(){
