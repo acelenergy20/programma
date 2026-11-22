@@ -594,7 +594,7 @@ function nm(p){ return p.name? `${p.name} (${p.label})` : p.label; }
 const VOX=(function(){ let on=true, v=null; const ss=window.speechSynthesis;
  function pick(){ if(!ss) return; const vs=ss.getVoices(); v=vs.find(x=>/^el/i.test(x.lang)&&/female|Athina|Melina|Google/i.test(x.name))||vs.find(x=>/^el/i.test(x.lang))||null; }
  if(ss){ pick(); ss.onvoiceschanged=pick; }
- function clean(t){ return String(t).replace(/Κυρίλλου ΣΤ΄/g,'Κυρίλλου του Έκτου').replace(/Γρηγόριος Ε΄/g,'Γρηγόριος ο Πέμπτος').replace(/Γ΄ Πατριαρχική/g,'Τρίτη Πατριαρχική').replace(/[«»]/g,'').replace(/΄/g,'').replace(/\bπλ\. /g,'πλάγιος ').replace(/\(([^)]*)\)/g,', $1,'); }
+ function clean(t){ return String(t).replace(/Αρχή, μέση και τέλος, σύστημα πάντων των σημαδίων, των ανιόντων και κατιόντων, το ίσον εστί/g,'Αρχή μέση και τέλος σύστημα πάντων των σημαδίων των ανιόντων και κατιόντων το ίσον εστί').replace(/Κυρίλλου ΣΤ΄/g,'Κυρίλλου του Έκτου').replace(/Γρηγόριος Ε΄/g,'Γρηγόριος ο Πέμπτος').replace(/Γ΄ Πατριαρχική/g,'Τρίτη Πατριαρχική').replace(/[«»]/g,'').replace(/΄/g,'').replace(/\bπλ\. /g,'πλάγιος ').replace(/\(([^)]*)\)/g,', $1,'); }
  // φωνὴ τῆς Ἥρας (Azure AthinaNeural) μέσω τοῦ διακομιστῆ· ἀλλιῶς ἡ φωνὴ τῆς συσκευῆς
  const TTS=/politisk\.gr$/.test(location.hostname)?'https://hera-voice.politisk.workers.dev/k/tts?t=':null;
  let au=null, remoteOk=true;
