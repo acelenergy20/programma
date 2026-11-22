@@ -590,7 +590,7 @@ function newGame(remoteN){
 }
 function miniWheel(p){ let h='<svg viewBox="0 0 120 120" width="120" height="120">'; for(let i=0;i<8;i++){const a1=-Math.PI/2+(i-.5)*Math.PI/4,a2=a1+Math.PI/4;const x1=60+52*Math.cos(a1),y1=60+52*Math.sin(a1),x2=60+52*Math.cos(a2),y2=60+52*Math.sin(a2);const c=catOf(WCAT[i]).c;h+=`<path d="M60,60L${x1},${y1}A52,52 0 0 1 ${x2},${y2}Z" fill="${p.w.has(i)?c:'#f1e8d8'}" stroke="#5b4630"/>`;const am=-Math.PI/2+i*Math.PI/4;h+=`<text x="${60+36*Math.cos(am)}" y="${60+36*Math.sin(am)}" font-size="9" text-anchor="middle" dominant-baseline="middle" fill="${p.w.has(i)?'#fff':'#7a1f1f'}" font-family="Georgia">${ECHS[i]}</text>`} h+=`<circle cx="60" cy="60" r="56" fill="none" stroke="#5b4630" stroke-width="2"/><circle cx="60" cy="60" r="11" fill="#fbf7ef" stroke="#5b4630"/></svg>`; return h; }
 function render(){
- const box=(p,i)=>`<div class="player ${i===turn?'turn':''}" style="--pc:${p.col}"><h3 style="color:${p.col};font-weight:bold;margin:2px 0 4px">${p.label}</h3><input class="pname" value="${p.name}" placeholder="όνομα" ${NET.on&&i!==NET.seat?'readonly':''} onchange="P[${i}].name=this.value.trim();NET.send('name',{i:${i},v:P[${i}].name});render()" style="color:${p.col}"><div class="instr">${INSTR[i]}</div><div class="pz">${miniWheel(p)}</div><div style="font-size:13px;color:#6b5f55">θυμιατό · ${p.w.size}/8 ήχοι</div></div>`;
+ const box=(p,i)=>`<div class="player ${i===turn?'turn':''}" style="--pc:${p.col}"><h3 style="color:${p.col};font-weight:bold;margin:2px 0 4px">${p.label}</h3><input class="pname" value="${safe(p.name)}" placeholder="όνομα" ${NET.on&&i!==NET.seat?'readonly':''} onchange="P[${i}].name=safe(this.value.trim());NET.send('name',{i:${i},v:P[${i}].name});render()" style="color:${p.col}"><div class="instr">${INSTR[i]}</div><div class="pz">${miniWheel(p)}</div><div style="font-size:13px;color:#6b5f55">θυμιατό · ${p.w.size}/8 ήχοι</div></div>`;
  for(let i=0;i<4;i++){ const el=document.getElementById('ps'+i); el.innerHTML=P[i]?box(P[i],i):''; el.style.display=P[i]?'block':'none'; }
  
  document.querySelectorAll('#board .cell').forEach(el=>{const id=+el.dataset.id;el.classList.toggle('reach',reach.has(id));el.classList.toggle('rb',reachB.has(id));el.classList.toggle('rr',!reachB.has(id)&&reachR.has(id));});
@@ -621,7 +621,8 @@ function render(){
  document.querySelectorAll('#tokens .arw').forEach(g=>g.onclick=ev=>{ ev.stopPropagation(); onCell(+g.dataset.c); });
  document.querySelectorAll('#tokens .pawn').forEach(g=>g.onclick=ev=>{ev.stopPropagation();const i=+g.dataset.p;lifted=(lifted===i?-1:i);const c=+g.dataset.c;render();if(phase==='move'&&reach.has(c))onCell(c);});
 }
-function nm(p){ return p.name? `${p.name} (${p.label})` : p.label; }
+function safe(v){ return String(v==null?'':v).replace(/[<>"'&`\\]/g,'').slice(0,40); }
+function nm(p){ return p.name? `${safe(p.name)} (${p.label})` : p.label; }
 /* ---------- φωνὴ τῆς Διδαχῆς: ἀνάγνωση καὶ καθοδήγηση (Web Speech) ---------- */
 const VOX=(function(){ let on=true, v=null; const ss=window.speechSynthesis;
  function pick(){ if(!ss) return; const vs=ss.getVoices(); v=vs.find(x=>/^el/i.test(x.lang)&&/female|Athina|Melina|Google/i.test(x.name))||vs.find(x=>/^el/i.test(x.lang))||null; }
@@ -764,7 +765,7 @@ const NET=(function(){
  let ws=null, pingT=0; const st={on:false,seat:-1,code:'',seats:[],applying:false,myName:''};
  function snap(){ return {n:P.length,turn,P:P.map(p=>({pos:p.pos,w:[...p.w],name:p.name}))}; }
  function send(e,d){ if(!st.on||st.applying||!ws||ws.readyState!==1) return; try{ ws.send(JSON.stringify({t:'ev',e,d,snap:snap()})); }catch(x){} }
- function applySnap(sn){ if(!sn||!sn.P) return; st.applying=true; try{ newGame(sn.n); sn.P.forEach((q,i)=>{ if(P[i]){ P[i].pos=q.pos; P[i].w=new Set(q.w); P[i].name=q.name||''; } }); turn=sn.turn||0; phase='roll'; reach.clear(); render(); say(`Συνδεθήκατε. Σειρά έχει ο ${nm(P[turn])}.`); } finally{ st.applying=false; } }
+ function applySnap(sn){ if(!sn||!sn.P) return; st.applying=true; try{ newGame(sn.n); sn.P.forEach((q,i)=>{ if(P[i]){ P[i].pos=q.pos; P[i].w=new Set(q.w); P[i].name=safe(q.name); } }); turn=sn.turn||0; phase='roll'; reach.clear(); render(); say(`Συνδεθήκατε. Σειρά έχει ο ${nm(P[turn])}.`); } finally{ st.applying=false; } }
  function onEv(m){ st.applying=true; try{ const d=m.d||{};
    if(m.e==='new') newGame(d.n);
    else if(m.e==='roll') remoteRoll(d.b,d.r);
@@ -773,7 +774,7 @@ const NET=(function(){
    else if(m.e==='pick') window._pick&&window._pick(d.v);
    else if(m.e==='reveal') window._reveal&&window._reveal();
    else if(m.e==='fin') window._fin&&window._fin(d.ok);
-   else if(m.e==='name'){ if(P[d.i]){ P[d.i].name=d.v; render(); } }
+   else if(m.e==='name'){ if(P[d.i]){ P[d.i].name=safe(d.v); render(); } }
  } finally{ st.applying=false; } }
  function connect(code){ code=code.trim().toUpperCase(); if(!/^[A-Z0-9]{6}$/.test(code)){ lob('Ο κωδικός έχει έξι χαρακτήρες.'); return; }
    try{ ws&&ws.close(); }catch(e){}
@@ -792,15 +793,15 @@ const NET=(function(){
    const host=!st.on||st.seat===0; document.getElementById('newg').style.display=host?'':'none'; document.getElementById('npl').style.display=st.on?'none':''; render(); }
  function lob(msg){ const b=document.getElementById('netbody'); if(!b) return; const link=location.origin+location.pathname+'?k='+st.code;
    if(!st.on){ b.innerHTML=`<p>Παίξτε με έως τρεις ακόμη ψάλτες, ο καθένας από τη δική του συσκευή.</p>
-     <label class="nl">Το όνομά σας <input id="netname" class="pname" value="${st.myName}" placeholder="όνομα"></label>
+     <label class="nl">Το όνομά σας <input id="netname" class="pname" value="${safe(st.myName)}" placeholder="όνομα"></label>
      <div class="nrow"><button class="btn pri" id="netnew">Νέο παιχνίδι με κωδικό</button></div>
-     <div class="nrow"><input id="netcode" class="pname" placeholder="κωδικός" maxlength="6" value="${qp.get('k')||''}" style="text-transform:uppercase;letter-spacing:.2em;width:130px"><button class="btn" id="netjoin">Είσοδος</button></div>
+     <div class="nrow"><input id="netcode" class="pname" placeholder="κωδικός" maxlength="6" value="${(qp.get('k')||'').replace(/[^A-Za-z0-9]/g,'').slice(0,6)}" style="text-transform:uppercase;letter-spacing:.2em;width:130px"><button class="btn" id="netjoin">Είσοδος</button></div>
      <p class="nmsg">${msg||''}</p>`;
      const nmIn=()=>{ st.myName=document.getElementById('netname').value.trim(); };
      document.getElementById('netnew').onclick=()=>{ nmIn(); create(); };
      document.getElementById('netjoin').onclick=()=>{ nmIn(); connect(document.getElementById('netcode').value); };
    } else {
-     const rows=[0,1,2,3].map(i=>{ const x=st.seats.find(y=>y.seat===i); return `<li style="color:${PCOL[i]}"><b>Ψάλτης ${i+1}</b> · ${x?(x.name||'χωρίς όνομα')+(i===st.seat?' (εσείς)':''):'<i style="opacity:.6">κενή θέση</i>'}</li>`; }).join('');
+     const rows=[0,1,2,3].map(i=>{ const x=st.seats.find(y=>y.seat===i); return `<li style="color:${PCOL[i]}"><b>Ψάλτης ${i+1}</b> · ${x?(safe(x.name)||'χωρίς όνομα')+(i===st.seat?' (εσείς)':''):'<i style="opacity:.6">κενή θέση</i>'}</li>`; }).join('');
      b.innerHTML=`<p>Κωδικός παιχνιδιού</p><div class="ncode">${st.code}</div>
      <div class="nrow"><button class="btn pri" id="netshare">📤 Αποστολή στους ψάλτες</button><button class="btn" id="netcopy">Αντιγραφή συνδέσμου</button></div>
      <p style="font-size:13px;opacity:.8;word-break:break-all">${link}</p><ul class="nseats">${rows}</ul>
@@ -811,7 +812,7 @@ const NET=(function(){
      const sb=document.getElementById('netstart'); if(sb) sb.onclick=()=>{ document.getElementById('netbox').classList.remove('show'); window.SOLO=false; newGame(); guideNet(); };
      document.getElementById('netleave').onclick=leave; } }
  return { get on(){return st.on}, get seat(){return st.seat}, get seats(){return st.seats},
-   mine:()=>!st.on||turn===st.seat, send, lob, applyNames(){ if(!st.on) return; st.seats.forEach(x=>{ if(P[x.seat]&&x.name) P[x.seat].name=x.name; }); render(); }, open(){ document.getElementById('netbox').classList.add('show'); lob(); }, hasLink:()=>!!qp.get('k'), create:(n)=>{ st.myName=n||st.myName; document.getElementById('netbox').classList.add('show'); create(); }, joinUI:(n)=>{ st.myName=n||st.myName; document.getElementById('netbox').classList.add('show'); lob(); setTimeout(()=>{ const c=document.getElementById('netcode'); c&&c.focus(); },100); } };
+   mine:()=>!st.on||turn===st.seat, send, lob, applyNames(){ if(!st.on) return; st.seats.forEach(x=>{ if(P[x.seat]&&x.name) P[x.seat].name=safe(x.name); }); render(); }, open(){ document.getElementById('netbox').classList.add('show'); lob(); }, hasLink:()=>!!qp.get('k'), create:(n)=>{ st.myName=n||st.myName; document.getElementById('netbox').classList.add('show'); create(); }, joinUI:(n)=>{ st.myName=n||st.myName; document.getElementById('netbox').classList.add('show'); lob(); setTimeout(()=>{ const c=document.getElementById('netcode'); c&&c.focus(); },100); } };
 })();
 function remoteRoll(b,r){ rollB=b; rollR=r; spin('B',b); spin('R',r); SND.sig(turn,1);
  reachB=reachable(P[turn].pos,b,1); reachR=reachable(P[turn].pos,r,-1); reach=new Set([...reachB,...reachR]); phase='move'; render();
