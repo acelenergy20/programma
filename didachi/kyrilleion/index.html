@@ -383,9 +383,9 @@ body.zoom #zhint{display:block}
    <li><b>Σωστή απάντηση:</b> «Άξιος!», και ξαναρίχνετε.</li>
    <li><b>Λάθος:</b> ο λόγος περνά στον άλλο χορό, όπως εναλλάσσονται στο αναλόγιο ο δεξιός και ο αριστερός χορός. Σειρά έχει ο επόμενος ψάλτης.</li></ul>
    <h3 style="color:var(--acc);font-weight:normal;margin-bottom:4px">Το θυμιατό σας</h3>
-   <p>Ο μικρός τροχός δίπλα στο όνομά σας είναι <b>το θυμιατό σας</b>, με οκτώ θέσεις, μία για κάθε ήχο. Όταν σταθείτε στη <b>θέση ενός ήχου</b> (το εξωτερικό τετράγωνο κάθε ακτίνας, με τη μεγάλη μαρτυρία) και απαντήσετε σωστά, ο ήχος <b>ανάβει</b> στο θυμιατό σας. Όσο παίζετε, το θυμιατό σας ζωντανεύει και κινείται.</p>
+   <p>Ο μικρός τροχός δίπλα στο όνομά σας είναι <b>το θυμιατό σας</b>, με οκτώ θέσεις: <b>έξι χρώματα</b>, ένα για κάθε πεδίο ερωτήσεων (Θ, Ο, Τ, Υ, Ι, Α), και <b>δύο ελεύθερης επιλογής</b> (★). Όταν σταθείτε σε <b>θέση ήχου</b> (το εξωτερικό τετράγωνο κάθε ακτίνας, με τη μεγάλη μαρτυρία) και απαντήσετε σωστά, μπαίνει στο θυμιατό σας το χρώμα του πεδίου της ερώτησης· αν το χρώμα το έχετε ήδη, γεμίζει μία θέση ελεύθερης επιλογής. Όσο παίζετε, το θυμιατό σας ζωντανεύει και κινείται.</p>
    <h3 style="color:var(--acc);font-weight:normal;margin-bottom:4px">Στο Ίσον: το θυμίαμα</h3>
-   <p>Όταν ανάψουν και οι οκτώ ήχοι, επιστρέφετε στο <b>Ίσον</b> με όποιο ζάρι θέλετε. Εκεί απαντάτε στην <b>τελική ερώτηση</b>.</p>
+   <p>Όταν γεμίσει το θυμιατό σας, με τα έξι χρώματα και τις δύο ελεύθερες θέσεις, επιστρέφετε στο <b>Ίσον</b> με όποιο ζάρι θέλετε. Εκεί απαντάτε στην <b>τελική ερώτηση</b>.</p>
    <ul><li><b>Σωστή απάντηση:</b> «Άξιος!». Το θυμίαμά σας ανεβαίνει στη μνήμη του Αγίου και αναδεικνύεστε <b>Πρωτοψάλτης της παρτίδας</b>.</li>
    <li><b>Λάθος:</b> ο λόγος περνά στον άλλο χορό και ξαναδοκιμάζετε στον επόμενο γύρο.</li></ul>
   </section>
@@ -593,9 +593,18 @@ function newGame(remoteN){
  P=[...Array(n)].map((_,i)=>({label:'Ψάλτης '+(i+1),name:'',pos:HUBID,w:new Set(),col:PCOL[i]}));
  turn=0;phase='roll';reach.clear();render();try{ if(!window._boot) SND.start(); }catch(e){} { const m=`Αρχίζει ο ${nm(P[0])}.`; if(window._boot) document.getElementById('msg').textContent=m; else say(m); }; NET.applyNames();
 }
-function miniWheel(p){ let h='<svg viewBox="0 0 120 120" width="120" height="120">'; for(let i=0;i<8;i++){const a1=-Math.PI/2+(i-.5)*Math.PI/4,a2=a1+Math.PI/4;const x1=60+52*Math.cos(a1),y1=60+52*Math.sin(a1),x2=60+52*Math.cos(a2),y2=60+52*Math.sin(a2);const c=catOf(WCAT[i]).c;h+=`<path d="M60,60L${x1},${y1}A52,52 0 0 1 ${x2},${y2}Z" fill="${p.w.has(i)?c:'#f1e8d8'}" stroke="#5b4630"/>`;const am=-Math.PI/2+i*Math.PI/4;h+=`<text x="${60+36*Math.cos(am)}" y="${60+36*Math.sin(am)}" font-size="9" text-anchor="middle" dominant-baseline="middle" fill="${p.w.has(i)?'#fff':'#7a1f1f'}" font-family="Georgia">${ECHS[i]}</text>`} h+=`<circle cx="60" cy="60" r="56" fill="none" stroke="#5b4630" stroke-width="2"/><circle cx="60" cy="60" r="11" fill="#fbf7ef" stroke="#5b4630"/></svg>`; return h; }
+// θυμιατό: 6 θέσεις χρωμάτων (πεδία) + 2 ελεύθερης επιλογής (★)
+function slotsOf(p){ const S=[]; for(let i=0;i<6;i++) S.push(p.w.has('c'+i)?i:null); for(let f=0;f<2;f++){ const x=[...p.w].find(v=>String(v).startsWith('f'+f+':')); S.push(x!=null?+String(x).split(':')[1]:null); } return S; }
+function addPiece(p,cat){ const ci=CATS.findIndex(c=>c.k===cat); if(ci<0) return null; if(!p.w.has('c'+ci)){ p.w.add('c'+ci); return 'color'; }
+  for(let f=0;f<2;f++){ if(![...p.w].some(v=>String(v).startsWith('f'+f+':'))){ p.w.add('f'+f+':'+ci); return 'free'; } } return null; }
+function miniWheel(p){ const S=slotsOf(p); let h='<svg viewBox="0 0 120 120" width="120" height="120">'; for(let i=0;i<8;i++){const a1=-Math.PI/2+(i-.5)*Math.PI/4,a2=a1+Math.PI/4;const x1=60+52*Math.cos(a1),y1=60+52*Math.sin(a1),x2=60+52*Math.cos(a2),y2=60+52*Math.sin(a2);
+  const v=S[i], c=v!=null?CATS[v].c:(i<6?CATS[i].c+'33':'#f1e8d8');
+  h+=`<path d="M60,60L${x1},${y1}A52,52 0 0 1 ${x2},${y2}Z" fill="${c}" stroke="#5b4630" ${i>=6?'stroke-dasharray="3 2"':''}/>`;const am=-Math.PI/2+i*Math.PI/4;
+  const lab=i<6?CATS[i].l:(v!=null?'★'+CATS[v].l:'★');
+  h+=`<text x="${60+36*Math.cos(am)}" y="${60+36*Math.sin(am)}" font-size="${i<6?11:10}" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="${v!=null?'#fff':'#7a1f1f'}" font-family="Georgia">${lab}</text>`}
+  h+=`<circle cx="60" cy="60" r="56" fill="none" stroke="#5b4630" stroke-width="2"/><circle cx="60" cy="60" r="11" fill="#fbf7ef" stroke="#5b4630"/></svg>`; return h; }
 function render(){
- const box=(p,i)=>`<div class="player ${i===turn?'turn':''}" style="--pc:${p.col}"><h3 style="color:${p.col};font-weight:bold;margin:2px 0 4px">${p.label}</h3><input class="pname" value="${safe(p.name)}" placeholder="όνομα" ${NET.on&&i!==NET.seat?'readonly':''} onchange="P[${i}].name=safe(this.value.trim());NET.send('name',{i:${i},v:P[${i}].name});render()" style="color:${p.col}"><div class="instr">${INSTR[i]}</div><div class="pz">${miniWheel(p)}</div><div style="font-size:13px;color:#6b5f55">θυμιατό · ${p.w.size}/8 ήχοι</div></div>`;
+ const box=(p,i)=>`<div class="player ${i===turn?'turn':''}" style="--pc:${p.col}"><h3 style="color:${p.col};font-weight:bold;margin:2px 0 4px">${p.label}</h3><input class="pname" value="${safe(p.name)}" placeholder="όνομα" ${NET.on&&i!==NET.seat?'readonly':''} onchange="P[${i}].name=safe(this.value.trim());NET.send('name',{i:${i},v:P[${i}].name});render()" style="color:${p.col}"><div class="instr">${INSTR[i]}</div><div class="pz">${miniWheel(p)}</div><div style="font-size:13px;color:#6b5f55">θυμιατό · ${p.w.size}/8</div></div>`;
  for(let i=0;i<4;i++){ const el=document.getElementById('ps'+i); el.innerHTML=P[i]?box(P[i],i):''; el.style.display=P[i]?'block':'none'; }
  
  document.querySelectorAll('#board .cell').forEach(el=>{const id=+el.dataset.id;el.classList.toggle('reach',reach.has(id));el.classList.toggle('rb',reachB.has(id));el.classList.toggle('rr',!reachB.has(id)&&reachR.has(id));});
@@ -840,7 +849,7 @@ function doRoll(){
 document.getElementById('roll').onclick=doRoll; document.getElementById('sB').onclick=doRoll; document.getElementById('sR').onclick=doRoll;
 function onCell(id,remote){ if(phase!=='move'||!reach.has(id)) return; if(!remote&&!NET.mine()) return; if(!remote) NET.send('move',{id}); SND.step(); P[turn].pos=id; reach.clear(); reachB.clear(); reachR.clear(); phase='ask'; render();
  const n=nodes[id];
- if(n.type==='hub'){ if(P[turn].w.size===8){ ask(CATS[Math.floor(Math.random()*6)].k,'final'); } else { say('Στο Ίσον προσφέρει θυμίαμα όποιος έχει συμπληρώσει την Οκτώηχο. Ρίξτε ξανά.'); phase='roll'; } return; }
+ if(n.type==='hub'){ if(P[turn].w.size===8){ ask(CATS[Math.floor(Math.random()*6)].k,'final'); } else { say('Στο Ίσον προσφέρει θυμίαμα όποιος έχει γεμίσει το θυμιατό του: έξι χρώματα και δύο ελεύθερης επιλογής. Ρίξτε ξανά.'); phase='roll'; } return; }
  curEcho=n.wedge?n.echo:-1; ask(n.cat, n.wedge?'wedge':'plain');
 }
 /* ---------- ερώτηση ---------- */
@@ -877,7 +886,8 @@ function ask(cat,kind,given){
 function resolve(ok,cat,kind){
  const p=P[turn];
  if(kind==='final'&&ok){ SND.win(); say(`«Άξιος!» Ο ${nm(p)} συμπλήρωσε την Οκτώηχο και το θυμίαμά του ανέβηκε στη μνήμη του Αγίου Κυρίλλου. Πρωτοψάλτης της παρτίδας!`); phase='over'; render(); return; }
- if(ok){ if(kind==='wedge'){ p.w.add(curEcho); if(!AUD.play('echos_'+WECH[curEcho],.9)){ SND.sig(turn,1.8); SND.okSoft(); } } else SND.okSoft(); say(`«Άξιος!» ${kind==='wedge'?'Ο '+ECHOI[curEcho]+' ανάβει στο θυμιατό σας. ':''}${nm(p)}, ξαναρίχνετε.`); phase='roll'; }
+ if(ok){ let got=null; if(kind==='wedge'){ got=addPiece(p,cat); if(!AUD.play('echos_'+WECH[curEcho],.9)){ SND.sig(turn,1.8); SND.okSoft(); } } else SND.okSoft();
+   say(`«Άξιος!» ${kind==='wedge'?(got==='color'?'Το χρώμα '+cat+' μπαίνει στο θυμιατό σας. ':got==='free'?'Κομμάτι ελεύθερης επιλογής, '+cat+', στο θυμιατό σας. ':'Αυτό το χρώμα το έχετε ήδη. '):''}${nm(p)}, ξαναρίχνετε.`); phase='roll'; }
  else if(P.length===1){ SND.no(); phase='roll'; say('Δεν πειράζει· μάθατε κάτι καινούργιο. Ρίξτε ξανά τα ζάρια.'); }
  else { SND.no(); turn=nextTurn(); phase='roll'; setTimeout(()=>SND.sig(turn,.8),700); say(`Ο λόγος περνά στον άλλο χορό· σειρά έχει ο ${nm(P[turn])}.`); }
  render();
@@ -923,7 +933,7 @@ const SLIDES=[
   <p>Μαρτύρησε στην Αδριανούπολη στις 18 Απριλίου 1821, όπως και ο Πατριάρχης Γρηγόριος Ε΄, επειδή θεωρήθηκε ότι μετείχε στη Φιλική Εταιρεία και ενίσχυε τους επαναστατημένους Έλληνες. Το παιχνίδι φέρει το όνομά του: κάθε σωστή απάντηση είναι ένας κόκκος θυμιάματος στη μνήμη του.</p>`,
  `<h4>Ο στόχος</h4><h2>Να αριστεύσετε στην ψαλτική</h2>
   <p>Στο κέντρο του τροχού, στο <b>Ίσον</b>, ο Άγιος ευλογεί τους ψάλτες και τους νουθετεί να αριστεύσουν.</p>
-  <p>Στόχος κάθε ψάλτη είναι να συμπληρώσει την <b>Οκτώηχο</b>: να ανάψει και τους οκτώ ήχους στο <b>θυμιατό</b> του και να επιστρέψει στο Ίσον, για να προσφέρει το θυμίαμά του στη μνήμη και στο μαρτύριο του Αγίου.</p>`,
+  <p>Στόχος κάθε ψάλτη είναι να συμπληρώσει την <b>Οκτώηχο</b>: να γεμίσει τις οκτώ θέσεις του <b>θυμιατού</b> του, με τα έξι χρώματα των πεδίων και δύο κομμάτια ελεύθερης επιλογής, και να επιστρέψει στο Ίσον, για να προσφέρει το θυμίαμά του στη μνήμη και στο μαρτύριο του Αγίου.</p>`,
  `<h4>Ο τροχός</h4><h2>Ανάβαση και κατάβαση</h2>
   <ul><li><i>«Αρχή, μέση και τέλος, σύστημα πάντων των σημαδίων, των ανιόντων και κατιόντων, το ίσον εστί»</i>.</li>
   <li>Ρίχνετε δύο ζάρια με χαρακτήρες ποσότητας. Το <b>μπλε</b> σάς ανεβάζει δεξιόστροφα, το <b>κόκκινο</b> σάς κατεβάζει αριστερόστροφα. Διαλέγετε ένα από τα δύο.</li>
@@ -932,9 +942,9 @@ const SLIDES=[
  `<h4>Οι ερωτήσεις</h4><h2>«Άξιος!»</h2>
   <ul><li>Σε όποια θέση σταθείτε, απαντάτε σε ερώτηση του πεδίου της: Θεωρία, Ορθογραφία, Τυπικό, Υμνολογία, Ιστορία, Αρμονικά.</li>
   <li><b>Σωστά:</b> «Άξιος!» και ξαναρίχνετε. <b>Λάθος:</b> ο λόγος περνά στον άλλο χορό.</li>
-  <li>Στη <b>θέση ενός ήχου</b>, δηλαδή στο εξωτερικό τετράγωνο κάθε ακτίνας, η σωστή απάντηση ανάβει τον ήχο στο θυμιατό σας.</li></ul>`,
+  <li>Στη <b>θέση ενός ήχου</b>, δηλαδή στο εξωτερικό τετράγωνο κάθε ακτίνας, η σωστή απάντηση βάζει στο θυμιατό σας το χρώμα του πεδίου· αν το έχετε ήδη, γεμίζει μία από τις δύο θέσεις ελεύθερης επιλογής (★).</li></ul>`,
  `<h4>Το τέλος</h4><h2>Το θυμίαμα στο Ίσον</h2>
-  <p>Όταν ανάψουν και οι οκτώ ήχοι, επιστρέφετε στο Ίσον και απαντάτε στην <b>τελική ερώτηση</b>. Με τη σωστή απάντηση το θυμίαμά σας ανεβαίνει στη μνήμη του Αγίου και αναδεικνύεστε <b>Πρωτοψάλτης της παρτίδας</b>.</p>
+  <p>Όταν το θυμιατό σας γεμίσει με τα έξι χρώματα και τις δύο ελεύθερες θέσεις, επιστρέφετε στο Ίσον και απαντάτε στην <b>τελική ερώτηση</b>. Με τη σωστή απάντηση το θυμίαμά σας ανεβαίνει στη μνήμη του Αγίου και αναδεικνύεστε <b>Πρωτοψάλτης της παρτίδας</b>.</p>
   <button class="btn pri enter" id="ienter">Ας αρχίσουμε</button>`];
 let islide=0, imusic=false;
 function introShow(i){ islide=Math.max(0,Math.min(SLIDES.length-1,i));
@@ -1000,9 +1010,9 @@ function voiceCorpus(){ const raw=[]; const L=['Ψάλτης 1','Ψάλτης 2'
  L.forEach(n=>{ raw.push(`Συνδεθήκατε. Σειρά έχει ο ${n}.`,`Ο λόγος περνά στον άλλο χορό· σειρά έχει ο ${n}.`,`Αρχίζει ο ${n}.`,
    `«Άξιος!» Ο ${n} συμπλήρωσε την Οκτώηχο και το θυμίαμά του ανέβηκε στη μνήμη του Αγίου Κυρίλλου. Πρωτοψάλτης της παρτίδας!`,`«Άξιος!» ${n}, ξαναρίχνετε.`,
    guideText(true,n),guideText(false,n));
-   for(let e=0;e<8;e++) raw.push(`«Άξιος!» Ο ${ECHOI[e]} ανάβει στο θυμιατό σας. ${n}, ξαναρίχνετε.`);
+   CATS.forEach(c=>raw.push(`«Άξιος!» Το χρώμα ${c.k} μπαίνει στο θυμιατό σας. ${n}, ξαναρίχνετε.`,`«Άξιος!» Κομμάτι ελεύθερης επιλογής, ${c.k}, στο θυμιατό σας. ${n}, ξαναρίχνετε.`)); raw.push(`«Άξιος!» Αυτό το χρώμα το έχετε ήδη. ${n}, ξαναρίχνετε.`);
    for(let b=1;b<=6;b++) for(let r=1;r<=6;r++) raw.push(`${n}: ανάβαση ${b} φωνών (μπλε) ή κατάβαση ${r} φωνών (κόκκινο). Διαλέξτε κελί.`,`${n}: ανάβαση ${b} φωνών ή κατάβαση ${r} φωνών.`); });
- raw.push('Στο Ίσον προσφέρει θυμίαμα όποιος έχει συμπληρώσει την Οκτώηχο. Ρίξτε ξανά.','Δεν πειράζει· μάθατε κάτι καινούργιο. Ρίξτε ξανά τα ζάρια.',
+ raw.push('Στο Ίσον προσφέρει θυμίαμα όποιος έχει γεμίσει το θυμιατό του: έξι χρώματα και δύο ελεύθερης επιλογής. Ρίξτε ξανά.','Δεν πειράζει· μάθατε κάτι καινούργιο. Ρίξτε ξανά τα ζάρια.',
    'Πώς θα παίξετε; Μόνος σας, για εξάσκηση, ή με άλλους ψάλτες, με κωδικό.','Ο κωδικός σας ετοιμάζεται. Στείλτε τον στους ψάλτες με το κουμπί Αποστολή. Όταν μπουν, πατήστε Έναρξη.');
  SLIDES.forEach((_,i)=>raw.push(slideText(i))); SPLASH.sents().forEach(x=>raw.push(x));
  const set=new Map(); raw.forEach(t=>VOX.pieces(VOX.clean(t)).forEach(c=>set.set(VOX.key(c),c))); return [...set].map(([k,c])=>({k,c})); }
