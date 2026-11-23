@@ -72,7 +72,7 @@ nav button.on,.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
 .tcard{max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 18px;box-shadow:0 4px 18px rgba(0,0,0,.08)}
 .trow{display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:start;padding:8px 0;border-bottom:1px dashed var(--line)}
 .trow:last-child{border-bottom:0}
-.badge{width:32px;height:32px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;border:1px solid rgba(0,0,0,.15)}
+.badge{min-width:32px;height:28px;padding:0 10px;border-radius:999px;font-size:13px;flex:0 0 auto;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;border:1px solid rgba(0,0,0,.15)}
 .trow .a{display:none;color:var(--acc);margin-top:3px}
 .tcard.flip .trow .a{display:block}
 .stats{display:none;max-width:760px;margin:0 auto}
@@ -502,7 +502,7 @@ let curEcho=-1;
 const byCat={}; CATS.forEach(c=>byCat[c.k]=BANK.filter(b=>b.c===c.k));
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const decks={}; function draw(cat){ if(!decks[cat]||!decks[cat].length) decks[cat]=shuffle(byCat[cat].slice()); return decks[cat].pop(); }
-document.getElementById('legend').innerHTML=CATS.map(c=>`<span><i class="dot" style="background:${c.c}"></i>${c.l} · ${c.k}</span>`).join('');
+document.getElementById('legend').innerHTML=CATS.map(c=>`<span><i class="dot" style="background:${c.c}"></i>${c.k}</span>`).join('');
 
 /* ---------- ταμπλό: τροχός ---------- */
 const CX=450,CY=450,R2=422,CL=64,R1=R2-CL,HUB=R1-4*CL, NR=40, STEP=5, CW=62, RM=(R1+R2)/2, HW=CW/2/RM, SEG=(Math.PI/4-2*HW)/4; // όλα τα κελιά όμοια ορθογώνια CL×CW // πέντε βήματα ανά τομέα, μαζί με το αρχικό
@@ -533,7 +533,7 @@ let TH=THEMES.perg;
 function applyTheme(k){ TH=THEMES[k]||THEMES.perg; const r=document.documentElement.style;
  [['--bg','bg'],['--card','card'],['--line','line2'],['--ink','ink'],['--soft','soft'],['--acc','acc'],['--gold','gold']].forEach(([v,p])=>r.setProperty(v,TH[p]));
  CATS.forEach((c,i)=>c.c=TH.cats[i]);
- document.getElementById('legend').innerHTML=CATS.map(c=>`<span><i class="dot" style="background:${c.c}"></i>${c.l} · ${c.k}</span>`).join('');
+ document.getElementById('legend').innerHTML=CATS.map(c=>`<span><i class="dot" style="background:${c.c}"></i>${c.k}</span>`).join('');
  document.body.dataset.theme=k; try{localStorage.setItem('kyr-theme2',k)}catch(e){}
  if(document.getElementById('board').innerHTML){ drawBoard(); render(); if(typeof buildCards==='function') try{showCard()}catch(e){} } }
 function drawBoard(){
@@ -602,11 +602,11 @@ function allColors(p){ for(let i=0;i<6;i++) if(!p.w.has('c'+i)) return false; re
 function needCat(p,cat){ const ci=CATS.findIndex(c=>c.k===cat); if(!p.w.has('c'+ci)) return true; return allColors(p)&&p.w.size<8; }
 function addPiece(p,cat){ const ci=CATS.findIndex(c=>c.k===cat); if(ci<0) return null; if(!p.w.has('c'+ci)){ p.w.add('c'+ci); return 'color'; } if(!allColors(p)) return null;
   for(let f=0;f<2;f++){ if(![...p.w].some(v=>String(v).startsWith('f'+f+':'))){ p.w.add('f'+f+':'+ci); return 'free'; } } return null; }
-function miniWheel(p){ const S=slotsOf(p); let h='<svg viewBox="0 0 120 120" width="120" height="120">'; for(let i=0;i<8;i++){const a1=-Math.PI/2+(i-.5)*Math.PI/4,a2=a1+Math.PI/4;const x1=60+52*Math.cos(a1),y1=60+52*Math.sin(a1),x2=60+52*Math.cos(a2),y2=60+52*Math.sin(a2);
+function miniWheel(p){ const S=slotsOf(p); let h='<svg viewBox="0 0 120 120" width="150" height="150">'; for(let i=0;i<8;i++){const a1=-Math.PI/2+(i-.5)*Math.PI/4,a2=a1+Math.PI/4;const x1=60+52*Math.cos(a1),y1=60+52*Math.sin(a1),x2=60+52*Math.cos(a2),y2=60+52*Math.sin(a2);
   const v=S[i], c=v!=null?CATS[v].c:(i<6?CATS[i].c+'33':'#f1e8d8');
   h+=`<path d="M60,60L${x1},${y1}A52,52 0 0 1 ${x2},${y2}Z" fill="${c}" stroke="#5b4630" ${i>=6?'stroke-dasharray="3 2"':''}/>`;const am=-Math.PI/2+i*Math.PI/4;
-  const lab=i<6?CATS[i].l:(v!=null?'★'+CATS[v].l:'★');
-  h+=`<text x="${60+36*Math.cos(am)}" y="${60+36*Math.sin(am)}" font-size="${i<6?11:10}" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="${v!=null?'#fff':'#7a1f1f'}" font-family="Georgia">${lab}</text>`}
+  const lab=i<6?CATS[i].k:(v!=null?'★ '+CATS[v].k:'★ ελεύθερο'); let rot=am*180/Math.PI; if(rot>90||rot<-90) rot+=180; const tx=60+33*Math.cos(am), ty=60+33*Math.sin(am);
+  h+=`<text x="${tx}" y="${ty}" font-size="${lab.length>9?6.9:lab.length>7?7.6:8.4}" font-weight="bold" text-anchor="middle" dominant-baseline="middle" transform="rotate(${rot.toFixed(1)} ${tx} ${ty})" fill="${v!=null?'#fff':'#5b2a14'}" font-family="Georgia">${lab}</text>`}
   h+=`<circle cx="60" cy="60" r="56" fill="none" stroke="#5b4630" stroke-width="2"/><circle cx="60" cy="60" r="11" fill="#fbf7ef" stroke="#5b4630"/></svg>`; return h; }
 function render(){
  const box=(p,i)=>`<div class="player ${i===turn?'turn':''}" style="--pc:${p.col}"><h3 style="color:${p.col};font-weight:bold;margin:2px 0 4px">${p.label}</h3><input class="pname" value="${safe(p.name)}" placeholder="όνομα" ${NET.on&&i!==NET.seat?'readonly':''} onchange="P[${i}].name=safe(this.value.trim());NET.send('name',{i:${i},v:P[${i}].name});render()" style="color:${p.col}"><div class="instr">${INSTR[i]}</div><div class="pz">${miniWheel(p)}</div><div style="font-size:13px;color:#6b5f55">θυμιατό · ${p.w.size}/8</div></div>`;
@@ -864,7 +864,7 @@ function ask(cat,kind,given){
  const q=given?BANK[given.qi]:draw(cat), c=catOf(cat); const m=document.getElementById('modal');
  const live=NET.mine();
  document.getElementById('qhead').style.background=c.c;
- document.getElementById('qhead').innerHTML=`<span>${c.l} · ${cat}${kind==='wedge'?' · θέση του ήχου '+ECHS[curEcho]:''}${kind==='final'?' · το θυμίαμα στο Ίσον':''}</span><span>${'★'.repeat(q.d||1)}</span>`;
+ document.getElementById('qhead').innerHTML=`<span>${cat}${kind==='wedge'?' · θέση του ήχου '+ECHS[curEcho]:''}${kind==='final'?' · το θυμίαμα στο Ίσον':''}</span><span>${'★'.repeat(q.d||1)}</span>`;
  document.getElementById('qtext').textContent=q.q;
  const OPTS=given?given.opts:(q.o?(q.o.length===2&&q.o[0]==='Σωστό'?q.o.slice():shuffle(q.o.slice())):null);
  if(!given) NET.send('ask',{cat,kind,qi:BANK.indexOf(q),opts:OPTS,echo:curEcho});
@@ -909,7 +909,7 @@ document.getElementById('np').onchange=()=>newGame();
 let cards=[],ci=0;
 function buildCards(){ const pools=CATS.map(c=>shuffle(byCat[c.k].slice())); const n=Math.min(...pools.map(p=>p.length)); cards=[...Array(n)].map((_,i)=>CATS.map((c,j)=>({c,q:pools[j][i]}))); ci=0; showCard(); }
 function showCard(){ const t=document.getElementById('tcard'); t.classList.remove('flip');
- t.innerHTML=cards[ci].map(({c,q})=>`<div class="trow"><span class="badge" style="background:${c.c}">${c.l}</span><div><div>${q.q}</div><div class="a">→ ${q.a}</div></div></div>`).join('');
+ t.innerHTML=cards[ci].map(({c,q})=>`<div class="trow"><span class="badge" style="background:${c.c}">${c.k}</span><div><div>${q.q}</div><div class="a">→ ${q.a}</div></div></div>`).join('');
  document.getElementById('cnum').textContent=`Κάρτα ${ci+1} από ${cards.length} · στόχος 400`; }
 document.getElementById('cprev').onclick=()=>{ci=(ci-1+cards.length)%cards.length;showCard()};
 document.getElementById('cnext').onclick=()=>{ci=(ci+1)%cards.length;showCard()};
