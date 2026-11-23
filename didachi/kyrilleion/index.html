@@ -586,7 +586,7 @@ let lifted=-1;
 let P=[],turn=0,phase='roll',reach=new Set(),lastRoll=0;
 function newGame(remoteN){
  if(NET.on&&remoteN==null&&NET.seat!==0) return;
- const n=remoteN||(NET.on?Math.max(2,NET.seats.length):(window.SOLO?1:+document.getElementById('np').value));
+ const n=remoteN||(NET.on?Math.max(1,...NET.seats.map(x=>x.seat+1)):(window.SOLO?1:+document.getElementById('np').value));
  if(NET.on&&remoteN==null) NET.send('new',{n});
  P=[...Array(n)].map((_,i)=>({label:'Ψάλτης '+(i+1),name:'',pos:HUBID,w:new Set(),col:PCOL[i]}));
  turn=0;phase='roll';reach.clear();render();try{ if(!window._boot) SND.start(); }catch(e){} { const m=`Αρχίζει ο ${nm(P[0])}.`; if(window._boot) document.getElementById('msg').textContent=m; else say(m); }; NET.applyNames();
@@ -666,6 +666,7 @@ const SPK={
  q:(kind,cat,q,opts)=>`${kind==='final'?'Το θυμίαμα στο Ίσον. ':kind==='wedge'?'Θέση ήχου: '+ECHOI[curEcho]+'. ':''}${cat}. ${q.q} ${opts?opts.map((x,i)=>'ΑΒΓΔ'[i]+'. '+x+'.').join(' '):''}`,
  ok:q=>'Σωστά! '+(q.ex||''), no:()=>'Λάθος.', right:q=>'Η σωστή απάντηση είναι: '+q.a+'. '+(q.ex||''),
  open:q=>'Η σωστή απάντηση: '+q.a+'. Συμφωνεί με τη δική σας; Πατήστε Ναι ή Όχι.' };
+function nextTurn(){ let t=turn; for(let i=0;i<P.length;i++){ t=(t+1)%P.length; if(!NET.on||NET.seats.some(x=>x.seat===t)) return t; } return turn; }
 function say(s){document.getElementById('msg').textContent=s; VOX.speak(s); }
 function reachable(start,steps,dir){ // dir +1 ανάβαση (δεξιόστροφα), -1 κατάβαση· στις ακτίνες ελεύθερα
  const res=new Set(); (function go(cur,prev,left){ if(left===0){res.add(cur);return} for(const nb of nodes[cur].nb){ if(nb===prev) continue;
@@ -815,7 +816,7 @@ const NET=(function(){
      const sb=document.getElementById('netstart'); if(sb) sb.onclick=()=>{ document.getElementById('netbox').classList.remove('show'); window.SOLO=false; newGame(); guideNet(); };
      document.getElementById('netleave').onclick=leave; } }
  return { get on(){return st.on}, get seat(){return st.seat}, get seats(){return st.seats},
-   mine:()=>!st.on||turn===st.seat, send, lob, applyNames(){ if(!st.on) return; st.seats.forEach(x=>{ if(P[x.seat]&&x.name) P[x.seat].name=safe(x.name); }); render(); }, open(){ document.getElementById('netbox').classList.add('show'); lob(); }, hasLink:()=>!!qp.get('k'), create:(n)=>{ st.myName=n||st.myName; document.getElementById('netbox').classList.add('show'); create(); }, joinUI:(n)=>{ st.myName=n||st.myName; document.getElementById('netbox').classList.add('show'); lob(); setTimeout(()=>{ const c=document.getElementById('netcode'); c&&c.focus(); },100); } };
+   leave:()=>leave(), mine:()=>!st.on||turn===st.seat||(st.seat===0&&!st.seats.some(x=>x.seat===turn)), send, lob, applyNames(){ if(!st.on) return; st.seats.forEach(x=>{ if(P[x.seat]&&x.name) P[x.seat].name=safe(x.name); }); render(); }, open(){ document.getElementById('netbox').classList.add('show'); lob(); }, hasLink:()=>!!qp.get('k'), create:(n)=>{ st.myName=n||st.myName; document.getElementById('netbox').classList.add('show'); create(); }, joinUI:(n)=>{ st.myName=n||st.myName; document.getElementById('netbox').classList.add('show'); lob(); setTimeout(()=>{ const c=document.getElementById('netcode'); c&&c.focus(); },100); } };
 })();
 function remoteRoll(b,r){ rollB=b; rollR=r; spin('B',b); spin('R',r); SND.sig(turn,1);
  reachB=reachable(P[turn].pos,b,1); reachR=reachable(P[turn].pos,r,-1); reach=new Set([...reachB,...reachR]); phase='move'; render();
@@ -827,7 +828,8 @@ function doRoll(){
    reach=new Set([...reachB,...reachR]); phase='move'; render();
    say(`${nm(P[turn])}: ανάβαση ${rollB} φωνών (μπλε) ή κατάβαση ${rollR} φωνών (κόκκινο). Διαλέξτε κελί.`); NET.send('roll',{b,r}); };
  let p=null; try{ if(window.THREE&&window.CANNON) p=Tray.roll(); }catch(e){ p=null; }
- if(p) p.then(([b,r])=>done(b,r)); else { const b=1+Math.floor(Math.random()*6), r=1+Math.floor(Math.random()*6); spin('B',b); spin('R',r); setTimeout(()=>done(b,r),1150); }
+ if(p){ let fired=false; const fin=(b,r)=>{ if(fired) return; fired=true; try{ document.getElementById('tray').classList.remove('show'); }catch(e){} done(b,r); };
+   p.then(([b,r])=>fin(b,r)); setTimeout(()=>fin(1+Math.floor(Math.random()*6),1+Math.floor(Math.random()*6)),10000); } else { const b=1+Math.floor(Math.random()*6), r=1+Math.floor(Math.random()*6); spin('B',b); spin('R',r); setTimeout(()=>done(b,r),1150); }
 }
 document.getElementById('roll').onclick=doRoll; document.getElementById('sB').onclick=doRoll; document.getElementById('sR').onclick=doRoll;
 function onCell(id,remote){ if(phase!=='move'||!reach.has(id)) return; if(!remote&&!NET.mine()) return; if(!remote) NET.send('move',{id}); SND.step(); P[turn].pos=id; reach.clear(); reachB.clear(); reachR.clear(); phase='ask'; render();
@@ -871,7 +873,7 @@ function resolve(ok,cat,kind){
  if(kind==='final'&&ok){ SND.win(); say(`«Άξιος!» Ο ${nm(p)} συμπλήρωσε την Οκτώηχο και το θυμίαμά του ανέβηκε στη μνήμη του Αγίου Κυρίλλου. Πρωτοψάλτης της παρτίδας!`); phase='over'; render(); return; }
  if(ok){ if(kind==='wedge'){ p.w.add(curEcho); if(!AUD.play('echos_'+WECH[curEcho],.9)){ SND.sig(turn,1.8); SND.okSoft(); } } else SND.okSoft(); say(`«Άξιος!» ${kind==='wedge'?'Ο '+ECHOI[curEcho]+' ανάβει στο θυμιατό σας. ':''}${nm(p)}, ξαναρίχνετε.`); phase='roll'; }
  else if(P.length===1){ SND.no(); phase='roll'; say('Δεν πειράζει· μάθατε κάτι καινούργιο. Ρίξτε ξανά τα ζάρια.'); }
- else { SND.no(); turn=(turn+1)%P.length; phase='roll'; setTimeout(()=>SND.sig(turn,.8),700); say(`Ο λόγος περνά στον άλλο χορό· σειρά έχει ο ${nm(P[turn])}.`); }
+ else { SND.no(); turn=nextTurn(); phase='roll'; setTimeout(()=>SND.sig(turn,.8),700); say(`Ο λόγος περνά στον άλλο χορό· σειρά έχει ο ${nm(P[turn])}.`); }
  render();
 }
 document.getElementById('newg').onclick=()=>newGame();
@@ -979,7 +981,7 @@ const ZOOM=(function(){ let on=false, en=true; try{ en=localStorage.getItem('kyr
 /* τρόπος παιχνιδιού */
 { const m=document.getElementById('modebox'), cl=()=>m.classList.remove('show'), nm0=()=>{ const v=document.getElementById('modename').value.trim(); try{ localStorage.setItem('kyr-name',v); }catch(e){} return v; };
   document.getElementById('modex').onclick=cl; document.getElementById('modeb').onclick=modeOpen;
-  document.getElementById('msolo').onclick=()=>{ const n=nm0(); cl(); window.SOLO=true; newGame(); if(n){ P[0].name=n; render(); } guide(); };
+  document.getElementById('msolo').onclick=()=>{ const n=nm0(); cl(); window.SOLO=true; if(NET.on) NET.leave(); newGame(); if(n){ P[0].name=n; render(); } guide(); };
   document.getElementById('mhost').onclick=()=>{ const n=nm0(); cl(); VOX.stop(); NET.create(n); VOX.speak('Ο κωδικός σας ετοιμάζεται. Στείλτε τον στους ψάλτες με το κουμπί Αποστολή. Όταν μπουν, πατήστε Έναρξη.'); };
   document.getElementById('mjoin').onclick=()=>{ const n=nm0(); cl(); VOX.stop(); NET.joinUI(n); }; }
 
