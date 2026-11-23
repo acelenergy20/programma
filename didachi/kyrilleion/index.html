@@ -310,6 +310,8 @@ body.zoom #zhint{display:block}
 
 .ans .askd{display:inline-block;margin-top:8px;font:700 14px var(--bf),Georgia,serif;color:#7a1f1f!important;text-decoration:none;border:1.5px solid #c9a24a;border-radius:999px;padding:5px 12px;background:#fbf3df}
 .ans .askd:hover{background:#f6e7bd}
+
+#splash .scred{color:#cfc0a0;font-size:13px;line-height:1.5;margin:12px auto 0;max-width:620px;opacity:.9;font-style:italic}
 </style>
 </head>
 <body>
@@ -396,7 +398,7 @@ body.zoom #zhint{display:block}
 
 <div id="splash"><div class="sframe"><span class="scorn a">✠</span><span class="scorn b">✠</span><span class="scorn c">✠</span><span class="scorn d">✠</span>
  <img id="sicon" alt=""><div class="sk">ΔΙΔΑΧΗ</div><div class="stitle">ΚΥΡΙΛΛΕΙΟΝ</div><div class="ssub">παιχνίδι γνώσεων ψαλτικής</div>
- <div class="sded">Στη μνήμη του Αγίου Ιερομάρτυρος Κυρίλλου ΣΤ΄, Πατριάρχου Κωνσταντινουπόλεως</div></div>
+ <div class="sded">Στη μνήμη του Αγίου Ιερομάρτυρος Κυρίλλου ΣΤ΄, Πατριάρχου Κωνσταντινουπόλεως</div><div class="scred">Η εφαρμογή αναπτύχθηκε από τον πρωτοψάλτη Κωνσταντίνο Πολίτη, με τη μέριμνα του Συλλόγου Ιεροψαλτών Ορεστιάδος &amp; Διδυμοτείχου «Θρασύβουλος Στανίτσας», και επιχορηγήθηκε από το Υπουργείο Πολιτισμού.</div></div>
  <div class="scap" id="scap"></div><div id="stap">🔊 Αγγίξτε την οθόνη για να ακούσετε</div><button class="btn pri" id="sskip">Παράλειψη ⏭</button></div>
 <div id="intro"><div class="ibox">
  <div class="islides" id="islides"></div>
@@ -630,7 +632,10 @@ function nm(p){ return p.name? `${safe(p.name)} (${p.label})` : p.label; }
 const VOX=(function(){ let on=true, v=null; const ss=window.speechSynthesis;
  function pick(){ if(!ss) return; const vs=ss.getVoices(); v=vs.find(x=>/^el/i.test(x.lang)&&/female|Athina|Melina|Google/i.test(x.name))||vs.find(x=>/^el/i.test(x.lang))||null; }
  if(ss){ pick(); ss.onvoiceschanged=pick; }
- function clean(t){ return String(t).replace(/Ήχος πλ\. ([αβγδ])΄/g,(m,x)=>'Πλάγιος του '+{α:'πρώτου',β:'δευτέρου',γ:'τρίτου',δ:'τετάρτου'}[x]+' ήχου').replace(/Ήχος ([αβγδ])΄/g,(m,x)=>({α:'Πρώτος',β:'Δεύτερος',γ:'Τρίτος',δ:'Τέταρτος'}[x])+' ήχος').replace(/Ήχος βαρύς/g,'Βαρύς ήχος')
+ function yr(n){ n=+n; const th=n>=2000?'δύο χιλιάδες':'χίλια', r=n%1000, H=['','εκατό','διακόσια','τριακόσια','τετρακόσια','πεντακόσια','εξακόσια','επτακόσια','οκτακόσια','εννιακόσια'], h=Math.floor(r/100), t=r%100;
+  const U=['','ένα','δύο','τρία','τέσσερα','πέντε','έξι','επτά','οκτώ','εννέα','δέκα','έντεκα','δώδεκα','δεκατρία','δεκατέσσερα','δεκαπέντε','δεκαέξι','δεκαεπτά','δεκαοκτώ','δεκαεννέα'], D=['','','είκοσι','τριάντα','σαράντα','πενήντα','εξήντα','εβδομήντα','ογδόντα','ενενήντα'];
+  const tt=t<20?U[t]:D[Math.floor(t/10)]+(t%10?' '+U[t%10]:''); return [th,(h===1&&t?'εκατόν':H[h]),tt].filter(Boolean).join(' '); }
+ function clean(t){ return String(t).replace(/25ης Νοεμβρίου/g,'εικοστής πέμπτης Νοεμβρίου').replace(/(?<![0-9])(1[0-9]{3}|20[0-9]{2})(?![0-9])/g,(m)=>yr(m)).replace(/Ήχος πλ\. ([αβγδ])΄/g,(m,x)=>'Πλάγιος του '+{α:'πρώτου',β:'δευτέρου',γ:'τρίτου',δ:'τετάρτου'}[x]+' ήχου').replace(/Ήχος ([αβγδ])΄/g,(m,x)=>({α:'Πρώτος',β:'Δεύτερος',γ:'Τρίτος',δ:'Τέταρτος'}[x])+' ήχος').replace(/Ήχος βαρύς/g,'Βαρύς ήχος')
  .replace(/(?<![Α-Ωα-ωΆ-Ώά-ώ])πλ\.\s?([αβγδ])΄/g,(m,x)=>'πλάγιος του '+{α:'πρώτου',β:'δευτέρου',γ:'τρίτου',δ:'τετάρτου'}[x])
  .replace(/(?<![Α-Ωα-ωΆ-Ώά-ώ])([αβγδ])΄(\s+ήχ)/g,(m,x,y)=>({α:'πρώτου',β:'δευτέρου',γ:'τρίτου',δ:'τετάρτου'}[x])+y)
  .replace(/([Α-ΩΆ-Ώ][α-ωά-ώ]+ος) (Α|Β|Γ|Δ|Ε|ΣΤ|Ζ|Η|Θ)΄/g,(m,n,o)=>n+' ο '+{Α:'Πρώτος',Β:'Δεύτερος',Γ:'Τρίτος',Δ:'Τέταρτος',Ε:'Πέμπτος',ΣΤ:'Έκτος',Ζ:'Έβδομος',Η:'Όγδοος',Θ:'Ένατος'}[o]).replace(/Αρχή, μέση και τέλος, σύστημα πάντων των σημαδίων, των ανιόντων και κατιόντων, το ίσον εστί/g,'Αρχή μέση και τέλος σύστημα πάντων των σημαδίων των ανιόντων και κατιόντων το ίσον εστί').replace(/Κυρίλλου ΣΤ΄/g,'Κυρίλλου του Έκτου').replace(/Γρηγόριος Ε΄/g,'Γρηγόριος ο Πέμπτος').replace(/Γ΄ Πατριαρχική/g,'Τρίτη Πατριαρχική').replace(/[«»]/g,'').replace(/΄/g,'').replace(/\bπλ\. /g,'πλάγιος ').replace(/\s*\(([^)]*)\)/g,', $1,').replace(/,\s*([.;!?·:])/g,'$1').replace(/([.;!?·:])\s*\.+/g,'$1').replace(/\s{2,}/g,' ').trim(); }
@@ -650,7 +655,8 @@ const VOX=(function(){ let on=true, v=null; const ss=window.speechSynthesis;
    let wd=null; const step=()=>{ clearTimeout(wd); if(g!==gen) return; if(i>=list.length){ h.done&&h.done(); return; } const k=i++; const kk=i;
      wd=setTimeout(()=>{ if(g===gen&&i===kk){ try{ au&&au.pause(); }catch(e){} try{ ss&&ss.cancel(); }catch(e){} step(); } }, list[k].length*140+5000);
      const a=mk(k); mk(k+1);
-     if(a){ au=a; h.onStart&&h.onStart(k,a); a.onended=()=>step();
+     if(a){ au=a; h.onStart&&h.onStart(k,a); let gone=false; const nx=()=>{ if(gone) return; gone=true; step(); }; a.onended=nx;
+       a.addEventListener('timeupdate',()=>{ if(a.duration&&isFinite(a.duration)&&a.duration-a.currentTime<0.22) nx(); });
        const fb=()=>{ if(g!==gen||a.onerror===null) return; a.onerror=null; if(!PRE.has(key(list[k]))) remoteOk=false; loc(k); };
        a.onerror=fb; a.play().catch(err=>{ if(err&&err.name==='NotAllowedError') return; fb(); }); return; }
      loc(k); };
@@ -663,7 +669,7 @@ const VOX=(function(){ let on=true, v=null; const ss=window.speechSynthesis;
  return { speak, speakSeq, stop, clean, pieces, key, src, pre:()=>PRE.size, toggle(){ on=!on; if(!on){ try{ss&&ss.cancel()}catch(e){} try{au&&au.pause()}catch(e){} } return on; }, get on(){return on}, ok:()=>!!ss, hasGreek:()=>!!v };
 })();
 const SPK={
- q:(kind,cat,q,opts)=>`${kind==='final'?'Το θυμίαμα στο Ίσον. ':kind==='wedge'?'Θέση ήχου: '+ECHOI[curEcho]+'. ':''}${cat}. ${q.q} ${opts?opts.map((x,i)=>'ΑΒΓΔ'[i]+'. '+x+'.').join(' '):''}`,
+ q:(kind,cat,q,opts)=>`${kind==='final'?'Το θυμίαμα στο Ίσον. ':kind==='wedge'?'Θέση ήχου: '+ECHOI[curEcho]+'. ':''}${cat}. ${q.q} ${opts?opts.map(x=>x+'.').join(' '):''}`,
  ok:q=>'Σωστά! '+(q.ex||''), no:()=>'Λάθος.', right:q=>'Η σωστή απάντηση είναι: '+q.a+'. '+(q.ex||''),
  open:q=>'Η σωστή απάντηση: '+q.a+'. Συμφωνεί με τη δική σας; Πατήστε Ναι ή Όχι.' };
 function nextTurn(){ let t=turn; for(let i=0;i<P.length;i++){ t=(t+1)%P.length; if(!NET.on||NET.seats.some(x=>x.seat===t)) return t; } return turn; }
@@ -1037,7 +1043,7 @@ const SPLASH=(function(){ const el=document.getElementById('splash'); let starte
  document.getElementById('sicon').src=ICON;
  const tmp=document.createElement('div'); tmp.innerHTML=SLIDES[0]; const paras=[...tmp.querySelectorAll('p')].map(p=>p.textContent.trim());
  const text='Κυρίλλειον. Παιχνίδι γνώσεων ψαλτικής. '+paras.join(' ');
- const SENTS=[]; ['Κυρίλλειον.','Παιχνίδι γνώσεων ψαλτικής.',...paras].forEach(p=>(p.match(/[^.;!]+[.;!»]+[»]?\s*|[^.;!]+$/g)||[p]).forEach(x=>{ x=x.trim(); if(x) SENTS.push(x); }));
+ const SENTS=[]; ['Κυρίλλειον.','Παιχνίδι γνώσεων ψαλτικής.',...paras,'Η εφαρμογή αναπτύχθηκε από τον πρωτοψάλτη Κωνσταντίνο Πολίτη, με τη μέριμνα του Συλλόγου Ιεροψαλτών Ορεστιάδος και Διδυμοτείχου «Θρασύβουλος Στανίτσας», και επιχορηγήθηκε από το Υπουργείο Πολιτισμού.'].forEach(p=>(p.match(/[^.;!]+[.;!»]+[»]?\s*|[^.;!]+$/g)||[p]).forEach(x=>{ x=x.trim(); if(x) SENTS.push(x); }));
 
  function begin(){ if(started||ended) return; started=true; clearTimeout(tmo); document.getElementById('stap').style.display='none';
    SND.unlock(); AUD.ready().then(()=>{ if(!ended&&!AUD.play('ymnos',.35)) SND.start(); });
