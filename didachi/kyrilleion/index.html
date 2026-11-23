@@ -312,6 +312,9 @@ body.zoom #zhint{display:block}
 .ans .askd:hover{background:#f6e7bd}
 
 #splash .scred{color:#cfc0a0;font-size:13px;line-height:1.5;margin:12px auto 0;max-width:620px;opacity:.9;font-style:italic}
+
+#board .needo{fill:none;stroke:#fff3b0;stroke-width:5;pointer-events:none;animation:needp 1.2s ease-in-out infinite alternate}
+@keyframes needp{from{stroke-opacity:.45;filter:drop-shadow(0 0 2px #ffd76a)}to{stroke-opacity:1;filter:drop-shadow(0 0 12px #ffd76a) brightness(1.25)}}
 </style>
 </head>
 <body>
@@ -383,7 +386,7 @@ body.zoom #zhint{display:block}
    <li><b>Σωστή απάντηση:</b> «Άξιος!», και ξαναρίχνετε.</li>
    <li><b>Λάθος:</b> ο λόγος περνά στον άλλο χορό, όπως εναλλάσσονται στο αναλόγιο ο δεξιός και ο αριστερός χορός. Σειρά έχει ο επόμενος ψάλτης.</li></ul>
    <h3 style="color:var(--acc);font-weight:normal;margin-bottom:4px">Το θυμιατό σας</h3>
-   <p>Ο μικρός τροχός δίπλα στο όνομά σας είναι <b>το θυμιατό σας</b>, με οκτώ θέσεις: <b>έξι χρώματα</b>, ένα για κάθε πεδίο ερωτήσεων (Θ, Ο, Τ, Υ, Ι, Α), και <b>δύο ελεύθερης επιλογής</b> (★). Όταν σταθείτε σε <b>θέση ήχου</b> (το εξωτερικό τετράγωνο κάθε ακτίνας, με τη μεγάλη μαρτυρία) και απαντήσετε σωστά, μπαίνει στο θυμιατό σας το χρώμα του πεδίου της ερώτησης· αν το χρώμα το έχετε ήδη, γεμίζει μία θέση ελεύθερης επιλογής. Όσο παίζετε, το θυμιατό σας ζωντανεύει και κινείται.</p>
+   <p>Ο μικρός τροχός δίπλα στο όνομά σας είναι <b>το θυμιατό σας</b>, με οκτώ θέσεις: <b>έξι χρώματα</b>, ένα για κάθε πεδίο ερωτήσεων (Θ, Ο, Τ, Υ, Ι, Α), και <b>δύο ελεύθερης επιλογής</b> (★). Όταν σταθείτε σε <b>θέση ήχου</b> (το εξωτερικό τετράγωνο κάθε ακτίνας, με τη μεγάλη μαρτυρία) και απαντήσετε σωστά, μπαίνει στο θυμιατό σας το χρώμα του πεδίου της ερώτησης. Λάμπουν μόνο οι θέσεις ήχου με τα χρώματα που σας λείπουν. Όταν συμπληρώσετε και τα έξι χρώματα, λάμπουν όλες, και κάθε θέση ήχου γεμίζει μία από τις δύο θέσεις ελεύθερης επιλογής (★). Όσο παίζετε, το θυμιατό σας ζωντανεύει και κινείται.</p>
    <h3 style="color:var(--acc);font-weight:normal;margin-bottom:4px">Στο Ίσον: το θυμίαμα</h3>
    <p>Όταν γεμίσει το θυμιατό σας, με τα έξι χρώματα και τις δύο ελεύθερες θέσεις, επιστρέφετε στο <b>Ίσον</b> με όποιο ζάρι θέλετε. Εκεί απαντάτε στην <b>τελική ερώτηση</b>.</p>
    <ul><li><b>Σωστή απάντηση:</b> «Άξιος!». Το θυμίαμά σας ανεβαίνει στη μνήμη του Αγίου και αναδεικνύεστε <b>Πρωτοψάλτης της παρτίδας</b>.</li>
@@ -595,7 +598,9 @@ function newGame(remoteN){
 }
 // θυμιατό: 6 θέσεις χρωμάτων (πεδία) + 2 ελεύθερης επιλογής (★)
 function slotsOf(p){ const S=[]; for(let i=0;i<6;i++) S.push(p.w.has('c'+i)?i:null); for(let f=0;f<2;f++){ const x=[...p.w].find(v=>String(v).startsWith('f'+f+':')); S.push(x!=null?+String(x).split(':')[1]:null); } return S; }
-function addPiece(p,cat){ const ci=CATS.findIndex(c=>c.k===cat); if(ci<0) return null; if(!p.w.has('c'+ci)){ p.w.add('c'+ci); return 'color'; }
+function allColors(p){ for(let i=0;i<6;i++) if(!p.w.has('c'+i)) return false; return true; }
+function needCat(p,cat){ const ci=CATS.findIndex(c=>c.k===cat); if(!p.w.has('c'+ci)) return true; return allColors(p)&&p.w.size<8; }
+function addPiece(p,cat){ const ci=CATS.findIndex(c=>c.k===cat); if(ci<0) return null; if(!p.w.has('c'+ci)){ p.w.add('c'+ci); return 'color'; } if(!allColors(p)) return null;
   for(let f=0;f<2;f++){ if(![...p.w].some(v=>String(v).startsWith('f'+f+':'))){ p.w.add('f'+f+':'+ci); return 'free'; } } return null; }
 function miniWheel(p){ const S=slotsOf(p); let h='<svg viewBox="0 0 120 120" width="120" height="120">'; for(let i=0;i<8;i++){const a1=-Math.PI/2+(i-.5)*Math.PI/4,a2=a1+Math.PI/4;const x1=60+52*Math.cos(a1),y1=60+52*Math.sin(a1),x2=60+52*Math.cos(a2),y2=60+52*Math.sin(a2);
   const v=S[i], c=v!=null?CATS[v].c:(i<6?CATS[i].c+'33':'#f1e8d8');
@@ -607,7 +612,7 @@ function render(){
  const box=(p,i)=>`<div class="player ${i===turn?'turn':''}" style="--pc:${p.col}"><h3 style="color:${p.col};font-weight:bold;margin:2px 0 4px">${p.label}</h3><input class="pname" value="${safe(p.name)}" placeholder="όνομα" ${NET.on&&i!==NET.seat?'readonly':''} onchange="P[${i}].name=safe(this.value.trim());NET.send('name',{i:${i},v:P[${i}].name});render()" style="color:${p.col}"><div class="instr">${INSTR[i]}</div><div class="pz">${miniWheel(p)}</div><div style="font-size:13px;color:#6b5f55">θυμιατό · ${p.w.size}/8</div></div>`;
  for(let i=0;i<4;i++){ const el=document.getElementById('ps'+i); el.innerHTML=P[i]?box(P[i],i):''; el.style.display=P[i]?'block':'none'; }
  
- document.querySelectorAll('#board .cell').forEach(el=>{const id=+el.dataset.id;el.classList.toggle('reach',reach.has(id));el.classList.toggle('rb',reachB.has(id));el.classList.toggle('rr',!reachB.has(id)&&reachR.has(id));});
+ document.querySelectorAll('#board .cell').forEach(el=>{const id=+el.dataset.id; const nd=nodes[id]; el.classList.toggle('need',!!(nd&&nd.wedge&&P[turn]&&needCat(P[turn],nd.cat)));el.classList.toggle('reach',reach.has(id));el.classList.toggle('rb',reachB.has(id));el.classList.toggle('rr',!reachB.has(id)&&reachR.has(id));});
  let t='<defs><radialGradient id="skin" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#fbe3c6"/><stop offset=".7" stop-color="#eac09a"/><stop offset="1" stop-color="#c8906a"/></radialGradient>'+P.map((p,i)=>`<radialGradient id="pg${i}" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="${PLIGHT[i]}"/><stop offset=".45" stop-color="${PCOL[i]}"/><stop offset="1" stop-color="${PDARK[i]}"/></radialGradient>`).join('')+'</defs>';
  P.forEach((p,i)=>{const n=nodes[p.pos];const atHub=p.pos===HUBID, ha=A0+Math.PI/8+[3,0,2,1][i]*Math.PI/2; const off=atHub?[(HUB-6)*Math.cos(ha),(HUB-6)*Math.sin(ha)+8]:[[-17,-18],[17,-18],[-17,18],[17,18]][i]; const SC=atHub?2.5:1.75;const x=n.x+off[0],y=n.y+off[1];const up=lifted===i; const vx=CX-x, vy=CY-y, vl=Math.hypot(vx,vy)||1, ux=vx/vl, uy=vy/vl;
   t+=`<g class="pawn${up?' up':''}" data-p="${i}" data-c="${p.pos}" style="cursor:pointer">
@@ -630,6 +635,7 @@ function render(){
    else if(n.type==='spoke'){ const pa=n.a+Math.PI/2*(side||1); x=n.x+(CW/2+26)*Math.cos(pa); y=n.y+(CW/2+26)*Math.sin(pa); ang=pa*180/Math.PI+90; }
    else { x=n.x+side*22; y=n.y-HUB-24; ang=0; }
    return `<g class="arw" data-c="${id}" transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${ang.toFixed(1)})"><g class="bob"><path d="M-13,-22 L13,-22 L13,-4 L22,-4 L0,18 L-22,-4 L-13,-4 Z" fill="${col}" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></g></g>`; };
+ if(P[turn]) nodes.forEach(nd=>{ if(nd.wedge&&needCat(P[turn],nd.cat)){ const dg=nd.a*180/Math.PI+90; t+=`<rect class="needo" x="${nd.x-CW/2-3}" y="${nd.y-CL/2-3}" width="${CW+6}" height="${CL+6}" rx="6" transform="rotate(${dg} ${nd.x} ${nd.y})"/>`; } });
  if(phase==='move') reach.forEach(id=>{ const b=reachB.has(id), r=reachR.has(id); if(b) t+=arrow(id,'#1f5fc4',b&&r?-1:0); if(r) t+=arrow(id,'#c42626',b&&r?1:0); });
  document.getElementById('tokens').innerHTML=t; try{ if(phase==='move'&&reach.size) setTimeout(()=>ZOOM.inn(),30); else ZOOM.out(); }catch(e){}
  document.querySelectorAll('#tokens .arw').forEach(g=>g.onclick=ev=>{ ev.stopPropagation(); onCell(+g.dataset.c); });
@@ -942,7 +948,7 @@ const SLIDES=[
  `<h4>Οι ερωτήσεις</h4><h2>«Άξιος!»</h2>
   <ul><li>Σε όποια θέση σταθείτε, απαντάτε σε ερώτηση του πεδίου της: Θεωρία, Ορθογραφία, Τυπικό, Υμνολογία, Ιστορία, Αρμονικά.</li>
   <li><b>Σωστά:</b> «Άξιος!» και ξαναρίχνετε. <b>Λάθος:</b> ο λόγος περνά στον άλλο χορό.</li>
-  <li>Στη <b>θέση ενός ήχου</b>, δηλαδή στο εξωτερικό τετράγωνο κάθε ακτίνας, η σωστή απάντηση βάζει στο θυμιατό σας το χρώμα του πεδίου· αν το έχετε ήδη, γεμίζει μία από τις δύο θέσεις ελεύθερης επιλογής (★).</li></ul>`,
+  <li>Στη <b>θέση ενός ήχου</b>, δηλαδή στο εξωτερικό τετράγωνο κάθε ακτίνας, η σωστή απάντηση βάζει στο θυμιατό σας το χρώμα του πεδίου. Μετά τα έξι χρώματα, γεμίζουν οι δύο θέσεις ελεύθερης επιλογής (★).</li></ul>`,
  `<h4>Το τέλος</h4><h2>Το θυμίαμα στο Ίσον</h2>
   <p>Όταν το θυμιατό σας γεμίσει με τα έξι χρώματα και τις δύο ελεύθερες θέσεις, επιστρέφετε στο Ίσον και απαντάτε στην <b>τελική ερώτηση</b>. Με τη σωστή απάντηση το θυμίαμά σας ανεβαίνει στη μνήμη του Αγίου και αναδεικνύεστε <b>Πρωτοψάλτης της παρτίδας</b>.</p>
   <button class="btn pri enter" id="ienter">Ας αρχίσουμε</button>`];
