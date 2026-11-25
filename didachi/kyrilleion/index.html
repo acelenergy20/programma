@@ -878,7 +878,7 @@ function ask(cat,kind,given){
  if(!given) NET.send('ask',{cat,kind,qi:BANK.indexOf(q),opts:OPTS,echo:curEcho});
  VOX.speak(SPK.q(kind,cat,q,OPTS));
  const ans=document.getElementById('ans'); ans.style.display='none'; ans.innerHTML=`<b>${q.a}</b>${q.ex?`<br>${q.ex}`:''}<br><small>Πηγή: ${q.s}</small><a class="askd" target="_blank" rel="noopener" href="/didachi/?q=${encodeURIComponent('Στο Κυρίλλειον με ρώτησαν: «'+q.q+'» Η σωστή απάντηση είναι: «'+q.a+'». Εξήγησέ μου περισσότερα.')}">🎓 Ρωτήστε τη Διδαχή γι' αυτό</a>`;
- const o=document.getElementById('opts'); o.innerHTML='';
+ const o=document.getElementById('opts'); o.innerHTML=''; o.classList.remove('done');
  const foot=document.getElementById('qfoot');
  const finish=(ok,remote)=>{ if(!remote) NET.send('fin',{ok}); m.classList.remove('show'); resolve(ok,cat,kind); };
  window._fin=ok=>finish(ok,true);
