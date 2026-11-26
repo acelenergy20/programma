@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 300" role="img" aria-label="Χριστουγεννιάτικο καραβάκι">
+<defs>
+<radialGradient id="kg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff6c8" stop-opacity=".95"/><stop offset=".35" stop-color="#ffd75e" stop-opacity=".55"/><stop offset="1" stop-color="#ffd75e" stop-opacity="0"/></radialGradient>
+<linearGradient id="kh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2e6fb5"/><stop offset="1" stop-color="#173f73"/></linearGradient>
+<linearGradient id="ks" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fffdf5"/><stop offset="1" stop-color="#efe4c8"/></linearGradient>
+<filter id="kb" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+</defs>
+<circle cx="150" cy="30" r="34" fill="url(#kg)"/>
+<path d="M150 14l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3-9.3-4.9-9.3 4.9 1.8-10.3-7.5-7.3 10.4-1.5z" fill="#ffd24a" stroke="#b8860b" stroke-width="1.5"/>
+<rect x="147" y="42" width="6" height="170" rx="2" fill="#6b4423"/>
+<path d="M154 50 C 205 78, 222 130, 214 190 L 156 190 Z" fill="url(#ks)" stroke="#c9b48a" stroke-width="1.5"/>
+<path d="M146 60 C 108 92, 96 140, 102 190 L 144 190 Z" fill="url(#ks)" stroke="#c9b48a" stroke-width="1.5"/>
+<path d="M163 84 l40 0 M163 112 l50 0 M163 140 l52 0 M163 168 l50 0" stroke="#d8c7a0" stroke-width="1"/>
+<path d="M146 60 L 40 196" stroke="#6b4423" stroke-width="1.5"/>
+<path d="M154 50 L 282 198" stroke="#6b4423" stroke-width="1.5"/>
+<g stroke="#2a4a2a" stroke-width="1" fill="none"><path d="M150 46 Q 100 110 44 194"/><path d="M150 46 Q 214 112 278 196"/></g>
+<g filter="url(#kb)" opacity=".85">
+<circle cx="139" cy="62" r="5" fill="#ff5a4a"/><circle cx="126" cy="80" r="5" fill="#ffd24a"/><circle cx="112" cy="100" r="5" fill="#4ac0ff"/><circle cx="98" cy="121" r="5" fill="#7dff6a"/><circle cx="84" cy="142" r="5" fill="#ff5a4a"/><circle cx="70" cy="162" r="5" fill="#ffd24a"/><circle cx="56" cy="180" r="5" fill="#4ac0ff"/>
+<circle cx="162" cy="62" r="5" fill="#7dff6a"/><circle cx="176" cy="80" r="5" fill="#ff5a4a"/><circle cx="192" cy="100" r="5" fill="#ffd24a"/><circle cx="208" cy="121" r="5" fill="#4ac0ff"/><circle cx="226" cy="142" r="5" fill="#7dff6a"/><circle cx="244" cy="162" r="5" fill="#ff5a4a"/><circle cx="262" cy="180" r="5" fill="#ffd24a"/>
+</g>
+<g>
+<circle cx="139" cy="62" r="2.6" fill="#fff"/><circle cx="126" cy="80" r="2.6" fill="#fff"/><circle cx="112" cy="100" r="2.6" fill="#fff"/><circle cx="98" cy="121" r="2.6" fill="#fff"/><circle cx="84" cy="142" r="2.6" fill="#fff"/><circle cx="70" cy="162" r="2.6" fill="#fff"/><circle cx="56" cy="180" r="2.6" fill="#fff"/>
+<circle cx="162" cy="62" r="2.6" fill="#fff"/><circle cx="176" cy="80" r="2.6" fill="#fff"/><circle cx="192" cy="100" r="2.6" fill="#fff"/><circle cx="208" cy="121" r="2.6" fill="#fff"/><circle cx="226" cy="142" r="2.6" fill="#fff"/><circle cx="244" cy="162" r="2.6" fill="#fff"/><circle cx="262" cy="180" r="2.6" fill="#fff"/>
+</g>
+<path d="M28 196 C 70 206, 230 206, 296 192 C 286 222, 260 246, 222 250 L 92 250 C 58 246, 36 224, 28 196 Z" fill="url(#kh)" stroke="#0f2c52" stroke-width="2"/>
+<path d="M36 210 C 90 220, 230 220, 288 206" stroke="#f4f1e6" stroke-width="5" fill="none"/>
+<path d="M54 232 C 110 240, 214 240, 268 228" stroke="#c8352b" stroke-width="5" fill="none"/>
+<path d="M28 196 C 20 184, 18 176, 22 168" stroke="#173f73" stroke-width="5" fill="none" stroke-linecap="round"/>
+<circle cx="96" cy="223" r="4" fill="#ffd24a"/><circle cx="150" cy="226" r="4" fill="#ffd24a"/><circle cx="204" cy="223" r="4" fill="#ffd24a"/>
+<g transform="translate(250 186)"><rect width="22" height="14" fill="#1f5fae"/><rect y="2" width="22" height="2" fill="#fff"/><rect y="6" width="22" height="2" fill="#fff"/><rect y="10" width="22" height="2" fill="#fff"/><rect width="9" height="8" fill="#1f5fae"/><rect x="3.6" width="1.8" height="8" fill="#fff"/><rect y="3.1" width="9" height="1.8" fill="#fff"/><rect x="21" y="-10" width="1.6" height="26" fill="#6b4423"/></g>
+<g opacity=".9"><path d="M0 242 Q 20 232 40 242 T 80 242 T 120 242 T 160 242 T 200 242 T 240 242 T 280 242 T 320 242 V300 H0Z" fill="#2c7fb8" opacity=".85"/>
+<path d="M0 262 Q 20 252 40 262 T 80 262 T 120 262 T 160 262 T 200 262 T 240 262 T 280 262 T 320 262 V300 H0Z" fill="#1b5f91"/></g>
+</svg>
