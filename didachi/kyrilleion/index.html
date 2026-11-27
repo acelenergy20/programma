@@ -377,9 +377,7 @@ body.zoom #zhint{display:block}
 #board .needo{fill:none;stroke:#fff3b0;stroke-width:5;pointer-events:none;animation:needp 1.2s ease-in-out infinite alternate}
 @keyframes needp{from{stroke-opacity:.45;filter:drop-shadow(0 0 2px #ffd76a)}to{stroke-opacity:1;filter:drop-shadow(0 0 12px #ffd76a) brightness(1.25)}}
 </style>
-
-
-<script id="kyrver">(function(){var V="20261127203738";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
+<script id="kyrver">(function(){var V="20261127203956";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
 </head>
 <body>
 <div id="bgart" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax meet" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -504,6 +502,7 @@ body.zoom #zhint{display:block}
 </div></div></div>
 <div class="modal" id="modebox"><div class="qcard" style="max-width:520px"><div class="qhead" style="background:var(--acc)"><span>Πώς θα παίξετε;</span><button class="btn" id="modex" style="padding:2px 10px">✕</button></div><div class="qbody mode">
  <label class="nl">Το όνομά σας <input id="modename" class="pname" placeholder="όνομα"></label>
+ <div class="nl" style="margin:4px 0 2px">Το επίπεδό σας</div><div id="lvlrow" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"><button class="btn" data-l="1" onclick="setLevel(1)" style="flex:1 1 30%">🌱 Αρχάριος<small style="display:block;font-size:12px;opacity:.8">πρώτα βήματα</small></button><button class="btn" data-l="2" onclick="setLevel(2)" style="flex:1 1 30%">📖 Προχωρημένος<small style="display:block;font-size:12px;opacity:.8">ψάλλω ήδη</small></button><button class="btn" data-l="3" onclick="setLevel(3)" style="flex:1 1 30%">🎼 Επαγγελματίας<small style="display:block;font-size:12px;opacity:.8">ιεροψάλτης, δάσκαλος</small></button></div>
  <button class="btn mbig" id="msolo">🎓 Μόνος μου<small>εξάσκηση και μελέτη, με τον δικό μου ρυθμό</small></button>
  <button class="btn mbig pri" id="mhost">👥 Με άλλους ψάλτες<small>παίρνω κωδικό και τον στέλνω σε έως 3 ψάλτες</small></button>
  <button class="btn mbig" id="mjoin">🔑 Έχω κωδικό<small>μπαίνω σε παιχνίδι που άνοιξε άλλος</small></button>
@@ -573,9 +572,12 @@ const ECHOI=['Ήχος α΄','Ήχος β΄','Ήχος γ΄','Ήχος δ΄','Ή
 const ECHS=['α΄','β΄','γ΄','δ΄','πλ.δ΄','πλ.α΄','πλ.β΄','βαρ.'];
 const WCAT=['Θεωρία','Αρμονικά','Ιστορία','Υμνολογία','Τυπικό','Ορθογραφία','Θεωρία','Αρμονικά'];
 let curEcho=-1;
-const byCat={}; CATS.forEach(c=>byCat[c.k]=BANK.filter(b=>b.c===c.k));
+let LEVEL=1; try{LEVEL=+localStorage.getItem('kyrLevel')||1}catch(e){}
+const LEVELS=[null,{n:'Αρχάριος',max:1},{n:'Προχωρημένος',max:2},{n:'Επαγγελματίας',max:9}];
+const byCat={}; function buildByCat(){ CATS.forEach(c=>{ const all=BANK.filter(b=>b.c===c.k); const lv=all.filter(b=>(b.y||b.d||1)<=LEVELS[LEVEL].max); byCat[c.k]=lv.length>=15?lv:all; }); for(const k in decks) delete decks[k]; }
+function setLevel(n){ LEVEL=n; try{localStorage.setItem('kyrLevel',n)}catch(e){} buildByCat(); document.querySelectorAll('#lvlrow button').forEach(b=>b.classList.toggle('pri',+b.dataset.l===n)); }
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-const decks={}; function draw(cat){ if(!decks[cat]||!decks[cat].length) decks[cat]=shuffle(byCat[cat].slice()); return decks[cat].pop(); }
+const decks={}; buildByCat(); setTimeout(()=>setLevel(LEVEL),0); function draw(cat){ if(!decks[cat]||!decks[cat].length) decks[cat]=shuffle(byCat[cat].slice()); return decks[cat].pop(); }
 document.getElementById('legend').innerHTML=CATS.map(c=>`<span><i class="dot" style="background:${c.c}"></i>${c.k}</span>`).join('');
 
 /* ---------- ταμπλό: τροχός ---------- */
