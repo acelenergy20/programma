@@ -83,7 +83,9 @@ html{scroll-behavior:smooth}
 .kthyw{position:relative;height:70px;width:60px}
 .kthy{position:absolute;left:10px;top:-14px;height:104px;width:auto;transform-origin:50% 0;animation:kswing 2.6s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(255,215,94,.45))}
 @keyframes kswing{0%,100%{transform:rotate(16deg)}50%{transform:rotate(-16deg)}}
-</style><script id="kyrver">(function(){var V="20261127211352";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
+</style>
+
+<script id="kyrver">(function(){var V="20261128001358";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
 </head>
 <body>
 <style>#bgart{position:fixed;left:0;right:0;bottom:0;height:78vh;color:#d9b45a;opacity:.2;pointer-events:none;z-index:0}#bgart svg{width:100%;height:100%}body{margin:0;background:radial-gradient(ellipse at 70% 10%, #1f3f7a 0%, #0d1b3a 40%, #050a18 85%) #050a18}body>div[style*="radial-gradient(ellipse at 70% 10%"]{background:transparent!important}body>*:not(#bgart):not(#kgate):not(#kpop):not(#kmute):not(script):not(style):not(audio){position:relative;z-index:1}</style>
@@ -201,6 +203,25 @@ html{scroll-behavior:smooth}
 .kpanel{display:none}.kpanel.on{display:block;animation:kpin .45s ease both}
 @keyframes kpin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 </style>
+<section id="kpatr" style="max-width:1000px;margin:0 auto 26px;padding:0 24px">
+<style>
+#kpatr .kpb{display:flex;align-items:center;gap:28px;background:linear-gradient(180deg,rgba(11,22,48,.78),rgba(20,40,84,.78));border:1.5px solid rgba(217,180,90,.6);border-radius:22px;padding:22px 30px;box-shadow:0 12px 34px rgba(0,0,0,.35)}
+#kpatr .kph{flex:0 0 150px;height:190px;border-radius:14px;overflow:hidden;border:3px solid #d9b45a;box-shadow:0 0 0 6px rgba(217,180,90,.18);background:#0b1630}
+#kpatr .kph img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
+#kpatr .kpt{font-family:'Caudex',serif;color:#f4efe2;text-align:center;flex:1}
+#kpatr .kpt .k1{font-style:italic;font-size:18px;color:#cfc0a0}
+#kpatr .kpt .k2{font-weight:700;font-size:27px;letter-spacing:.06em;color:#f3d98a;margin:6px 0;line-height:1.25}
+#kpatr .kpt .k3{font-size:19px;line-height:1.45}
+#kpatr .kpt .k4{font-size:15px;color:#cfc0a0;margin-top:6px}
+#kpatr.noph .kph{display:none}
+@media(max-width:700px){#kpatr .kpb{flex-direction:column;padding:20px 18px;gap:16px}#kpatr .kpt .k2{font-size:22px}#kpatr .kpt .k3{font-size:17px}}
+</style>
+<div class="kpb"><div class="kph"><img src="assets/patriarchis.webp?v=1" alt="Ο Οικουμενικός Πατριάρχης κ.κ. Βαρθολομαίος Α΄" onerror="document.getElementById('kpatr').classList.add('noph')"></div>
+<div class="kpt"><div class="k1">Το Κυρίλλειον αφιερώνεται στη συμπλήρωση</div>
+<div class="k2">35 ΧΡΟΝΩΝ ΕΥΚΛΕΟΥΣ ΠΑΤΡΙΑΡΧΙΑΣ</div>
+<div class="k3">της Α.Θ.Π. του Οικουμενικού Πατριάρχου<br><b>κ.κ. Βαρθολομαίου Α΄</b></div>
+<div class="k4">στον Αποστολικό και Οικουμενικό Θρόνο · 22 Οκτωβρίου 1991 – 2026</div></div></div>
+</section>
 <nav id="ktabs" role="tablist" aria-label="Ενότητες">
   <button role="tab" id="t-pos" aria-controls="pos" aria-selected="true">1. Πώς παίζεται</button>
   <button role="tab" id="t-agios" aria-controls="agios" aria-selected="false">2. Ο Άγιος Κύριλλος</button>
