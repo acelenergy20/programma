@@ -340,16 +340,16 @@ header{position:relative}
 #hboat{width:64px;margin:2px auto 0;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
 body.xmas-on #hboat{display:inline-block;vertical-align:middle;margin:0 10px 0 0}
 #hboat svg,#sboat svg{width:100%;height:auto;display:block;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
-#sboat{position:absolute;left:0;right:0;bottom:0;height:300px;pointer-events:none;z-index:0;overflow:hidden;opacity:.92}
+#sboat{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:hidden}
 #splash .sframe,#splash .scap{position:relative;z-index:1}#stap{z-index:2}#splash #sskip{z-index:2}
-#sboat .sail{position:absolute;bottom:10px;left:-280px;width:236px;animation:voyage 34s linear infinite;filter:drop-shadow(0 0 18px rgba(255,215,94,.45))}
+#sboat .sail{position:absolute;top:50%;left:-280px;width:236px;animation:voyage 34s linear infinite;filter:drop-shadow(0 0 18px rgba(255,215,94,.45))}
 #sboat .sail .bob{animation:bob 3.2s ease-in-out infinite}
 #sboat .bface{animation:face 34s step-end infinite;transform:scaleX(-1)}
 #sboat .xcap{text-align:center;font:700 17px/1.2 'KyrByz',Georgia,serif;letter-spacing:.1em;color:#ffd75e;text-shadow:0 0 10px rgba(255,215,94,.6),0 2px 3px #000;margin-top:2px;white-space:nowrap}
-@keyframes voyage{0%{left:-280px;transform:scale(.82)}22%{transform:scale(1.05)}48%{left:calc(100% + 40px);transform:scale(.86)}50%{left:calc(100% + 40px);transform:scale(.86)}74%{transform:scale(1.05)}98%{left:-280px;transform:scale(.82)}100%{left:-280px;transform:scale(.82)}}
+@keyframes voyage{0%{left:-280px;transform:translateY(-50%) scale(.6)}24%{transform:translateY(-50%) scale(1.35)}48%{left:calc(100% + 40px);transform:translateY(-50%) scale(.6)}50%{left:calc(100% + 40px);transform:translateY(-50%) scale(.6)}74%{transform:translateY(-50%) scale(1.35)}98%{left:-280px;transform:translateY(-50%) scale(.6)}100%{left:-280px;transform:translateY(-50%) scale(.6)}}
 @keyframes face{0%{transform:scaleX(-1)}49%{transform:scaleX(1)}99%{transform:scaleX(-1)}}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(5px) rotate(2deg)}}
-@media(max-width:700px){#sboat{height:200px}#sboat .sail{width:150px}#sboat .xcap{font-size:12px}}
+@media(max-width:700px){#sboat .sail{width:150px}#sboat .xcap{font-size:12px}}
 @media(max-width:700px){#hboat{width:44px}}
 body.dmove .dtop{visibility:hidden}
 #zhint{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:40;color:#f7e08f;font-size:16px;background:rgba(0,0,0,.45);padding:6px 16px;border-radius:20px;display:none}
