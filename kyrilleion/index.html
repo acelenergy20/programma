@@ -67,7 +67,18 @@ html{scroll-behavior:smooth}
 
 <style>#kmute.kblk{animation:kblk 1.1s ease-in-out infinite}@keyframes kblk{0%{box-shadow:0 0 0 0 rgba(247,224,143,.7)}70%{box-shadow:0 0 0 14px rgba(247,224,143,0)}100%{box-shadow:0 0 0 0 rgba(247,224,143,0)}}</style>
 
-<script id="kyrver">(function(){var V="20261127210859";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
+
+<style>
+.kdice{display:flex;gap:22px;align-items:center;margin:4px 0 8px 2px;height:70px}
+.kscene{width:52px;height:52px;perspective:420px}
+.kcube{position:relative;width:52px;height:52px;transform-style:preserve-3d;animation:kspin 7s linear infinite}
+.kcube.kr{animation-duration:9s;animation-direction:reverse}
+.kcube i{position:absolute;inset:0;background-size:cover;border-radius:9px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.kfr{transform:translateZ(26px)}.kbk{transform:rotateY(180deg) translateZ(26px)}.krt{transform:rotateY(90deg) translateZ(26px)}
+.klt{transform:rotateY(-90deg) translateZ(26px)}.ktp{transform:rotateX(90deg) translateZ(26px)}.kbt{transform:rotateX(-90deg) translateZ(26px)}
+@keyframes kspin{0%{transform:rotateX(-20deg) rotateY(0) rotateZ(0)}50%{transform:rotateX(200deg) rotateY(180deg) rotateZ(30deg)}100%{transform:rotateX(340deg) rotateY(360deg) rotateZ(0)}}
+@media(prefers-reduced-motion:reduce){.kcube{animation-duration:20s}}
+</style><script id="kyrver">(function(){var V="20261127211025";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
 </head>
 <body>
 <style>#bgart{position:fixed;left:0;right:0;bottom:0;height:78vh;color:#d9b45a;opacity:.2;pointer-events:none;z-index:0}#bgart svg{width:100%;height:100%}body{margin:0;background:radial-gradient(ellipse at 70% 10%, #1f3f7a 0%, #0d1b3a 40%, #050a18 85%) #050a18}body>div[style*="radial-gradient(ellipse at 70% 10%"]{background:transparent!important}body>*:not(#bgart):not(#kgate):not(#kpop):not(#kmute):not(script):not(style):not(audio){position:relative;z-index:1}</style>
@@ -194,7 +205,7 @@ html{scroll-behavior:smooth}
     <h2 style="font-size: 40px; font-weight: 700; color: #f7e08f; margin: 0 0 30px; text-align: center">Πώς παίζεται</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px">
       <div style="border: 1.5px solid rgba(217,180,90,0.55); border-radius: 14px; padding: 26px; background: rgba(11,22,48,0.6); display: flex; flex-direction: column; gap: 10px">
-        <div style="font-size: 44px; color: #d9b45a; line-height: 1">α΄</div>
+        <div style="display:flex;align-items:center;gap:18px"><div style="font-size: 44px; color: #d9b45a; line-height: 1">α΄</div><div class="kdice" aria-hidden="true"><div class="kscene"><div class="kcube kb"><i class="kfr" style="background-image:url(assets/dice/b1.webp)"></i><i class="kbk" style="background-image:url(assets/dice/b2.webp)"></i><i class="krt" style="background-image:url(assets/dice/b3.webp)"></i><i class="klt" style="background-image:url(assets/dice/b4.webp)"></i><i class="ktp" style="background-image:url(assets/dice/b5.webp)"></i><i class="kbt" style="background-image:url(assets/dice/b6.webp)"></i></div></div><div class="kscene"><div class="kcube kr"><i class="kfr" style="background-image:url(assets/dice/r1.webp)"></i><i class="kbk" style="background-image:url(assets/dice/r2.webp)"></i><i class="krt" style="background-image:url(assets/dice/r3.webp)"></i><i class="klt" style="background-image:url(assets/dice/r4.webp)"></i><i class="ktp" style="background-image:url(assets/dice/r5.webp)"></i><i class="kbt" style="background-image:url(assets/dice/r6.webp)"></i></div></div></div></div>
         <h3 style="font-size: 24px; margin: 0; color: #fff3c4">Ρίξτε τα ζάρια</h3>
         <p style="font-size: 17px; line-height: 1.55; margin: 0">Το μπλε ζάρι της ανάβασης και το κόκκινο της κατάβασης έχουν πάνω τους χαρακτήρες ποσότητας. Διαλέγετε ένα από τα δύο: <b>προτιμήστε εκείνο που σας φέρνει σε θέση ήχου</b>, γιατί εκεί κερδίζετε κόκκο θυμιάματος.</p>
       </div>
