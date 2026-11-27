@@ -42,7 +42,8 @@ html{scroll-behavior:smooth}
 
 
 
-<script id="kyrver">(function(){var V="20261127193111";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
+
+<script id="kyrver">(function(){var V="20261127193402";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
 </head>
 <body>
 <div style="font-family: 'Caudex', Georgia, serif; color: #e9dcb4; background: radial-gradient(ellipse at 70% 10%, #1f3f7a 0%, #0d1b3a 40%, #050a18 85%); min-height: 100vh">
@@ -97,14 +98,14 @@ html{scroll-behavior:smooth}
   function open(){p.style.display='flex';}function close(){p.style.display='none';}
   if(b){b.addEventListener('click',open);b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});}
   document.getElementById('kpx').onclick=close;p.addEventListener('click',function(e){if(e.target===p)close();});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&p.style.display==='flex')close();});})();</script>
-  <div id="kgate" role="button" tabindex="0" aria-label="Καλά Χριστούγεννα! Πατήστε για είσοδο" style="display:none;position:fixed;inset:0;z-index:200;cursor:pointer;background:radial-gradient(ellipse at 50% 40%,#1f3f7a 0%,#0b1630 60%,#050a19 100%);flex-direction:column;align-items:center;justify-content:center;overflow:hidden;transition:opacity .7s">
-    <div id="kgsea" style="position:absolute;left:0;right:0;top:50%;height:300px;transform:translateY(-62%);pointer-events:none"><div class="sail" style="position:absolute;top:50%;left:-280px;width:236px;animation:voyage 22s linear infinite;filter:drop-shadow(0 0 22px rgba(255,215,94,.5))"><div class="bob" style="animation:bob 3.2s ease-in-out infinite"><div class="bface" style="animation:face 22s step-end infinite;transform:scaleX(-1)"><img src="assets/karavaki.svg?v=2" alt="" style="width:100%;display:block"></div></div></div></div>
-    <div style="position:absolute;left:0;right:0;bottom:12%;text-align:center;padding:0 16px">
+  <div id="kgate" role="button" tabindex="0" aria-label="Καλά Χριστούγεννα!" style="display:none;position:fixed;inset:0;z-index:200;cursor:pointer;background:radial-gradient(ellipse at 50% 40%,#1f3f7a 0%,#0b1630 60%,#050a19 100%);flex-direction:column;align-items:center;justify-content:center;overflow:hidden;transition:opacity .7s">
+    <div id="kgsea" style="position:absolute;left:0;right:0;top:50%;height:300px;transform:translateY(-62%);pointer-events:none"><div class="sail" style="position:absolute;top:50%;left:calc(50% - 118px);width:236px;animation:kgarrive 4.2s cubic-bezier(.2,.7,.3,1) both;filter:drop-shadow(0 0 22px rgba(255,215,94,.5))"><div class="bob" style="animation:bob 3.2s ease-in-out infinite"><div class="bface" style="transform:scaleX(-1)"><img src="assets/karavaki.svg?v=2" alt="" style="width:100%;display:block"></div></div></div></div>
+    <div style="position:absolute;left:0;right:0;top:calc(50% + 86px);text-align:center;padding:0 16px">
       <div class="gold" style="font-weight:700;font-size:clamp(34px,6vw,64px);letter-spacing:.06em">Καλά Χριστούγεννα!</div>
-      <div style="margin-top:14px;font-size:clamp(18px,2.4vw,24px);color:#f7e08f;animation:kgp 1.2s ease-in-out infinite alternate">🔊 Πατήστε για είσοδο</div>
+
     </div>
   </div>
-  <style>@keyframes kgp{from{opacity:.55}to{opacity:1}}</style>
+  <style>@keyframes kgarrive{0%{left:-280px;transform:translateY(-50%) scale(.6)}70%{transform:translateY(-50%) scale(1.12)}100%{left:calc(50% - 118px);transform:translateY(-50%) scale(1)}}</style>
   <script>(function(){var d=new Date(),m=d.getMonth()+1,dd=d.getDate();if(!((m===11&&dd>=26)||m===12||(m===1&&dd<=7)))return;
   var g=document.getElementById('kgate');g.style.display='flex';document.documentElement.style.overflow='hidden';
   var done=false;function enter(ev){if(done)return;done=true;var au=document.getElementById('kaud');if(ev){try{localStorage.setItem('kyrMute','0')}catch(e){}var mb=document.getElementById('kmute');if(mb)mb.textContent='🔊';}if(au&&(ev||!(localStorage.getItem('kyrMute')==='1'))){var pr=au.play();if(pr&&pr.catch)pr.catch(function(){});}
