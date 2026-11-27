@@ -59,7 +59,7 @@ html{scroll-behavior:smooth}
   #xboat .sail{position:absolute;top:50%;left:-280px;width:236px;animation:voyage 34s linear infinite;filter:drop-shadow(0 0 18px rgba(255,215,94,.45))}
   #xboat .bob{animation:bob 3.2s ease-in-out infinite}
   #xboat .bface{animation:face 34s step-end infinite;transform:scaleX(-1)}
-  #xboat img{width:100%;height:auto;display:block;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+  #xboat img{width:100%;height:auto;display:block}
   #xboat .xcap{text-align:center;font-weight:700;font-size:17px;letter-spacing:.1em;color:#ffd75e;text-shadow:0 0 10px rgba(255,215,94,.6),0 2px 3px #000;white-space:nowrap}
   @keyframes voyage{0%{left:-280px;transform:translateY(-50%) scale(.6)}24%{transform:translateY(-50%) scale(1.35)}48%{left:calc(100% + 40px);transform:translateY(-50%) scale(.6)}50%{left:calc(100% + 40px);transform:translateY(-50%) scale(.6)}74%{transform:translateY(-50%) scale(1.35)}98%{left:-280px;transform:translateY(-50%) scale(.6)}100%{left:-280px;transform:translateY(-50%) scale(.6)}}
   @keyframes face{0%{transform:scaleX(-1)}49%{transform:scaleX(1)}99%{transform:scaleX(-1)}}
@@ -67,7 +67,7 @@ html{scroll-behavior:smooth}
   @media(max-width:700px){#xboat .sail{width:150px}#xboat .xcap{font-size:12px}}
   </style>
   <section id="hero" style="max-width: 1240px; margin: 0 auto; padding: 40px 32px 70px; display: flex; flex-wrap: wrap; align-items: center; gap: 40px">
-    <div id="xboat" aria-hidden="true"><div class="sail" title="Καλά Χριστούγεννα!"><div class="bob"><div class="bface"><img src="assets/karavaki.svg" alt=""></div><div class="xcap gold">ΚΑΛΑ ΧΡΙΣΤΟΥΓΕΝΝΑ!</div></div></div></div>
+    <div id="xboat" aria-hidden="true"><div class="sail" title="Καλά Χριστούγεννα!"><div class="bob"><div class="bface"><img src="assets/karavaki.svg?v=2" alt=""></div><div class="xcap gold">ΚΑΛΑ ΧΡΙΣΤΟΥΓΕΝΝΑ!</div></div></div></div>
     <script>(function(){var d=new Date(),m=d.getMonth()+1,dd=d.getDate();if((m===11&&dd>=26)||m===12||(m===1&&dd<=7))document.getElementById('xboat').style.display='block';})();</script>
     <div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
       <div class="gold" style="font-size: clamp(44px, 6vw, 86px); font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; line-height: 1.02">ΚΥΡΙΛΛΕΙΟΝ</div>
