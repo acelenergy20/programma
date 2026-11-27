@@ -56,7 +56,8 @@ html{scroll-behavior:smooth}
 
 
 
-<script id="kyrver">(function(){var V="20261127195213";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
+
+<script id="kyrver">(function(){var V="20261127201200";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
 </head>
 <body>
 <style>#bgart{position:fixed;left:0;right:0;bottom:0;height:78vh;color:#d9b45a;opacity:.2;pointer-events:none;z-index:0}#bgart svg{width:100%;height:100%}body{margin:0;background:radial-gradient(ellipse at 70% 10%, #1f3f7a 0%, #0d1b3a 40%, #050a18 85%) #050a18}body>div[style*="radial-gradient(ellipse at 70% 10%"]{background:transparent!important}body>*:not(#bgart):not(#kgate):not(#kpop):not(#kmute):not(script):not(style):not(audio){position:relative;z-index:1}</style>
@@ -154,7 +155,7 @@ html{scroll-behavior:smooth}
       <div class="gold" style="font-size: clamp(44px, 6vw, 86px); font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; line-height: 1.02">ΚΥΡΙΛΛΕΙΟΝ</div>
       <div style="font-size: clamp(22px, 2.6vw, 32px); font-style: italic; color: #f3e7c4">παιχνίδι γνώσεων ψαλτικής</div>
       <p style="font-size: 20px; line-height: 1.6; margin: 6px 0 0; max-width: 560px">Ανεβείτε και κατεβείτε στον τροχό της Οκτωήχου με τα ζάρια των χαρακτήρων ποσότητας. Απαντήστε σε ερωτήσεις θεωρίας, ορθογραφίας, τυπικού, υμνολογίας, ιστορίας και αρμονικών, και γεμίστε το θυμιατό σας.</p>
-      <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px">
+      <div class="kcta-top" style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px">
         <a href="/didachi/kyrilleion/" style="text-decoration: none; font-family: 'Comfortaa', sans-serif; font-weight: 700; font-size: 20px; color: #2a1a05; background: linear-gradient(180deg,#f7e08f,#d9b45a); border-bottom: 4px solid #8a6418; border-radius: 16px; padding: 15px 28px; min-height: 44px">Παίξτε τώρα</a>
         <a href="/didachi/kyrilleion/" style="text-decoration: none; font-family: 'Comfortaa', sans-serif; font-weight: 700; font-size: 20px; color: #f7e08f; border: 2px solid #d9b45a; border-radius: 16px; padding: 13px 26px; min-height: 44px">Παιχνίδι με φίλους</a>
       </div>
@@ -250,6 +251,28 @@ html{scroll-behavior:smooth}
 ids.forEach(function(k){document.getElementById('t-'+k).addEventListener('click',function(){show(k,false);try{history.replaceState(null,'','#'+k)}catch(e){}});});
 document.querySelectorAll('a[href^="#"]').forEach(function(a){var k=a.getAttribute('href').slice(1);if(ids.indexOf(k)>=0)a.addEventListener('click',function(e){e.preventDefault();show(k,true);try{history.replaceState(null,'','#'+k)}catch(x){}});});
 var h=location.hash.slice(1);if(ids.indexOf(h)>=0)show(h,true);})();</script>
+<section id="kend" style="max-width:1240px;margin:0 auto;padding:30px 24px 50px;text-align:center">
+  <div class="gold" style="font-weight:700;font-size:30px;margin-bottom:6px">Καλή επιτυχία, ψάλτη!</div>
+  <div style="font-size:17px;color:#f3e7c4;margin-bottom:16px">Διαλέξτε πώς θα παίξετε:</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 14px; justify-content:center">
+        <a href="/didachi/kyrilleion/" style="text-decoration: none; font-family: 'Comfortaa', sans-serif; font-weight: 700; font-size: 20px; color: #2a1a05; background: linear-gradient(180deg,#f7e08f,#d9b45a); border-bottom: 4px solid #8a6418; border-radius: 16px; padding: 15px 28px; min-height: 44px">Παίξτε τώρα</a>
+        <a href="/didachi/kyrilleion/" style="text-decoration: none; font-family: 'Comfortaa', sans-serif; font-weight: 700; font-size: 20px; color: #f7e08f; border: 2px solid #d9b45a; border-radius: 16px; padding: 13px 26px; min-height: 44px">Παιχνίδι με φίλους</a>
+      </div>
+</section>
+<style>#kend{display:none}
+@media(max-width:700px){#kend{display:block}#hero .kcta-top{display:none!important}#ktabs{display:none!important}.kpanel{display:block!important;animation:none!important}}</style>
+<script>(function(){if(!matchMedia('(max-width:700px)').matches)return;
+var speed=38,acc=0,last=0,paused=true,hold=0,started=false;
+function bottom(){return window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-2;}
+function tick(t){if(!last)last=t;var dt=Math.min(64,t-last);last=t;if(!paused&&t>hold){acc+=speed*dt/1000;if(acc>=1){var n=Math.floor(acc);acc-=n;window.scrollBy(0,n);}if(bottom())paused=true;}requestAnimationFrame(tick);}
+function begin(){if(started)return;started=true;setTimeout(function(){paused=false;},1500);requestAnimationFrame(tick);}
+function rest(ms){hold=performance.now()+ms;}
+window.addEventListener('touchstart',function(){paused=true;},{passive:true});
+window.addEventListener('touchend',function(){if(!bottom()){paused=false;rest(2500);}},{passive:true});
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(a){var t=document.getElementById(a.getAttribute('href').slice(1));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});rest(2500);paused=false;}}},true);
+var g=document.getElementById('kgate');
+function waitGate(){if(g&&getComputedStyle(g).display!=='none'){setTimeout(waitGate,300);return;}begin();}
+(window.KREADY||Promise.resolve()).then(waitGate);})();</script>
 <footer style="border-top: 1px solid rgba(217,180,90,0.35); padding: 30px 32px 40px">
     <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.6; color: #c9bb98; text-align: center">
       <div>Η εφαρμογή αναπτύχθηκε από τον πρωτοψάλτη Κωνσταντίνο Πολίτη, με τη μέριμνα του Συλλόγου Ιεροψαλτών Ορεστιάδος &amp; Διδυμοτείχου «Θρασύβουλος Στανίτσας», και επιχορηγήθηκε από το Υπουργείο Πολιτισμού.</div>
