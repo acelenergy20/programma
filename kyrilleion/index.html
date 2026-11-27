@@ -55,7 +55,8 @@ html{scroll-behavior:smooth}
 
 
 
-<script id="kyrver">(function(){var V="20261127194333";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
+
+<script id="kyrver">(function(){var V="20261127195213";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
 </head>
 <body>
 <style>#bgart{position:fixed;left:0;right:0;bottom:0;height:78vh;color:#d9b45a;opacity:.2;pointer-events:none;z-index:0}#bgart svg{width:100%;height:100%}body{margin:0;background:radial-gradient(ellipse at 70% 10%, #1f3f7a 0%, #0d1b3a 40%, #050a18 85%) #050a18}body>div[style*="radial-gradient(ellipse at 70% 10%"]{background:transparent!important}body>*:not(#bgart):not(#kgate):not(#kpop):not(#kmute):not(script):not(style):not(audio){position:relative;z-index:1}</style>
@@ -164,7 +165,20 @@ html{scroll-behavior:smooth}
     </div>
   </section>
 
-  <section id="pos" style="max-width: 1240px; margin: 0 auto; padding: 50px 32px">
+  <style>
+#ktabs{max-width:1240px;margin:0 auto;padding:10px 32px 0;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+#ktabs button{font-family:'Comfortaa',sans-serif;font-weight:700;font-size:17px;color:#f7e08f;background:rgba(11,22,48,.7);border:1.5px solid rgba(217,180,90,.55);border-radius:999px;padding:12px 22px;min-height:44px;cursor:pointer;transition:background .25s,color .25s}
+#ktabs button:hover{background:rgba(31,63,122,.8)}
+#ktabs button[aria-selected=true]{background:linear-gradient(180deg,#f7e08f,#d9b45a);color:#2a1a05;border-color:#d9b45a}
+.kpanel{display:none}.kpanel.on{display:block;animation:kpin .45s ease both}
+@keyframes kpin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+</style>
+<nav id="ktabs" role="tablist" aria-label="Ενότητες">
+  <button role="tab" id="t-pos" aria-controls="pos" aria-selected="true">1. Πώς παίζεται</button>
+  <button role="tab" id="t-agios" aria-controls="agios" aria-selected="false">2. Ο Άγιος Κύριλλος</button>
+  <button role="tab" id="t-efarmogi" aria-controls="efarmogi" aria-selected="false">3. Εγκατάσταση εφαρμογής</button>
+</nav>
+<div class="kpanel on" id="pos" role="tabpanel" aria-labelledby="t-pos"><section id="pos-s" style="max-width: 1240px; margin: 0 auto; padding: 50px 32px">
     <h2 style="font-size: 40px; font-weight: 700; color: #f7e08f; margin: 0 0 30px; text-align: center">Πώς παίζεται</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px">
       <div style="border: 1.5px solid rgba(217,180,90,0.55); border-radius: 14px; padding: 26px; background: rgba(11,22,48,0.6); display: flex; flex-direction: column; gap: 10px">
@@ -210,7 +224,8 @@ html{scroll-behavior:smooth}
     </div>
   </section>
 
-  <section id="agios" style="max-width: 1240px; margin: 0 auto; padding: 60px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 40px">
+  </div>
+<div class="kpanel" id="agios" role="tabpanel" aria-labelledby="t-agios"><section id="agios-s" style="max-width: 1240px; margin: 0 auto; padding: 60px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 40px">
     <div style="flex: 0 1 260px; display: flex; justify-content: center">
       <img src="assets/kyrillos.webp" alt="Εικόνα του Αγίου Ιερομάρτυρος Κυρίλλου ΣΤ΄" style="width: 240px; height: 240px; border-radius: 50%; border: 4px solid #d9b45a; object-fit: cover; box-shadow: 0 0 50px rgba(217,180,90,0.45)">
     </div>
@@ -221,7 +236,8 @@ html{scroll-behavior:smooth}
     </div>
   </section>
 
-  <section id="efarmogi" style="max-width: 1240px; margin: 0 auto; padding: 40px 32px 70px">
+  </div>
+<div class="kpanel" id="efarmogi" role="tabpanel" aria-labelledby="t-efarmogi"><section id="efarmogi-s" style="max-width: 1240px; margin: 0 auto; padding: 40px 32px 70px">
     <div style="border: 3px solid #d9b45a; border-radius: 6px; box-shadow: inset 0 0 0 8px rgba(217,180,90,0.35); padding: 44px 32px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px">
       <h2 style="font-size: 34px; font-weight: 700; color: #f7e08f; margin: 0">Εγκαταστήστε την εφαρμογή</h2>
       <p style="font-size: 18px; line-height: 1.6; margin: 0; max-width: 680px">Ανοίξτε το παιχνίδι και πατήστε ⚙ Ρυθμίσεις › Εγκατάσταση, ή «Προσθήκη στην αρχική οθόνη» στο κινητό. Σύντομα και στα Microsoft Store, Google Play και App Store.</p>
@@ -229,7 +245,12 @@ html{scroll-behavior:smooth}
     </div>
   </section>
 
-  <footer style="border-top: 1px solid rgba(217,180,90,0.35); padding: 30px 32px 40px">
+  </div>
+<script>(function(){var ids=['pos','agios','efarmogi'];function show(id,scroll){ids.forEach(function(k){var on=k===id;document.getElementById(k).classList.toggle('on',on);document.getElementById('t-'+k).setAttribute('aria-selected',on?'true':'false');});if(scroll)document.getElementById('ktabs').scrollIntoView({behavior:'smooth',block:'start'});}
+ids.forEach(function(k){document.getElementById('t-'+k).addEventListener('click',function(){show(k,false);try{history.replaceState(null,'','#'+k)}catch(e){}});});
+document.querySelectorAll('a[href^="#"]').forEach(function(a){var k=a.getAttribute('href').slice(1);if(ids.indexOf(k)>=0)a.addEventListener('click',function(e){e.preventDefault();show(k,true);try{history.replaceState(null,'','#'+k)}catch(x){}});});
+var h=location.hash.slice(1);if(ids.indexOf(h)>=0)show(h,true);})();</script>
+<footer style="border-top: 1px solid rgba(217,180,90,0.35); padding: 30px 32px 40px">
     <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.6; color: #c9bb98; text-align: center">
       <div>Η εφαρμογή αναπτύχθηκε από τον πρωτοψάλτη Κωνσταντίνο Πολίτη, με τη μέριμνα του Συλλόγου Ιεροψαλτών Ορεστιάδος &amp; Διδυμοτείχου «Θρασύβουλος Στανίτσας», και επιχορηγήθηκε από το Υπουργείο Πολιτισμού.</div>
       <div><a href="https://programma.politisk.gr/didachi/">Διδαχή</a> · <a href="https://politisk.gr/">politisk.gr</a></div>
