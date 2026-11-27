@@ -32,5 +32,39 @@
    "type": "image/png",
    "purpose": "maskable"
   }
+ ],
+ "id": "/didachi/kyrilleion/",
+ "dir": "ltr",
+ "categories": [
+  "education",
+  "games",
+  "music"
+ ],
+ "display_override": [
+  "window-controls-overlay",
+  "standalone"
+ ],
+ "screenshots": [
+  {
+   "src": "store/03-trochos.png",
+   "sizes": "1920x1080",
+   "type": "image/png",
+   "form_factor": "wide",
+   "label": "Ο τροχός της Οκτωήχου"
+  },
+  {
+   "src": "store/04-erotisi.png",
+   "sizes": "1920x1080",
+   "type": "image/png",
+   "form_factor": "wide",
+   "label": "Ερώτηση θεωρίας"
+  },
+  {
+   "src": "store/05-charaktires-posotitas.png",
+   "sizes": "1920x1080",
+   "type": "image/png",
+   "form_factor": "wide",
+   "label": "Οι χαρακτήρες ποσότητας"
+  }
  ]
 }
