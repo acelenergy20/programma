@@ -59,7 +59,9 @@ html{scroll-behavior:smooth}
 
 
 
-<script id="kyrver">(function(){var V="20261127202553";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
+
+
+<script id="kyrver">(function(){var V="20261127203626";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
 </head>
 <body>
 <style>#bgart{position:fixed;left:0;right:0;bottom:0;height:78vh;color:#d9b45a;opacity:.2;pointer-events:none;z-index:0}#bgart svg{width:100%;height:100%}body{margin:0;background:radial-gradient(ellipse at 70% 10%, #1f3f7a 0%, #0d1b3a 40%, #050a18 85%) #050a18}body>div[style*="radial-gradient(ellipse at 70% 10%"]{background:transparent!important}body>*:not(#bgart):not(#kgate):not(#kpop):not(#kmute):not(script):not(style):not(audio){position:relative;z-index:1}</style>
@@ -253,6 +255,8 @@ html{scroll-behavior:smooth}
 ids.forEach(function(k){document.getElementById('t-'+k).addEventListener('click',function(){show(k,false);try{history.replaceState(null,'','#'+k)}catch(e){}});});
 document.querySelectorAll('a[href^="#"]').forEach(function(a){var k=a.getAttribute('href').slice(1);if(ids.indexOf(k)>=0)a.addEventListener('click',function(e){e.preventDefault();show(k,true);try{history.replaceState(null,'','#'+k)}catch(x){}});});
 var h=location.hash.slice(1);if(ids.indexOf(h)>=0)show(h,true);})();</script>
+<a id="kskip" href="/didachi/kyrilleion/" style="display:none;position:fixed;right:14px;bottom:16px;z-index:95;text-decoration:none;font-family:'Comfortaa',sans-serif;font-weight:700;font-size:16px;color:#2a1a05;background:linear-gradient(180deg,#f7e08f,#d9b45a);border-bottom:3px solid #8a6418;border-radius:999px;padding:11px 18px;box-shadow:0 4px 14px rgba(0,0,0,.4)">Στο παιχνίδι ⏭</a>
+<style>@media(max-width:700px){#kskip.on{display:inline-block!important}}</style>
 <section id="kend" style="max-width:1240px;margin:0 auto;padding:30px 24px 50px;text-align:center">
   <div class="gold" style="font-weight:700;font-size:30px;margin-bottom:6px">Καλή επιτυχία, ψάλτη!</div>
   <div style="font-size:17px;color:#f3e7c4;margin-bottom:16px">Διαλέξτε πώς θα παίξετε:</div>
@@ -267,7 +271,7 @@ var h=location.hash.slice(1);if(ids.indexOf(h)>=0)show(h,true);})();</script>
 var speed=38,acc=0,last=0,paused=true,hold=0,started=false;
 function bottom(){return window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-2;}
 function tick(t){if(!last)last=t;var dt=Math.min(64,t-last);last=t;if(!paused&&t>hold){acc+=speed*dt/1000;if(acc>=1){var n=Math.floor(acc);acc-=n;window.scrollBy(0,n);}if(bottom())paused=true;}requestAnimationFrame(tick);}
-function begin(){if(started)return;started=true;setTimeout(function(){paused=false;},1500);requestAnimationFrame(tick);}
+function skipUpd(){var k=document.getElementById('kskip'),e=document.getElementById('kend');if(!k||!e)return;k.classList.toggle('on',e.getBoundingClientRect().top>window.innerHeight*0.6);}window.addEventListener('scroll',skipUpd,{passive:true});function begin(){if(started)return;started=true;skipUpd();setTimeout(function(){paused=false;},1500);requestAnimationFrame(tick);}
 function rest(ms){hold=performance.now()+ms;}
 window.addEventListener('touchstart',function(){paused=true;},{passive:true});
 window.addEventListener('touchend',function(){if(!bottom()){paused=false;rest(2500);}},{passive:true});
