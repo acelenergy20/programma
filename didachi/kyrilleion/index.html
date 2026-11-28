@@ -377,7 +377,7 @@ body.zoom #zhint{display:block}
 #board .needo{fill:none;stroke:#fff3b0;stroke-width:5;pointer-events:none;animation:needp 1.2s ease-in-out infinite alternate}
 @keyframes needp{from{stroke-opacity:.45;filter:drop-shadow(0 0 2px #ffd76a)}to{stroke-opacity:1;filter:drop-shadow(0 0 12px #ffd76a) brightness(1.25)}}
 </style>
-<style>.kbh{opacity:.75;font-size:13px}@media (hover:none),(pointer:coarse){.kbh{display:none}}</style><style>@media (display-mode: standalone),(display-mode: window-controls-overlay){a.kback{display:none!important}}</style><script id="kyrver">(function(){var V="20261128144622";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
+<style>.kbh{opacity:.75;font-size:13px}@media (hover:none),(pointer:coarse){.kbh{display:none}}</style><style>@media (display-mode: standalone),(display-mode: window-controls-overlay){a.kback{display:none!important}}</style><script id="kyrver">(function(){var V="20261128155143";try{fetch("/kyrilleion/version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){t=(t||"").trim();if(t&&t!==V){var k="kyrrl"+t;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()}}).catch(function(){})}catch(e){}})();</script>
 </head>
 <body>
 <div id="bgart" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax meet" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -456,7 +456,7 @@ body.zoom #zhint{display:block}
    <li><b>Λάθος:</b> ο λόγος περνά στον άλλο χορό και ξαναδοκιμάζετε στον επόμενο γύρο.</li></ul>
   </section>
 
-  <div class="foot"><nav><button data-v="game" class="on">Παιχνίδι</button><button data-v="cards">Κάρτες</button><button data-v="stats">Τράπεζα</button><button data-v="rules">Κανόνες</button><button data-v="audio">Ηχητικά</button></nav>
+  <div class="foot"><nav><button data-v="game" class="on">Παιχνίδι</button><button data-v="cards">Κάρτες</button><button data-v="stats">Πρόοδος</button><button data-v="rules">Κανόνες</button><button data-v="audio">Ηχητικά</button></nav>
    <div class="legend" id="legend"></div>
    <div class="ctrl2"><button class="btn" id="infb">ⓘ Πληροφορίες</button><button class="btn" id="setb">⚙ Ρυθμίσεις</button></div>
   </div>
@@ -502,7 +502,7 @@ body.zoom #zhint{display:block}
 </div></div></div>
 <div class="modal" id="modebox"><div class="qcard" style="max-width:520px"><div class="qhead" style="background:var(--acc)"><span>Πώς θα παίξετε;</span><button class="btn" id="modex" style="padding:2px 10px">✕</button></div><div class="qbody mode">
  <label class="nl">Το όνομά σας <input id="modename" class="pname" placeholder="όνομα"></label>
- <div class="nl" style="margin:4px 0 2px">Το επίπεδό σας</div><div id="lvlrow" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"><button class="btn" data-l="1" onclick="setLevel(1);try{BOT.level(1)}catch(e){}" style="flex:1 1 30%">🌱 Αρχάριος<small style="display:block;font-size:12px;opacity:.8">Α΄ έτος</small></button><button class="btn" data-l="2" onclick="setLevel(2);try{BOT.level(2)}catch(e){}" style="flex:1 1 30%">📖 Προχωρημένος<small style="display:block;font-size:12px;opacity:.8">Β΄ έτος και άνω</small></button><button class="btn" data-l="3" onclick="setLevel(3);try{BOT.level(3)}catch(e){}" style="flex:1 1 30%">🎼 Επαγγελματίας<small style="display:block;font-size:12px;opacity:.8">ιεροψάλτης, δάσκαλος</small></button></div>
+ <div class="nl" style="margin:4px 0 2px">Το επίπεδό σας</div><div id="lvlrow" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"><button class="btn" data-l="1" onclick="setLevel(1);try{BOT.level(1);ADAPT.level(1)}catch(e){}" style="flex:1 1 30%">🌱 Αρχάριος<small style="display:block;font-size:12px;opacity:.8">Α΄ έτος</small></button><button class="btn" data-l="2" onclick="setLevel(2);try{BOT.level(2);ADAPT.level(2)}catch(e){}" style="flex:1 1 30%">📖 Προχωρημένος<small style="display:block;font-size:12px;opacity:.8">Β΄ έτος και άνω</small></button><button class="btn" data-l="3" onclick="setLevel(3);try{BOT.level(3);ADAPT.level(3)}catch(e){}" style="flex:1 1 30%">🎼 Επαγγελματίας<small style="display:block;font-size:12px;opacity:.8">ιεροψάλτης, δάσκαλος</small></button></div>
  <div class="nl" style="margin:6px 0 2px">Ψηφιακοί αντίπαλοι στο «Μόνος μου» <small style="opacity:.75">(έως 3)</small></div><div id="botrow" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px"></div><button class="btn mbig" id="msolo">🎓 Μόνος μου<small>εξάσκηση και μελέτη, με τον δικό μου ρυθμό</small></button>
  <button class="btn mbig pri" id="mhost">👥 Με άλλους ψάλτες<small>παίρνω κωδικό και τον στέλνω σε έως 3 ψάλτες</small></button>
  <button class="btn mbig" id="mjoin">🔑 Έχω κωδικό<small>μπαίνω σε παιχνίδι που άνοιξε άλλος</small></button>
@@ -577,7 +577,7 @@ const LEVELS=[null,{n:'Αρχάριος',min:1,max:1},{n:'Προχωρημένο
 const byCat={}; function buildByCat(){ CATS.forEach(c=>{ const all=BANK.filter(b=>b.c===c.k); const L=LEVELS[LEVEL], yy=b=>(b.y||b.d||1); let lv=all.filter(b=>yy(b)>=L.min&&yy(b)<=L.max); if(lv.length<15) lv=lv.concat(shuffle(all.filter(b=>!lv.includes(b))).slice(0,15-lv.length)); byCat[c.k]=lv; }); for(const k in decks) delete decks[k]; }
 function setLevel(n){ LEVEL=n; try{localStorage.setItem('kyrLevel',n)}catch(e){} buildByCat(); document.querySelectorAll('#lvlrow button').forEach(b=>b.classList.toggle('pri',+b.dataset.l===n)); }
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-const decks={}; buildByCat(); setTimeout(()=>setLevel(LEVEL),0); function draw(cat){ if(!decks[cat]||!decks[cat].length) decks[cat]=shuffle(byCat[cat].slice()); return decks[cat].pop(); }
+const decks={}; buildByCat(); setTimeout(()=>setLevel(LEVEL),0); function draw(cat){ try{ const a=ADAPT.pick(cat); if(a) return a; }catch(e){} if(!decks[cat]||!decks[cat].length) decks[cat]=shuffle(byCat[cat].slice()); return decks[cat].pop(); }
 document.getElementById('legend').innerHTML=CATS.map(c=>`<span><i class="dot" style="background:${c.c}"></i>${c.k}</span>`).join('');
 
 /* ---------- ταμπλό: τροχός ---------- */
@@ -801,6 +801,52 @@ document.addEventListener('keydown',e=>{
  for(const id of ['splash','intro']){ const x=document.getElementById(id); if(x&&x.offsetParent!==null&&getComputedStyle(x).display!=='none') return; }
  if((e.key==='Enter'||e.code==='Space'||e.code==='KeyR')&&phase==='roll'){ e.preventDefault(); doRoll(); }
 });
+
+/* ---------- προσαρμοστική δυσκολία: μαθαίνει τον ψάλτη, μόνο στη συσκευή του ----------
+   θ: ικανότητα ανά πεδίο σε «έτη σπουδών» · b: δυσκολία ερώτησης = έτος + αστέρια
+   Elo: θ += K·(αποτέλεσμα − αναμενόμενο) · γρήγορη σωστή = 1, αργή σωστή = 0,85
+   Λάθη: ξαναέρχονται σε 10΄, μετά 1, 3, 7, 21 ημέρες (κουτιά Leitner) */
+const ADAPT=(function(){
+ const KEY='kyrAdapt', START={1:1.0,2:2.2,3:3.2}, BOX=[0,10*60e3,864e5,3*864e5,7*864e5,21*864e5];
+ let S; try{ S=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
+ if(!S||!S.th) S={on:true,th:{},n:{},q:{},rec:[]};
+ const save=()=>{ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} };
+ const id=q=>{ let h=2166136261; const t=q.q||''; for(let i=0;i<t.length;i++){ h^=t.charCodeAt(i); h=Math.imul(h,16777619); } return (h>>>0).toString(36); };
+ const diff=q=>(q.y||q.d||1)+((q.d||1)-1)*.35;
+ const lvl=()=>{ try{ return +(localStorage.getItem('kyrLevel')||1)||1; }catch(e){ return 1; } };
+ const th=cat=>S.th[cat]!=null?S.th[cat]:START[lvl()]||1;
+ const active=()=>S.on&&!NET.on&&P[turn]&&!P[turn].bot;
+ let t0=0, t1=0;
+ function pick(cat){ if(!active()) return null; const pool=BANK.filter(b=>b.c===cat); if(pool.length<4) return null; const now=Date.now();
+   const due=pool.filter(b=>{ const x=S.q[id(b)]; return x&&x.bx>0&&x.bx<6&&x.due<=now; }).sort((a,b)=>S.q[id(a)].due-S.q[id(b)].due);
+   const recent=new Set(S.rec);
+   if(due.length&&Math.random()<.4){ const r=due.find(b=>!recent.has(id(b)))||null; if(r) return r; }
+   const tg=th(cat)+.25;
+   const cand=pool.filter(b=>!recent.has(id(b))&&!((S.q[id(b)]||{}).bx>=6));
+   const src=cand.length?cand:pool;
+   return src.map(b=>[Math.abs(diff(b)-tg)+Math.random()*.6+((S.q[id(b)]||{}).n?.25:0),b]).sort((a,b)=>a[0]-b[0])[0][1]; }
+ function record(q,ok,kind){ if(!active()||!q) return; const k=id(q), cat=q.c, now=Date.now(), x=S.q[k]||{n:0,ok:0,bx:0,due:0};
+   x.n++; if(ok) x.ok++;
+   if(ok){ if(x.bx>0){ x.bx++; x.due=x.bx<6?now+BOX[x.bx]:0; } } else { x.bx=1; x.due=now+BOX[1]; }
+   S.q[k]=x; S.rec.push(k); if(S.rec.length>40) S.rec=S.rec.slice(-40);
+   const ms=t1&&t0?t1-t0:0, sc=ok?(ms&&ms<8000?1:(ms&&ms>25000?.85:.95)):0;
+   const T=th(cat), E=1/(1+Math.exp(-1.2*(T-diff(q)))), n=S.n[cat]||0, K=Math.max(.12,.45/Math.sqrt(1+n/6));
+   S.th[cat]=Math.min(5.5,Math.max(.5,T+K*(sc-E))); S.n[cat]=n+1; t0=t1=0; save(); }
+ function level(l){ CATS.forEach(c=>S.th[c.k]=START[l]); save(); }
+ const yr=t=>t<1.5?'Α΄ έτος':t<2.5?'Β΄ έτος':t<3.5?'Γ΄ έτος':t<4.5?'Δ΄ έτος':'Ε΄ έτος και άνω';
+ function panel(){ const now=Date.now(); let tot=0, totok=0, rev=0;
+   const rows=CATS.map(c=>{ const T=th(c.k); let n=0,ok=0,d=0; BANK.forEach(b=>{ if(b.c!==c.k) return; const x=S.q[id(b)]; if(!x) return; n+=x.n; ok+=x.ok; if(x.bx>0&&x.bx<6&&x.due<=now) d++; }); tot+=n; totok+=ok; rev+=d;
+     return `<tr><td><i class="dot" style="background:${c.c}"></i> ${c.k}</td><td style="min-width:140px"><div style="background:#0002;border-radius:6px;height:12px;overflow:hidden"><div style="width:${Math.round(100*Math.min(1,T/5.5))}%;height:100%;background:${c.c}"></div></div><small>${yr(T)}${S.n[c.k]?'':' · αρχικό'}</small></td><td>${n?Math.round(100*ok/n)+'%':'–'}</td><td>${n}</td><td>${d||'–'}</td></tr>`; }).join('');
+   return `<h3 style="margin:4px 0 6px">Η πρόοδός μου</h3>
+   <p style="margin:0 0 8px;font-size:14px;opacity:.85">Το παιχνίδι προσαρμόζει τις ερωτήσεις στο επίπεδό σας σε κάθε πεδίο και ξαναφέρνει όσες χάσατε, μέχρι να τις κατακτήσετε. Τα στοιχεία μένουν μόνο σε αυτή τη συσκευή.</p>
+   <label style="display:inline-flex;gap:8px;align-items:center;margin-bottom:8px"><input type="checkbox" ${S.on?'checked':''} onchange="ADAPT.toggle(this.checked)"> Προσαρμοστική δυσκολία</label>
+   <table><tr><th>Πεδίο</th><th>Επίπεδο</th><th>Επιτυχία</th><th>Απαντήσεις</th><th>Για επανάληψη</th></tr>${rows}
+   <tr><th>Σύνολο</th><th></th><th>${tot?Math.round(100*totok/tot)+'%':'–'}</th><th>${tot}</th><th>${rev||'–'}</th></tr></table>
+   <p style="margin:8px 0 0"><button class="btn" onclick="if(confirm('Να μηδενιστεί η πρόοδός σας σε αυτή τη συσκευή;')){ADAPT.reset();stats();}">Μηδενισμός προόδου</button></p>`; }
+ return { pick, record, level, panel,
+   asked(){ t0=performance.now(); t1=0; }, picked(){ if(!t1) t1=performance.now(); },
+   toggle(v){ S.on=!!v; save(); }, reset(){ S={on:S.on,th:{},n:{},q:{},rec:[]}; save(); }, get state(){ return S; }, id, diff };
+})();
 function safe(v){ return String(v==null?'':v).replace(/[<>"'&`\\]/g,'').slice(0,40); }
 function nm(p){ return p.name? `${safe(p.name)} (${p.label})` : p.label; }
 /* ---------- φωνὴ τῆς Διδαχῆς: ἀνάγνωση καὶ καθοδήγηση (Web Speech) ---------- */
@@ -1054,7 +1100,7 @@ function onCell(id,remote){ if(phase!=='move'||!reach.has(id)) return; if(!remot
 /* ---------- ερώτηση ---------- */
 function ask(cat,kind,given){
  if(!given&&!NET.mine()) return; // περιμένουμε τὴν ἐρώτηση ἀπὸ τὸν ψάλτη ποὺ παίζει
- const q=given?BANK[given.qi]:draw(cat), c=catOf(cat); const m=document.getElementById('modal');
+ const q=given?BANK[given.qi]:draw(cat), c=catOf(cat); const m=document.getElementById('modal'); try{ ADAPT.asked(); }catch(e){}
  const live=NET.mine();
  document.getElementById('qhead').style.background=c.c;
  document.getElementById('qhead').innerHTML=`<span>${cat}${kind==='wedge'?' · θέση του ήχου '+ECHS[curEcho]:''}${kind==='final'?' · το θυμίαμα στο Ίσον':''}</span><span>${'★'.repeat(q.d||1)}</span>`;
@@ -1065,9 +1111,9 @@ function ask(cat,kind,given){
  const ans=document.getElementById('ans'); ans.style.display='none'; ans.innerHTML=`<b>${q.a}</b>${q.ex?`<br>${q.ex}`:''}<br><small>Πηγή: ${q.s}</small><a class="askd" target="_blank" rel="noopener" href="/didachi/?q=${encodeURIComponent('Στο Κυρίλλειον με ρώτησαν: «'+q.q+'» Η σωστή απάντηση είναι: «'+q.a+'». Εξήγησέ μου περισσότερα.')}">🎓 Ρωτήστε τη Διδαχή γι' αυτό</a>`;
  const o=document.getElementById('opts'); o.innerHTML=''; o.classList.remove('done');
  const foot=document.getElementById('qfoot');
- let _fd=false; const finish=(ok,remote)=>{ if(_fd) return; _fd=true; if(!remote) NET.send('fin',{ok}); m.classList.remove('show'); resolve(ok,cat,kind); };
+ let _fd=false; const finish=(ok,remote)=>{ if(_fd) return; _fd=true; try{ if(!remote) ADAPT.record(q,ok,kind); }catch(e){} if(!remote) NET.send('fin',{ok}); m.classList.remove('show'); resolve(ok,cat,kind); };
  window._fin=ok=>finish(ok,true);
- o.classList.toggle('tf',!!(OPTS&&OPTS.length===2&&OPTS[0]==='Σωστό')); if(q.o){ OPTS.forEach((t,ix)=>{const b=document.createElement('button');b.textContent='ΑΒΓΔ'[ix]+'. '+t;b.dataset.v=t;b.onclick=(ev,remote)=>{ if(!remote&&P[turn]&&P[turn].bot) return; if(!remote){ if(!live) return; NET.send('pick',{v:t}); } o.classList.add('done'); o.querySelectorAll('button').forEach(x=>x.onclick=null); const good=[...o.querySelectorAll('button')].find(x=>x.dataset.v===q.a);
+ o.classList.toggle('tf',!!(OPTS&&OPTS.length===2&&OPTS[0]==='Σωστό')); if(q.o){ OPTS.forEach((t,ix)=>{const b=document.createElement('button');b.textContent='ΑΒΓΔ'[ix]+'. '+t;b.dataset.v=t;b.onclick=(ev,remote)=>{ if(!remote&&P[turn]&&P[turn].bot) return; try{ ADAPT.picked(); }catch(e){} if(!remote){ if(!live) return; NET.send('pick',{v:t}); } o.classList.add('done'); o.querySelectorAll('button').forEach(x=>x.onclick=null); const good=[...o.querySelectorAll('button')].find(x=>x.dataset.v===q.a);
    const showGood=()=>{ if(good){ good.classList.add('ok','flash'); good.textContent='✓ '+good.textContent; } ans.style.display='block'; };
    if(t===q.a){ showGood(); VOX.speak(SPK.ok(q)); }
    else { b.classList.add('no','flash'); b.textContent='✗ '+b.textContent; VOX.speak(SPK.no()); setTimeout(()=>{ showGood(); VOX.speak(SPK.right(q)); },1400); }
@@ -1111,7 +1157,7 @@ document.getElementById('cflip').onclick=()=>document.getElementById('tcard').cl
 document.getElementById('cshuf').onclick=buildCards;
 
 /* ---------- τράπεζα ---------- */
-function stats(){ let h='<table><tr><th>Κατηγορία</th><th>Ερωτήσεις</th><th>Πλήρεις κάρτες</th><th>Στόχος (400 κάρτες)</th></tr>';
+function stats(){ let h=ADAPT.panel()+'<h3 style="margin:18px 0 6px">Η τράπεζα ερωτήσεων</h3><table><tr><th>Κατηγορία</th><th>Ερωτήσεις</th><th>Πλήρεις κάρτες</th><th>Στόχος (400 κάρτες)</th></tr>';
  CATS.forEach(c=>{const n=byCat[c.k].length;h+=`<tr><td><i class="dot" style="background:${c.c}"></i> ${c.k}</td><td>${n}</td><td>${n}</td><td>${Math.round(100*n/400)}%</td></tr>`});
  const full=Math.min(...CATS.map(c=>byCat[c.k].length)); h+=`<tr><th>Σύνολο</th><th>${BANK.length}</th><th>${full}</th><th>${BANK.length} / 2.400</th></tr></table>`;
  document.getElementById('statbox').innerHTML=h; }
